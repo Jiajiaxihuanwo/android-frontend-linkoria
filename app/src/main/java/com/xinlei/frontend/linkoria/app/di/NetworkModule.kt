@@ -1,5 +1,6 @@
 package com.xinlei.frontend.linkoria.app.di
 
+import com.xinlei.frontend.linkoria.app.core.network.AuthInterceptor
 import com.xinlei.frontend.linkoria.app.core.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -16,7 +17,9 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttp(): OkHttpClient = OkHttpClient.Builder().build()
+    fun provideOkHttp(authInterceptor: AuthInterceptor): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(authInterceptor)
+        .build()
 
     @Provides
     @Singleton
