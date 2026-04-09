@@ -15,6 +15,7 @@ import javax.inject.Singleton
 //"para cualquier Context, existe una propiedad llamada dataStore que es un DataStore<Preferences> cuya instancia se crea con preferencesDataStore(name = "auth")"
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
+//Capa de persistencia pura: escribe y lee los tokens de disco usando DataStore. No sabe nada del resto de la app.
 @Singleton
 class TokenDataStore @Inject constructor(
     @ApplicationContext private val context: Context
