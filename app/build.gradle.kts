@@ -58,4 +58,7 @@ dependencies {
     //navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    //datastore
+    implementation(libs.androidx.datastore.preferences.v110)
 }
