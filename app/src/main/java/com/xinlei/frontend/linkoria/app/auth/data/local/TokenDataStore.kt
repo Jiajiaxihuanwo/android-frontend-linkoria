@@ -18,7 +18,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 //Capa de persistencia pura: escribe y lee los tokens de disco usando DataStore. No sabe nada del resto de la app.
 @Singleton
 class TokenDataStore @Inject constructor(
-    @ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context
 ) {
     private object Keys {
         val ACCESS_TOKEN = stringPreferencesKey("access_token")
