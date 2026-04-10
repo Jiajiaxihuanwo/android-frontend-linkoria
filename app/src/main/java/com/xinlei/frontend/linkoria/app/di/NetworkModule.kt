@@ -1,5 +1,6 @@
 package com.xinlei.frontend.linkoria.app.di
 
+import com.xinlei.frontend.linkoria.app.auth.data.remote.AuthApiService
 import com.xinlei.frontend.linkoria.app.core.network.AuthInterceptor
 import com.xinlei.frontend.linkoria.app.core.util.Constants
 import dagger.Module
@@ -9,6 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -28,4 +30,9 @@ object NetworkModule {
         .client(okHttp)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    @Provides
+    @Singleton
+    fun provideAuthApiService(retrofit: Retrofit): AuthApiService =
+        retrofit.create(AuthApiService::class.java)
 }
