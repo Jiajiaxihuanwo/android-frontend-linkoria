@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -33,6 +35,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -61,4 +66,9 @@ dependencies {
 
     //datastore
     implementation(libs.androidx.datastore.preferences.v110)
+
+    //copiladores
+    implementation(libs.hilt.android.v2571)
+    ksp(libs.hilt.compiler.v2571)
+    ksp(libs.androidx.hilt.compiler.v130)
 }
