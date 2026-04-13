@@ -67,6 +67,9 @@ dependencies {
     //datastore
     implementation(libs.androidx.datastore.preferences.v110)
 
+    //material icons
+    implementation(libs.androidx.appcompat.v161)
+
     //copiladores
     implementation(libs.hilt.android.v2571)
     ksp(libs.hilt.compiler.v2571)

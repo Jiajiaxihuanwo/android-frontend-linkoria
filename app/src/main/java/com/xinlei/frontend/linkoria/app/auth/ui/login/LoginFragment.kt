@@ -62,8 +62,8 @@ class LoginFragment : Fragment() {
             viewModel.login(email, password)
         }
 
-        binding.tvGoToRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack(R.id.authFragment, false)
         }
     }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+<!--    BUTTONS-->
     <style name="PrimaryButton" parent="Widget.Material3.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">56dp</item>
@@ -11,7 +12,7 @@
         <item name="android:textColor">#EDEDED</item>
 
         <item name="cornerRadius">20dp</item>
-        <item name="backgroundTint">#243B7A</item>
+        <item name="backgroundTint">@color/primary_blue</item>
 
         <item name="rippleColor">#22000000</item>
 
@@ -39,6 +40,22 @@
 
         <item name="android:stateListAnimator">@null</item>
         <item name="elevation">0dp</item>
+    </style>
+
+<!--    INPUT TEXT LAYOUT-->
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Background y Stroke -->
+        <item name="boxBackgroundColor">@color/dark_gray</item>
+        <item name="boxStrokeColor">@color/primary_blue</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+
+        <item name="boxCornerRadiusBottomEnd">20dp</item>
+        <item name="boxCornerRadiusBottomStart">20dp</item>
+        <item name="boxCornerRadiusTopEnd">20dp</item>
+        <item name="boxCornerRadiusTopStart">20dp</item>
+
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
     </style>
 
 </resources>
