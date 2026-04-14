@@ -48,7 +48,7 @@ class RegisterFragment : Fragment() {
                         is UiState.Success -> Toast.makeText(requireContext(), "Register realizado correctamente", Toast.LENGTH_SHORT).show()
                         is UiState.Error -> {
                             binding.btnRegister.isEnabled = true
-                            Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), state.toString(), Toast.LENGTH_SHORT).show()
                         }
                         is UiState.Idle -> binding.btnRegister.isEnabled = true
                     }
