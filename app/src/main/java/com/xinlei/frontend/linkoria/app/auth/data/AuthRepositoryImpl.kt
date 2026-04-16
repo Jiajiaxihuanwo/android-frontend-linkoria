@@ -34,6 +34,9 @@ class AuthRepositoryImpl @Inject constructor(
                 userId = response.userId ?: "",
                 username = response.username ?: ""
             ))
+        } catch (e: retrofit2.HttpException) {
+            val code = e.code()
+            NetworkResult.Error(code = code, message = "Error del servidor: $code")
         } catch (e: Exception) {
             NetworkResult.Error(null,e.message)
         }
@@ -55,6 +58,9 @@ class AuthRepositoryImpl @Inject constructor(
                 userId = response.userId ?: "",
                 username = response.username ?: ""
             ))
+        } catch (e: retrofit2.HttpException) {
+            val code = e.code()
+            NetworkResult.Error(code = code, message = "Error del servidor: $code")
         }catch (e: Exception) {
             NetworkResult.Error(null,e.message)
         }

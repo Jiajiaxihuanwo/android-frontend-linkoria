@@ -11,4 +11,5 @@
     <color name="gray">#FF333333</color>
     <color name="dark_gray">#FF111111</color>
     <color name="primary_blue">#243B7A</color>
+    <color name="error_red">#E57373</color>
 </resources>

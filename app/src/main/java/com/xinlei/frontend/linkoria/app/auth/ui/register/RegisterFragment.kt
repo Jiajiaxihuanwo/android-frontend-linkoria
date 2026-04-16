@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.xinlei.frontend.linkoria.app.R
+import com.xinlei.frontend.linkoria.app.core.ui.UiEvent
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.databinding.FragmentRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,20 +39,40 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
         observeUiState()
+        observeUiEvent()
+    }
+
+    private fun observeUiEvent() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiEvent.collect { event ->
+                    when (event) {
+                        is UiEvent.ShowToast -> Toast.makeText(requireContext(), event.message, Toast.LENGTH_SHORT).show()
+                        else -> Unit
+                    }
+                }
+            }
+        }
     }
 
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
+
+                    binding.btnRegister.isEnabled = state !is UiState.Loading
+                    binding.tvErrorMessage.visibility = if (state is UiState.Error) View.VISIBLE else View.GONE
+
                     when (state) {
-                        is UiState.Loading -> binding.btnRegister.isEnabled = false
-                        is UiState.Success -> Toast.makeText(requireContext(), "Register realizado correctamente", Toast.LENGTH_SHORT).show()
+                        is UiState.Success -> {
+                            //TODO: NAVEGAR AL SIGUIENTE FRAGMENT
+                        }
                         is UiState.Error -> {
                             binding.btnRegister.isEnabled = true
-                            Toast.makeText(requireContext(), state.toString(), Toast.LENGTH_SHORT).show()
+                            binding.tvErrorMessage.text = state.message
+                            binding.tvErrorMessage.visibility = TextView.VISIBLE
                         }
-                        is UiState.Idle -> binding.btnRegister.isEnabled = true
+                        else -> Unit
                     }
                 }
             }

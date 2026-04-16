@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.xinlei.frontend.linkoria.app.R
+import com.xinlei.frontend.linkoria.app.core.ui.UiEvent
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,20 +36,42 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
         observeUiState()
+        observeUiEvent()
+    }
+
+    private fun observeUiEvent() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiEvent.collect { event ->
+                    when (event) {
+                        is UiEvent.ShowToast -> Toast.makeText(requireContext(), event.message, Toast.LENGTH_SHORT).show()
+                        else -> Unit
+                    }
+                }
+            }
+        }
     }
 
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
+
+                    binding.btnLogin.isEnabled = state !is UiState.Loading
+                    binding.tvErrorMessage.visibility = if (state is UiState.Error) View.VISIBLE else View.GONE
+
                     when (state) {
-                        is UiState.Loading -> binding.btnLogin.isEnabled = false
-                        is UiState.Success -> Toast.makeText(requireContext(), "login realizado correctamente", Toast.LENGTH_SHORT).show()
+                        is UiState.Success ->{
+                            findNavController().popBackStack(R.id.authFragment,false)
+                            //reseteamos por si el usuario le da por hacer un back(caso imposible por lo que sobra)
+                            viewModel.onNavigationDone()
+                        }
                         is UiState.Error -> {
                             binding.btnLogin.isEnabled = true
-                            Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                            binding.tvErrorMessage.text = state.message
+                            binding.tvErrorMessage.visibility = View.VISIBLE
                         }
-                        is UiState.Idle -> binding.btnLogin.isEnabled = true
+                        else -> Unit
                     }
                 }
             }
