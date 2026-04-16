@@ -66,6 +66,7 @@ class RegisterFragment : Fragment() {
                     when (state) {
                         is UiState.Success -> {
                             //TODO: NAVEGAR AL SIGUIENTE FRAGMENT
+                            findNavController().popBackStack(R.id.authFragment,false)
                         }
                         is UiState.Error -> {
                             binding.btnRegister.isEnabled = true

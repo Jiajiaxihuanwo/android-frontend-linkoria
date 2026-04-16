@@ -37,10 +37,10 @@ class LoginViewModel @Inject constructor(
                     _uiEvent.emit(UiEvent.ShowToast("Login realizado correctamente"))
                 }
                 is NetworkResult.Error -> {
-                    val message = when {
-                        result.code == null -> "No se puede conectar con el servidor"
-                        result.code == 500 -> "Error interno del servidor"
-                        result.code == 401 -> "Email o contraseña incorrectos"
+                    val message = when(result.code) {
+                        null -> "No se puede conectar con el servidor"
+                        500 -> "Error interno del servidor"
+                        401 -> "Email o contraseña incorrectos"
                         else -> result.message ?: "Error desconocido"
                     }
                     _uiState.value = UiState.Error(message)
@@ -49,9 +49,5 @@ class LoginViewModel @Inject constructor(
                 else -> Unit
             }
         }
-    }
-
-    fun onNavigationDone() {
-        _uiState.value = UiState.Idle
     }
 }

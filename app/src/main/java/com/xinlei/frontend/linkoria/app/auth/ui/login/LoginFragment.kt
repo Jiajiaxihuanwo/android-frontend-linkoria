@@ -62,9 +62,8 @@ class LoginFragment : Fragment() {
 
                     when (state) {
                         is UiState.Success ->{
+                            //TODO: NAVEGAR AL SIGUIENTE FRAGMENT
                             findNavController().popBackStack(R.id.authFragment,false)
-                            //reseteamos por si el usuario le da por hacer un back(caso imposible por lo que sobra)
-                            viewModel.onNavigationDone()
                         }
                         is UiState.Error -> {
                             binding.btnLogin.isEnabled = true

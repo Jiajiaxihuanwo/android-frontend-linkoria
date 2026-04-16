@@ -1,5 +1,6 @@
 package com.xinlei.frontend.linkoria.app.auth.data
 
+import com.google.gson.Gson
 import com.xinlei.frontend.linkoria.app.auth.data.local.TokenDataStore
 import com.xinlei.frontend.linkoria.app.auth.data.remote.AuthApiService
 import com.xinlei.frontend.linkoria.app.auth.data.remote.dto.LoginRequest
@@ -7,8 +8,10 @@ import com.xinlei.frontend.linkoria.app.auth.data.remote.dto.RefreshRequest
 import com.xinlei.frontend.linkoria.app.auth.data.remote.dto.RegisterRequest
 import com.xinlei.frontend.linkoria.app.auth.domain.AuthRepository
 import com.xinlei.frontend.linkoria.app.auth.domain.AuthUser
+import com.xinlei.frontend.linkoria.app.core.network.ApiErrorResponse
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import kotlinx.coroutines.flow.firstOrNull
+import retrofit2.HttpException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,9 +37,15 @@ class AuthRepositoryImpl @Inject constructor(
                 userId = response.userId ?: "",
                 username = response.username ?: ""
             ))
-        } catch (e: retrofit2.HttpException) {
-            val code = e.code()
-            NetworkResult.Error(code = code, message = "Error del servidor: $code")
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorMessage = try {
+                val errorResponse = Gson().fromJson(errorBody, ApiErrorResponse::class.java)
+                errorResponse.message
+            } catch (parseException: Exception) {
+                "Error inesperado del servidor"
+            }
+            NetworkResult.Error(code = e.code(), message = errorMessage)
         } catch (e: Exception) {
             NetworkResult.Error(null,e.message)
         }
@@ -58,9 +67,15 @@ class AuthRepositoryImpl @Inject constructor(
                 userId = response.userId ?: "",
                 username = response.username ?: ""
             ))
-        } catch (e: retrofit2.HttpException) {
-            val code = e.code()
-            NetworkResult.Error(code = code, message = "Error del servidor: $code")
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorMessage = try {
+                val errorResponse = Gson().fromJson(errorBody, ApiErrorResponse::class.java)
+                errorResponse.message
+            } catch (parseException: Exception) {
+                "Error inesperado del servidor"
+            }
+            NetworkResult.Error(code = e.code(), message = errorMessage)
         }catch (e: Exception) {
             NetworkResult.Error(null,e.message)
         }
