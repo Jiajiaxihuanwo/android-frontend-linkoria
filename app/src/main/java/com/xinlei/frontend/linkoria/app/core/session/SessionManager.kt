@@ -26,9 +26,10 @@ class SessionManager @Inject constructor(
         tokenDataStore.saveTokens(accessToken, refreshToken, userId, username)
     }
 
-    suspend fun getAccessTokenOnce(): String? = tokenDataStore.accessToken.firstOrNull()
+    suspend fun getAccessTokenOnce(): String? = accessToken.firstOrNull()
 
-    suspend fun getRefreshTokenOnce(): String? = tokenDataStore.accessToken.firstOrNull()
+    suspend fun getUserIdOnce(): String? = userId.firstOrNull()
 
     suspend fun clearSession() = tokenDataStore.clearTokens()
+
 }

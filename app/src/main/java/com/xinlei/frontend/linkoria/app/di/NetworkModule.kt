@@ -3,6 +3,7 @@ package com.xinlei.frontend.linkoria.app.di
 import com.xinlei.frontend.linkoria.app.auth.data.remote.AuthApiService
 import com.xinlei.frontend.linkoria.app.core.network.AuthInterceptor
 import com.xinlei.frontend.linkoria.app.core.util.Constants
+import com.xinlei.frontend.linkoria.app.user.data.remote.UserApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,4 +36,9 @@ object NetworkModule {
     @Singleton
     fun provideAuthApiService(retrofit: Retrofit): AuthApiService =
         retrofit.create(AuthApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserApiService(retrofit: Retrofit): UserApiService =
+        retrofit.create(UserApiService::class.java)
 }
