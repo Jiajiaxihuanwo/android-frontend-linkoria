@@ -2,6 +2,10 @@ package com.xinlei.frontend.linkoria.app.di
 
 import com.xinlei.frontend.linkoria.app.auth.data.AuthRepositoryImpl
 import com.xinlei.frontend.linkoria.app.auth.domain.AuthRepository
+import com.xinlei.frontend.linkoria.app.channel.data.ChannelRepositoryImpl
+import com.xinlei.frontend.linkoria.app.channel.domain.ChannelRepository
+import com.xinlei.frontend.linkoria.app.conversation.data.ConversationRepositoryImpl
+import com.xinlei.frontend.linkoria.app.conversation.domain.ConversationRepository
 import com.xinlei.frontend.linkoria.app.server.data.ServerRepositoryImpl
 import com.xinlei.frontend.linkoria.app.server.domain.ServerRepository
 import com.xinlei.frontend.linkoria.app.user.data.UserRepositoryImpl
@@ -33,4 +37,16 @@ abstract class RepositoryModule {
     abstract fun bindServerRepository(
         serverRepositoryImpl: ServerRepositoryImpl
     ) : ServerRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindChannelRepository(
+        channelRepositoryImpl: ChannelRepositoryImpl
+    ) : ChannelRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindConversationRepository(
+        conversationRepositoryImpl: ConversationRepositoryImpl
+    ): ConversationRepository
 }
