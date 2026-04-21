@@ -2,6 +2,8 @@ package com.xinlei.frontend.linkoria.app.di
 
 import com.xinlei.frontend.linkoria.app.auth.data.AuthRepositoryImpl
 import com.xinlei.frontend.linkoria.app.auth.domain.AuthRepository
+import com.xinlei.frontend.linkoria.app.server.data.ServerRepositoryImpl
+import com.xinlei.frontend.linkoria.app.server.domain.ServerRepository
 import com.xinlei.frontend.linkoria.app.user.data.UserRepositoryImpl
 import com.xinlei.frontend.linkoria.app.user.domain.UserRepository
 import dagger.Binds
@@ -25,4 +27,10 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         userRepositoryImpl: UserRepositoryImpl
     ) : UserRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindServerRepository(
+        serverRepositoryImpl: ServerRepositoryImpl
+    ) : ServerRepository
 }
