@@ -8,7 +8,7 @@ import com.xinlei.frontend.linkoria.app.user.data.remote.UserApiService
 import com.xinlei.frontend.linkoria.app.user.data.remote.dto.UpdateUserRequest
 import com.xinlei.frontend.linkoria.app.user.domain.UserRepository
 import com.xinlei.frontend.linkoria.app.user.domain.model.User
-import jakarta.inject.Inject
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
