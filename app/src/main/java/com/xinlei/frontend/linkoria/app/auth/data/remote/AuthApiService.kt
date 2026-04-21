@@ -4,6 +4,7 @@ import com.xinlei.frontend.linkoria.app.auth.data.remote.dto.AuthResponse
 import com.xinlei.frontend.linkoria.app.auth.data.remote.dto.LoginRequest
 import com.xinlei.frontend.linkoria.app.auth.data.remote.dto.RefreshRequest
 import com.xinlei.frontend.linkoria.app.auth.data.remote.dto.RegisterRequest
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -19,5 +20,5 @@ interface AuthApiService {
     suspend fun refresh(@Body request: RefreshRequest): AuthResponse
 
     @POST("auth/logout")
-    suspend fun logout(@Body request: RefreshRequest)
+    suspend fun logout(@Body request: RefreshRequest): Response<Void>
 }
