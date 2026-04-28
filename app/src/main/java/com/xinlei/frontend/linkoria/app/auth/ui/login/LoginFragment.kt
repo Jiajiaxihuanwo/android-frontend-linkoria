@@ -1,5 +1,6 @@
 package com.xinlei.frontend.linkoria.app.auth.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.xinlei.frontend.linkoria.app.R
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.databinding.FragmentLoginBinding
+import com.xinlei.frontend.linkoria.app.root.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -43,7 +45,11 @@ class LoginFragment : Fragment() {
                 viewModel.uiState.collect { state ->
                     when (state) {
                         is UiState.Loading -> binding.btnLogin.isEnabled = false
-                        is UiState.Success -> Toast.makeText(requireContext(), "login realizado correctamente", Toast.LENGTH_SHORT).show()
+                        is UiState.Success -> {
+                            val intent = Intent(requireContext(), MainActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                        }
                         is UiState.Error -> {
                             binding.btnLogin.isEnabled = true
                             Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
