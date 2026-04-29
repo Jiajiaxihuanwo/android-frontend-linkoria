@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- app -->
+    <color name="error_red">#A24141</color>
+
     <!-- Fondos principales -->
     <color name="bg_sidebar">#1E1F22</color>
     <color name="bg_dm_list">#2B2D31</color>
