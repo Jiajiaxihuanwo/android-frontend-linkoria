@@ -6,15 +6,38 @@
     android:layout_height="match_parent"
     android:background="@color/bg_chat">
 
+    <!-- Sidebar izquierda (servidores) -->
     <FrameLayout
-        android:id="@+id/container_main"
-        android:layout_width="0dp"
+        android:id="@+id/container_sidebar"
+        android:layout_width="72dp"
         android:layout_height="0dp"
+        android:background="@color/bg_sidebar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation_menu"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Lista DM / canales (centro-izquierda) -->
+    <FrameLayout
+        android:id="@+id/container_list"
+        android:layout_width="240dp"
+        android:layout_height="0dp"
+        android:background="@color/bg_dm_list"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_menu"
+        app:layout_constraintStart_toEndOf="@id/container_sidebar" />
+
+    <!-- Overlay / Chat (se superpone a container_list) -->
+    <FrameLayout
+        android:id="@+id/container_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/bg_chat"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_menu"
+        app:layout_constraintStart_toEndOf="@id/container_sidebar"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_menu"
         android:layout_width="0dp"
