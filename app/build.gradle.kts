@@ -56,6 +56,15 @@ dependencies {
     //Retrofit
     implementation(libs.retrofit)
 
+    // STOMP + RxJava
+    implementation(libs.stompprotocolandroid)
+    implementation(libs.rxjava)
+    implementation(libs.kotlinx.coroutines.rx2.v173)
+
+    // HTTP Client (para handshake)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
     //Gson
     implementation(libs.gson)
     implementation(libs.converter.gson)
