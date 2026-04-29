@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Fondos principales -->
+    <color name="bg_sidebar">#1E1F22</color>
+    <color name="bg_dm_list">#2B2D31</color>
+    <color name="bg_chat">#313338</color>
+    <color name="bg_bottom_nav">#1E1F22</color>
+    <color name="bg_icon_container">#36393F</color>
 
-    <color name="gray">#FF333333</color>
-    <color name="dark_gray">#FF111111</color>
-    <color name="primary_blue">#243B7A</color>
-    <color name="error_red">#E57373</color>
+    <!-- Burbujas de mensaje -->
+    <color name="bg_bubble_sent">#5865F2</color>
+    <color name="bg_bubble_received">#383A40</color>
+
+    <!-- Botones -->
+    <color name="btn_primary">#5865F2</color>
+    <color name="btn_secondary">#4E5058</color>
+    <color name="btn_danger">#ED4245</color>
+    <color name="btn_success">#57F287</color>
+
+    <!-- Textos -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B5BAC1</color>
+    <color name="text_muted">#6D6F78</color>
+    <color name="text_link">#00AFF4</color>
+
+    <!-- Custom colors needed by styles/themes -->
+    <color name="primary_blue">#5865F2</color>
+    <color name="dark_gray">#313338</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+
+    <!-- Estados online -->
+    <color name="status_online">#23A55A</color>
+    <color name="status_idle">#F0B132</color>
+    <color name="status_dnd">#ED4245</color>
+    <color name="status_offline">#80848E</color>
+
+    <!-- Double check -->
+    <color name="check_sent">#B5BAC1</color>
+    <color name="check_read">#00AFF4</color>
+
+    <!-- Separadores -->
+    <color name="divider">#3F4147</color>
 </resources>

@@ -1,5 +1,6 @@
 package com.xinlei.frontend.linkoria.app.auth.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.xinlei.frontend.linkoria.app.R
 import com.xinlei.frontend.linkoria.app.core.ui.UiEvent
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.databinding.FragmentLoginBinding
+import com.xinlei.frontend.linkoria.app.root.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -61,9 +63,11 @@ class LoginFragment : Fragment() {
                     binding.tvErrorMessage.visibility = if (state is UiState.Error) View.VISIBLE else View.GONE
 
                     when (state) {
-                        is UiState.Success ->{
-                            //TODO: NAVEGAR AL SIGUIENTE FRAGMENT
-                            findNavController().popBackStack(R.id.authFragment,false)
+                        is UiState.Loading -> binding.btnLogin.isEnabled = false
+                        is UiState.Success -> {
+                            val intent = Intent(requireContext(), MainActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
                         }
                         is UiState.Error -> {
                             binding.btnLogin.isEnabled = true
