@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.xinlei.frontend.linkoria.app.R
+import com.xinlei.frontend.linkoria.app.core.ui.UiEvent
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.databinding.FragmentLoginBinding
 import com.xinlei.frontend.linkoria.app.root.MainActivity
@@ -37,12 +38,30 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
         observeUiState()
+        observeUiEvent()
+    }
+
+    private fun observeUiEvent() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiEvent.collect { event ->
+                    when (event) {
+                        is UiEvent.ShowToast -> Toast.makeText(requireContext(), event.message, Toast.LENGTH_SHORT).show()
+                        else -> Unit
+                    }
+                }
+            }
+        }
     }
 
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
+
+                    binding.btnLogin.isEnabled = state !is UiState.Loading
+                    binding.tvErrorMessage.visibility = if (state is UiState.Error) View.VISIBLE else View.GONE
+
                     when (state) {
                         is UiState.Loading -> binding.btnLogin.isEnabled = false
                         is UiState.Success -> {
@@ -52,9 +71,10 @@ class LoginFragment : Fragment() {
                         }
                         is UiState.Error -> {
                             binding.btnLogin.isEnabled = true
-                            Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                            binding.tvErrorMessage.text = state.message
+                            binding.tvErrorMessage.visibility = View.VISIBLE
                         }
-                        is UiState.Idle -> binding.btnLogin.isEnabled = true
+                        else -> Unit
                     }
                 }
             }
