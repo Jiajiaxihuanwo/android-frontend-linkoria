@@ -1,10 +1,40 @@
 package com.xinlei.frontend.linkoria.app.websocket.domain.model
 
-data class WebSocketEvent<T> (
-    val type: String,
-    val payload: T,
-    val timestamp: Long
-)
+import java.time.Instant
+
+sealed class WebSocketEvent {
+    abstract val timestamp: Instant
+
+    /**
+     * Evento cuando se recibe un mensaje
+     */
+    data class Message(
+        val payload: String,
+        override val timestamp: Instant = Instant.now()
+    ) : WebSocketEvent()
+
+    /**
+     * Evento cuando se conecta exitosamente
+     */
+    data class Connected(
+        override val timestamp: Instant = Instant.now()
+    ) : WebSocketEvent()
+
+    /**
+     * Evento cuando se desconecta
+     */
+    data class Disconnected(
+        override val timestamp: Instant = Instant.now()
+    ) : WebSocketEvent()
+
+    /**
+     * Evento cuando ocurre un error
+     */
+    data class Error(
+        val exception: Throwable,
+        override val timestamp: Instant = Instant.now()
+    ) : WebSocketEvent()
+}
 
 enum class StompConnectionState {
     CONNECTING,

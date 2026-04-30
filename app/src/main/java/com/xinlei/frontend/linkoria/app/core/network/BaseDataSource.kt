@@ -3,15 +3,10 @@ package com.xinlei.frontend.linkoria.app.core.network
 import com.google.gson.Gson
 import retrofit2.HttpException
 
-//TODO: ELIMINAR ESTA INTERFACE Y DEJAR EL TRABAJO A LOS DATASOURCES
-
-/**
- * Interface o clase base para centralizar el parseo de errores.
- * No rompe Clean Architecture porque se queda en la capa de Infraestructura/Data.
- */
-interface BaseRepository {
-
-    suspend fun <T> safeApiCall(apiCall: suspend () -> T): NetworkResult<T> {
+abstract class BaseDataSource {
+    protected suspend fun <T> safeApiCall(
+        apiCall: suspend () -> T
+    ): NetworkResult<T> {
         return try {
             NetworkResult.Success(apiCall())
         } catch (e: HttpException) {
