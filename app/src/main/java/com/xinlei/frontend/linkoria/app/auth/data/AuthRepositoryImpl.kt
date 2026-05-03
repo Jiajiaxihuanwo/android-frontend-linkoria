@@ -13,22 +13,25 @@ import com.xinlei.frontend.linkoria.app.core.network.BaseRepository
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import kotlinx.coroutines.flow.firstOrNull
 import retrofit2.HttpException
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
-    private val api : AuthApiService,
+    private val api: AuthApiService,
     private val tokenDataStore: TokenDataStore
 ) : AuthRepository, BaseRepository {
 
     override suspend fun login(email: String, password: String): NetworkResult<AuthUser> =
         safeApiCall {
             val response = api.login(LoginRequest(email, password))
-            // Lógica de persistencia integrada en el bloque seguro
+            val expiresAtMs = response.refreshTokenExpiresAt.toEpochMilli()
+
             tokenDataStore.saveTokens(
                 accessToken = response.accessToken,
                 refreshToken = response.refreshToken,
+                refreshTokenExpiresAt = expiresAtMs,
                 userId = response.userId,
                 username = response.username
             )
@@ -41,9 +44,12 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun register(username: String, email: String, password: String): NetworkResult<AuthUser> =
         safeApiCall {
             val response = api.register(RegisterRequest(username, email, password))
+            val expiresAtMs = response.refreshTokenExpiresAt.toEpochMilli()
+
             tokenDataStore.saveTokens(
                 accessToken = response.accessToken,
                 refreshToken = response.refreshToken,
+                refreshTokenExpiresAt = expiresAtMs,
                 userId = response.userId,
                 username = response.username
             )
@@ -58,9 +64,14 @@ class AuthRepositoryImpl @Inject constructor(
             ?: throw Exception("No refresh token")
 
         val response = api.refresh(RefreshRequest(refreshToken))
+        val expiresAtMs = response.refreshTokenExpiresAt.toEpochMilli()
+
         tokenDataStore.saveTokens(
             accessToken = response.accessToken,
-            refreshToken = response.refreshToken
+            refreshToken = response.refreshToken,
+            refreshTokenExpiresAt = expiresAtMs,
+            userId = null,
+            username = null
         )
     }
 

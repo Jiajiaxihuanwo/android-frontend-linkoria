@@ -1,18 +1,19 @@
 package com.xinlei.frontend.linkoria.app.websocket.infrastructure.adapter
 
+import com.xinlei.frontend.linkoria.app.core.network.TokenRefreshService
 import com.xinlei.frontend.linkoria.app.core.session.SessionManager
 import com.xinlei.frontend.linkoria.app.websocket.domain.port.TokenProvider
 import javax.inject.Inject
 
 class StompTokenProvider @Inject constructor(
-    private val sessionManager: SessionManager
+    private val tokenRefreshService: TokenRefreshService
 ) : TokenProvider {
+
     override suspend fun getHeaders(): Map<String, String> {
-        val token = sessionManager.getAccessTokenOnce()
-        return if (token != null) {
-            mapOf("Authorization" to "Bearer $token")
-        } else {
-            emptyMap()
-        }
+        // getValidToken() ya comprueba expiración y refresca si es necesario
+        val token = tokenRefreshService.getValidToken()
+            ?: return emptyMap()
+
+        return mapOf("Authorization" to "Bearer $token")
     }
 }
