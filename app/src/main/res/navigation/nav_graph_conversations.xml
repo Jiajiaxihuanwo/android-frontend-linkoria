@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_conversations"
+    app:startDestination="@id/DMListFragment">
+
+    <fragment
+        android:id="@+id/DMListFragment"
+        android:name="com.xinlei.frontend.linkoria.app.conversation.ui.DMListFragment"
+        android:label="DMListFragment"
+        tools:layout="@layout/fragment_dm_list">
+        <action
+            android:id="@+id/action_DMListFragment_to_channelListFragment"
+            app:destination="@id/channelListFragment"
+            app:popUpTo="@id/DMListFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/channelListFragment"
+        android:name="com.xinlei.frontend.linkoria.app.channel.ui.ChannelListFragment"
+        android:label="ChannelListFragment"
+        tools:layout="@layout/fragment_channel_list">
+        <action
+            android:id="@+id/action_channelListFragment_to_DMListFragment"
+            app:destination="@id/DMListFragment"
+            app:popUpTo="@id/channelListFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+</navigation>

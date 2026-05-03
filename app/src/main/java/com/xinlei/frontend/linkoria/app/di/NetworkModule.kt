@@ -1,9 +1,12 @@
 package com.xinlei.frontend.linkoria.app.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.xinlei.frontend.linkoria.app.auth.data.remote.AuthApiService
 import com.xinlei.frontend.linkoria.app.channel.data.remote.ChannelApiService
 import com.xinlei.frontend.linkoria.app.conversation.data.remote.ConversationApiService
 import com.xinlei.frontend.linkoria.app.core.network.AuthInterceptor
+import com.xinlei.frontend.linkoria.app.core.network.InstantDeserializer
 import com.xinlei.frontend.linkoria.app.core.util.Constants
 import com.xinlei.frontend.linkoria.app.server.data.remote.ServerApiService
 import com.xinlei.frontend.linkoria.app.user.data.remote.UserApiService
@@ -15,11 +18,19 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
+import java.time.Instant
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @Singleton
+    @Provides
+    fun provideGson(): Gson =  GsonBuilder()
+        .registerTypeAdapter(Instant::class.java, InstantDeserializer())
+        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        .create()
 
     @Provides
     @Singleton
@@ -29,10 +40,10 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttp: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(okHttp: OkHttpClient, gson: Gson): Retrofit = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
         .client(okHttp)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 
     @Provides

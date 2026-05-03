@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
-            android:background="@drawable/shape_rounded_input"
+            android:background="@drawable/shape_rounded_button_sm"
             android:hint="Escribe un mensaje..."
             android:maxLines="4"
             android:paddingHorizontal="14dp"

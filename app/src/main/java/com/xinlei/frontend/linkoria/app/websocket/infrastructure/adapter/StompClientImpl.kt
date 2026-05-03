@@ -10,16 +10,15 @@ import com.xinlei.frontend.linkoria.app.websocket.infrastructure.util.StompRecon
 import com.xinlei.frontend.linkoria.app.websocket.infrastructure.util.toFlow
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
-import ua.naiksoftware.stomp.StompClient as NaikStompClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.asFlow
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.dto.LifecycleEvent
-import ua.naiksoftware.stomp.dto.StompMessage
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
+import ua.naiksoftware.stomp.StompClient as NaikStompClient
 
 @Singleton
 class StompClientImpl @Inject constructor(
@@ -50,10 +49,11 @@ class StompClientImpl @Inject constructor(
             // Obtener headers del provider
             val headers = tokenProvider.getHeaders()
 
-            //preparamos los headers
+            // Preparar headers STOMP
             val stompHeaders = headers.map { (key, value) ->
                 ua.naiksoftware.stomp.dto.StompHeader(key, value)
             }
+
             // Crear cliente STOMP
             naikClient = Stomp.over(
                 Stomp.ConnectionProvider.OKHTTP,
@@ -74,7 +74,6 @@ class StompClientImpl @Inject constructor(
             disposables.add(lifecycleDisposable)
 
             // Conectar
-            //pasamos los headers al Client
             naikClient!!.connect(stompHeaders)
         }.getOrThrow()
     }
@@ -114,13 +113,17 @@ class StompClientImpl @Inject constructor(
 
     /**
      * Suscribe a un tópico STOMP y emite eventos como Flow
+     *
+     * Retorna Flow<WebSocketEvent> (sealed class) con type-safety
      */
-    override fun <T> subscribe(topic: String): Flow<WebSocketEvent<T>> {
-
+    override fun subscribe(topic: String): Flow<WebSocketEvent> {
         return naikClient?.topic(topic)
             ?.asFlow()
             ?.map { stompMessage ->
-                parseWebSocketEvent<T>(stompMessage)
+                WebSocketEvent.Message(
+                    payload = stompMessage.payload.toString(),
+                    timestamp = java.time.Instant.now()
+                )
             }
             ?: throw IllegalStateException("STOMP client no conectado")
     }
@@ -129,7 +132,6 @@ class StompClientImpl @Inject constructor(
      * Envía un comando STOMP
      */
     override suspend fun send(destination: String, body: Any) {
-
         if (naikClient == null) {
             throw IllegalStateException("STOMP client no conectado")
         }
@@ -152,20 +154,5 @@ class StompClientImpl @Inject constructor(
         cause: Throwable? = null
     ) {
         connectionStateSubject.onNext(state)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun <T> parseWebSocketEvent(message: StompMessage): WebSocketEvent<T> {
-        return try {
-            val payload = message.payload.toString()
-
-            WebSocketEvent(
-                type = "GENERIC_EVENT",  // El módulo consumidor lo especifica
-                payload = payload as T,
-                timestamp = System.currentTimeMillis()
-            )
-        } catch (e: Exception) {
-            throw e
-        }
     }
 }

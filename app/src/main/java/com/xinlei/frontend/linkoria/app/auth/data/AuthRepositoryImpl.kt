@@ -62,7 +62,6 @@ class AuthRepositoryImpl @Inject constructor(
             accessToken = response.accessToken,
             refreshToken = response.refreshToken
         )
-        Unit
     }
 
     override suspend fun logout(): NetworkResult<Unit> = safeApiCall {
@@ -71,6 +70,5 @@ class AuthRepositoryImpl @Inject constructor(
 
         api.logout(RefreshRequest(refreshToken))
         tokenDataStore.clearTokens()
-        Unit
     }
 }

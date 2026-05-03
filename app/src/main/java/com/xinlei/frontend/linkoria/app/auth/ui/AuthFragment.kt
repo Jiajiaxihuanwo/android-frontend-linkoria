@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.xinlei.frontend.linkoria.app.R
 import com.xinlei.frontend.linkoria.app.databinding.FragmentAuthBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AuthFragment : Fragment() {
 
     private var _binding: FragmentAuthBinding? = null
