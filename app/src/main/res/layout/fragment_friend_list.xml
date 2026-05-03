@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_margin="12dp"
-        android:background="@drawable/shape_rounded_input"
+        android:background="@drawable/shape_rounded_button_sm"
         android:hint="Buscar amigo..."
         android:paddingHorizontal="14dp"
         android:textColor="@color/text_primary"

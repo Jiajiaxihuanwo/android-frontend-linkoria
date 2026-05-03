@@ -31,5 +31,4 @@ class SessionManager @Inject constructor(
     suspend fun getUserIdOnce(): String? = userId.firstOrNull()
 
     suspend fun clearSession() = tokenDataStore.clearTokens()
-
 }

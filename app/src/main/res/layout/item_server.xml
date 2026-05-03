@@ -8,7 +8,7 @@
         android:id="@+id/iv_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="@drawable/shape_circle"
+        android:background="@drawable/shape_rounded_button"
         android:contentDescription="Server icon"
         android:scaleType="centerCrop" />
 
