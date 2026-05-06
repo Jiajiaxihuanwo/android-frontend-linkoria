@@ -1,66 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#2C2F33">
+    android:background="#36393F">
 
-    <!-- Header -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#23272A"
-        android:orientation="vertical"
-        android:padding="16dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="#2C2F33"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Texto arriba -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Messages"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- Iconos abajo -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#23272A">
 
-            <ImageButton
-                android:id="@+id/btn_search"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_search"
-                android:scaleType="centerInside"
-                android:background="@drawable/shape_rounded_button_sm"
-                android:contentDescription="Search" />
+            <!-- Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#23272A"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/btn_add_friend"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_friend_add"
-                android:scaleType="centerInside"
-                android:background="@drawable/shape_rounded_button_sm"
-                android:contentDescription="Add friend" />
+                <!-- Texto arriba -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Messages"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp" />
 
-        </LinearLayout>
+                <!-- Iconos abajo -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="4dp">
 
-    </LinearLayout>
+                    <!-- 左侧：搜索按钮 -->
+                    <ImageButton
+                        android:id="@+id/btn_search"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:src="@drawable/ic_search"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/shape_circle_button"
+                        app:tint="@color/white"
+                        android:contentDescription="Search" />
 
-    <!-- DM List RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/dm_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingVertical="8dp" />
+                    <!-- 中间：加好友按钮（拉长/灵动岛风格） -->
+                    <ImageButton
+                        android:id="@+id/btn_add_friend"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="2"
+                        android:layout_marginHorizontal="6dp"
+                        android:src="@drawable/ic_friend_add"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/shape_pill_button"
+                        android:padding="10dp"
+                        android:hint="Buscar o iniciar conversación"
+                        app:tint="@color/white"
+                        android:contentDescription="Add friend" />
 
-</LinearLayout>
+
+                    <!-- 右侧：群聊按钮 -->
+                    <ImageButton
+                        android:id="@+id/btn_chat_grupal"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:src="@drawable/ic_group_chat_foreground"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/shape_circle_button"
+                        android:padding="10dp"
+                        app:tint="@color/white"
+                        android:contentDescription="Group chat" />
+
+                </LinearLayout>
+                <!-- DM List RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dm_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingVertical="8dp"
+                    android:scrollbars="none" />
+
+            </LinearLayout>
+
+                </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
