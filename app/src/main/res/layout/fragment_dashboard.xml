@@ -54,17 +54,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_add_server" />
 
-            <!-- 4. RECYCLERVIEW DE SERVIDORES -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_servers"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:clipToPadding="false"
                 android:paddingVertical="4dp"
-                android:scrollbars="none"
-                app:layout_constraintBottom_toTopOf="@id/separator_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/separator_top" />
@@ -74,8 +70,9 @@
                 android:id="@+id/separator_bottom"
                 android:layout_width="32dp"
                 android:layout_height="2dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="16dp"
                 android:background="#2B2D31"
+                app:layout_constraintTop_toBottomOf="@id/separator_top"
                 app:layout_constraintBottom_toTopOf="@id/btn_dms"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -85,16 +82,16 @@
                 android:id="@+id/btn_dms"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginBottom="0dp"
                 android:backgroundTint="#2B2D31"
                 android:insetTop="0dp"
+                android:layout_marginTop="8dp"
                 android:insetBottom="0dp"
                 android:padding="12dp"
                 app:icon="@drawable/ic_dm"
                 app:iconTint="#5865F2"
                 app:iconSize="24dp"
                 app:cornerRadius="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/separator_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

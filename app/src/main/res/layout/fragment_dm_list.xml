@@ -60,11 +60,10 @@
                         android:layout_height="44dp"
                         android:src="@drawable/ic_search"
                         android:scaleType="centerInside"
-                        android:background="@drawable/shape_circle_button"
+                        android:background="@drawable/shape_pill_button"
                         app:tint="@color/white"
                         android:contentDescription="Search" />
 
-                    <!-- 中间：加好友按钮（拉长/灵动岛风格） -->
                     <ImageButton
                         android:id="@+id/btn_add_friend"
                         android:layout_width="0dp"
@@ -80,14 +79,13 @@
                         android:contentDescription="Add friend" />
 
 
-                    <!-- 右侧：群聊按钮 -->
                     <ImageButton
                         android:id="@+id/btn_chat_grupal"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
                         android:src="@drawable/ic_group_chat_foreground"
                         android:scaleType="centerInside"
-                        android:background="@drawable/shape_circle_button"
+                        android:background="@drawable/shape_pill_button"
                         android:padding="10dp"
                         app:tint="@color/white"
                         android:contentDescription="Group chat" />
