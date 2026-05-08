@@ -10,6 +10,6 @@ class GetUserProfileUseCase @Inject constructor(
     private val repository: UserRepository
 ){
     operator fun invoke(): Flow<NetworkResult<User>> {
-        return repository.getUserProfile("")
+        return repository.getUserProfile()
     }
 }

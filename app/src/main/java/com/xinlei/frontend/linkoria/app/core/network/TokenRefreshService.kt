@@ -48,8 +48,8 @@ class TokenRefreshService @Inject constructor(
                         accessToken = newTokens.accessToken,
                         refreshToken = newTokens.refreshToken,
                         refreshTokenExpiresAt = newTokens.refreshTokenExpiresAt.toEpochMilli(),
-                        userId = null,
-                        username = null
+                        userId = newTokens.userId,
+                        username = newTokens.username
                     )
                     newTokens.accessToken
                 } else {
