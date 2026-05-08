@@ -84,4 +84,9 @@ dependencies {
     implementation(libs.hilt.android.v2571)
     ksp(libs.hilt.compiler.v2571)
     ksp(libs.androidx.hilt.compiler.v130)
+
+    //supabase
+    implementation(platform(libs.bom))
+    implementation(libs.storage.kt)
+    implementation(libs.ktor.client.core)
 }

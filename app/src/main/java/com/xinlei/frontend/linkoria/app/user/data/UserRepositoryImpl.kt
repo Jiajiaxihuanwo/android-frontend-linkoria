@@ -17,12 +17,10 @@ class UserRepositoryImpl @Inject constructor(
     private val sessionManager: SessionManager
 ) : UserRepository, BaseRepository{
 
-    override fun getUserProfile(userId: String): Flow<NetworkResult<User>> = flow {
+    override fun getUserProfile(): Flow<NetworkResult<User>> = flow {
         emit(NetworkResult.Loading)
         val result = safeApiCall {
-            val targetId = userId.ifBlank {
-                sessionManager.getUserIdOnce() ?: throw Exception("Sesión no válida")
-            }
+            val targetId = sessionManager.getUserIdOnce() ?: throw Exception("Sesión no válida")
             apiService.getUserById(targetId).toDomain()
         }
         emit(result)
@@ -41,14 +39,10 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun updateUser(
-        userId: String,
         request: UpdateUserRequest
     ): Flow<NetworkResult<User>> = flow {
-        emit(NetworkResult.Loading)
         val result = safeApiCall {
-            val targetId = userId.ifBlank {
-                sessionManager.getUserIdOnce() ?: throw Exception("Sesión no válida")
-            }
+            val targetId = sessionManager.getUserIdOnce() ?: throw Exception("Sesión no válida")
             apiService.updateUser(targetId, request).toDomain()
         }
         emit(result)
