@@ -20,10 +20,11 @@ class SessionManager @Inject constructor(
     suspend fun saveSession(
         accessToken: String,
         refreshToken: String,
+        refreshTokenExpiresAt: Long? = null,
         userId: String? = null,
         username: String? = null
     ) {
-        tokenDataStore.saveTokens(accessToken, refreshToken, userId, username)
+        tokenDataStore.saveTokens(accessToken, refreshToken, refreshTokenExpiresAt, userId, username)
     }
 
     suspend fun getAccessTokenOnce(): String? = accessToken.firstOrNull()
@@ -31,4 +32,10 @@ class SessionManager @Inject constructor(
     suspend fun getUserIdOnce(): String? = userId.firstOrNull()
 
     suspend fun clearSession() = tokenDataStore.clearTokens()
+
+    suspend fun isRefreshTokenExpired(): Boolean {
+        val expiresAt = tokenDataStore.refreshTokenExpiresAt.firstOrNull() ?: return true
+        val currentTimeMs = System.currentTimeMillis()
+        return currentTimeMs >= expiresAt
+    }
 }

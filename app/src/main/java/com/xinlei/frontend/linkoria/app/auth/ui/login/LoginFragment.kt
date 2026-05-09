@@ -2,6 +2,7 @@ package com.xinlei.frontend.linkoria.app.auth.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -46,7 +47,10 @@ class LoginFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiEvent.collect { event ->
                     when (event) {
-                        is UiEvent.ShowToast -> Toast.makeText(requireContext(), event.message, Toast.LENGTH_SHORT).show()
+                        is UiEvent.ShowToast -> {
+                            Toast.makeText(requireContext(), event.message, Toast.LENGTH_SHORT).show()
+                            Log.e("error",event.message)
+                        }
                         else -> Unit
                     }
                 }
