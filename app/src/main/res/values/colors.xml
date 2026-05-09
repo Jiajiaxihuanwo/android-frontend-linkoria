@@ -47,4 +47,5 @@
 
     <!-- Separadores -->
     <color name="divider">#3F4147</color>
+    <color name="background">#5865F2</color>
 </resources>
