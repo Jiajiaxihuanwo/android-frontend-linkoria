@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#36393F">
 
-    <!-- NavHostFragment para contener los fragments principales -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_home"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -17,15 +17,22 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph_main" />
 
-    <!-- BottomNavigationView -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/bg_bottom_nav"
+        android:background="#202225"
+        android:elevation="8dp"
+        app:itemBackground="@null"
+        app:itemIconTint="@color/bottom_nav_discord"
+        app:itemTextColor="@color/bottom_nav_discord"
+        app:itemIconSize="28dp"
+        app:itemRippleColor="@android:color/transparent"
+        app:itemHorizontalTranslationEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

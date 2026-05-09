@@ -58,4 +58,12 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
+    <!--Cardview-->
+    <style name="TopLeftRoundedCard" parent="">
+        <item name="cornerSizeTopLeft">32dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
 </resources>

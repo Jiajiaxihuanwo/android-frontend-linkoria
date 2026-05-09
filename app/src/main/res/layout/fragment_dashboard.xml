@@ -3,67 +3,83 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_sidebar">
 
-    <!-- 1. EL FONDO PRIMERO (Para que esté detrás) -->
-    <View
-        android:id="@+id/sidebar_background"
-        android:layout_width="70dp"
+    <!-- SIDEBAR -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sidebar_container"
+        android:layout_width="72dp"
         android:layout_height="0dp"
         android:background="@color/bg_sidebar"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="8dp"
+        android:elevation="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <!-- 2. BOTÓN ADD (Centrado en la sidebar) -->
-    <ImageButton
-        android:id="@+id/btn_add_server"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape_rounded_button"
-        android:src="@drawable/ic_add"
-        android:scaleType="centerInside"
-        app:layout_constraintEnd_toEndOf="@id/sidebar_background"
-        app:layout_constraintStart_toStartOf="@id/sidebar_background"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!-- BOTÓN ADD (arriba del todo) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_server"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="#2B2D31"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="12dp"
+            app:icon="@drawable/ic_add"
+            app:iconTint="#43B581"
+            app:iconSize="24dp"
+            app:cornerRadius="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 3. RECYCLER (Ancho 0dp para que respete los márgenes dentro de la sidebar) -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_servers"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@id/btn_dms"
-        app:layout_constraintEnd_toEndOf="@id/sidebar_background"
-        app:layout_constraintStart_toStartOf="@id/sidebar_background"
-        app:layout_constraintTop_toBottomOf="@id/btn_add_server" />
+        <!-- LISTA DE SERVIDORES (ocupa todo el espacio entre botones) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_servers"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_add_server"
+            app:layout_constraintBottom_toTopOf="@id/btn_dms"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 4. BOTÓN DMS (Abajo, centrado en la sidebar) -->
-    <ImageButton
-        android:id="@+id/btn_dms"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/shape_rounded_button"
-        android:src="@drawable/ic_dm"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/sidebar_background"
-        app:layout_constraintStart_toStartOf="@id/sidebar_background" />
+        <!-- BOTÓN DMS (abajo del todo) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_dms"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="#2B2D31"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="12dp"
+            app:icon="@drawable/ic_dm"
+            app:iconTint="#5865F2"
+            app:iconSize="24dp"
+            app:cornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 5. NAVHOST (Ocupa el resto de la pantalla) -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- NAV HOST -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_dashboard"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="#36393F"
+        android:padding="8dp"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph_conversations"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/sidebar_background"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/sidebar_container"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
