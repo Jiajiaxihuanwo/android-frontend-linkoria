@@ -3,12 +3,19 @@
     <!-- app -->
     <color name="error_red">#A24141</color>
 
+    <!-- iconos -->
+    <color name="ic_default">#E6FFFFFF</color>
+
     <!-- Fondos principales -->
     <color name="bg_sidebar">#1E1F22</color>
     <color name="bg_dm_list">#2B2D31</color>
     <color name="bg_chat">#313338</color>
     <color name="bg_bottom_nav">#1E1F22</color>
     <color name="bg_icon_container">#36393F</color>
+    <color name="bg_app_dialog">#1E1F23</color>
+    <color name="bg_edit_fields_card">#2F3136</color>
+    <color name="bg_edit_field">#1E1F23</color>
+
 
     <!-- Perfil de usuario -->
     <color name="bg_userProfile">#232428</color>

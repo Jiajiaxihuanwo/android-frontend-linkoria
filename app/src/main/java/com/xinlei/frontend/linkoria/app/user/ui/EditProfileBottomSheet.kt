@@ -1,63 +1,65 @@
 package com.xinlei.frontend.linkoria.app.user.ui
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.media.Image
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
-import com.xinlei.frontend.linkoria.app.databinding.FragmentProfileBinding
-import com.xinlei.frontend.linkoria.app.root.SplashActivity
-import com.xinlei.frontend.linkoria.app.user.domain.model.User
-import dagger.hilt.android.AndroidEntryPoint
+import com.xinlei.frontend.linkoria.app.databinding.BottomSheetEditProfileBinding
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import androidx.core.graphics.drawable.toDrawable
+import com.xinlei.frontend.linkoria.app.R
+import com.xinlei.frontend.linkoria.app.user.domain.model.User
+import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment() {
-
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
-    private val viewModel: ProfileViewModel by activityViewModels()
+class EditProfileBottomSheet : BottomSheetDialogFragment() {
 
     @Inject
     lateinit var imageLoader: ImageLoader
-    private val realViews by lazy {
-        listOf(binding.ivAvatar, binding.tvUsername, binding.etDescription)
-    }
+    private val viewModel: ProfileViewModel by activityViewModels()
+    private lateinit var binding: BottomSheetEditProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    ): View = BottomSheetEditProfileBinding.inflate(inflater, container, false).also {
+            binding = it
+        }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.loadProfile()
+
         observeUiState()
         setupClickListeners()
         setUpEditTextScroll()
+
     }
+
+    override fun onStart() {
+        super.onStart()
+        val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.background = Color.TRANSPARENT.toDrawable()
+    }
+
+    override fun getTheme() = R.style.TransparentBottomSheet
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setUpEditTextScroll() {
-        binding.etDescription.setOnTouchListener { v, event ->
+        binding.etBio.setOnTouchListener { v, event ->
             if (v.canScrollVertically(1) || v.canScrollVertically(-1)) {
                 v.parent.requestDisallowInterceptTouchEvent(true)
             }
@@ -72,25 +74,34 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.btnLogout.setOnClickListener {
-            viewModel.logout()
+        binding.btnSave.setOnClickListener {
+            viewModel.updateProfile(
+                username = binding.etName.text.toString(),
+                email = binding.etEmail.text.toString()
+            )
         }
-        binding.btnEdit.setOnClickListener {
-            EditProfileBottomSheet().show(childFragmentManager, "edit_profile")
+
+        binding.ivEditAvatar.setOnClickListener {
+            // Intent para cambiar avatar
         }
     }
 
     private fun observeUiState() {
-        observeLogoutState()
-        observeProfileState()
+        observeUserState()
+        observeUpdateState()
     }
 
-    private fun observeLogoutState() {
+    private fun observeUpdateState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.logoutEvent.collect { event ->
-                    when (event) {
-                        true -> navigateToSplash()
+                viewModel.updateState.collect { state ->
+                    when (state) {
+                        is UiState.Loading -> Unit
+                        is UiState.Success -> {
+                            viewModel.resetUpdateState()
+                            this@EditProfileBottomSheet.dismiss()
+                        }
+                        is UiState.Error -> Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
                         else -> Unit
                     }
                 }
@@ -98,46 +109,25 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun observeProfileState() {
+    private fun observeUserState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.userState.collect { state ->
                     when (state) {
-                        is UiState.Loading -> showSkeleton()
                         is UiState.Success -> showUserData(state.data)
-                        is UiState.Error -> Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
-                        is UiState.Idle -> Unit
+                        else -> Unit
                     }
                 }
             }
         }
     }
 
-    private fun showSkeleton() {
-        realViews.forEach { it.visibility = View.INVISIBLE }
-        binding.shimmerContainer.visibility = View.VISIBLE
-        binding.shimmerContainer.startShimmer()
-    }
-
     private fun showUserData(user: User) {
-        binding.shimmerContainer.stopShimmer()
-        binding.shimmerContainer.visibility = View.GONE
-        realViews.forEach { it.visibility = View.VISIBLE }
-
         imageLoader.loadIcon(binding.ivAvatar, user.avatarUrl)
         imageLoader.extractDominantColor(user.avatarUrl){binding.ivBanner.setBackgroundColor(it)}
 
         binding.tvUsername.text = user.username
-    }
-
-    private fun navigateToSplash() {
-        val intent = Intent(requireActivity(), SplashActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        binding.etName.setText(user.username)
+        binding.etEmail.setText(user.email)
     }
 }

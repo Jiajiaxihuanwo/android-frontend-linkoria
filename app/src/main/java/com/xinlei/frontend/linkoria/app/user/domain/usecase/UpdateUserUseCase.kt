@@ -24,12 +24,13 @@ class UpdateUserUseCase @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     operator fun invoke(
-        request: UpdateUserRequest,
+        username: String? = null,
+        email: String? = null,
         avatarUri: Uri? = null
     ): Flow<NetworkResult<User>> = flow {
         emit(NetworkResult.Loading)
 
-        if (avatarUri != null) {
+        val resolvedAvatarUrl: String? = if (avatarUri != null) {
             val userId = sessionManager.getUserIdOnce() ?: run {
                 emit(NetworkResult.Error(null, "No active session"))
                 return@flow
@@ -45,14 +46,23 @@ class UpdateUserUseCase @Inject constructor(
             }
 
             when (val uploadResult = storageDataSource.uploadUserIcon(file, userId, extension)) {
-                is NetworkResult.Success -> {
-                    emitAll(repository.updateUser(request.copy(avatarUrl = uploadResult.data)))
+                is NetworkResult.Success -> uploadResult.data
+                is NetworkResult.Error -> {
+                    emit(uploadResult)
+                    return@flow
                 }
-                is NetworkResult.Error -> emit(uploadResult)
-                is NetworkResult.Loading -> Unit
+                is NetworkResult.Loading -> null
             }
-        } else {
-            emitAll(repository.updateUser(request))
-        }
+        } else null
+
+        emitAll(
+            repository.updateUser(
+                UpdateUserRequest(
+                    username = username,
+                    email = email,
+                    avatarUrl = resolvedAvatarUrl
+                )
+            )
+        )
     }
 }

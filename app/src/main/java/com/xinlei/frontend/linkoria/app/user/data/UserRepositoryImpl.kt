@@ -1,5 +1,6 @@
 package com.xinlei.frontend.linkoria.app.user.data
 
+import android.util.Log
 import com.xinlei.frontend.linkoria.app.core.network.BaseRepository
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import com.xinlei.frontend.linkoria.app.core.session.SessionManager
@@ -43,6 +44,7 @@ class UserRepositoryImpl @Inject constructor(
     ): Flow<NetworkResult<User>> = flow {
         val result = safeApiCall {
             val targetId = sessionManager.getUserIdOnce() ?: throw Exception("Sesión no válida")
+            Log.i("USERID",targetId )
             apiService.updateUser(targetId, request).toDomain()
         }
         emit(result)

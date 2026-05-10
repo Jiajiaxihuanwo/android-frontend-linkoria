@@ -89,6 +89,7 @@ dependencies {
     implementation(platform(libs.bom))
     implementation(libs.storage.kt)
     implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.android)
 
     //glide
     implementation(libs.glide)
