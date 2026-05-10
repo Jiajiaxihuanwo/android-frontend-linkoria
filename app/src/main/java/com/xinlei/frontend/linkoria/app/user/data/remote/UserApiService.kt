@@ -11,18 +11,18 @@ import retrofit2.http.Query
 
 interface UserApiService {
 
-    @GET("user/{userId}")
+    @GET("users/{userId}")
     suspend fun getUserById(
         @Path("userId") userId: String
     ): UserResponse
 
-    @PATCH("user/{userId}")
+    @PATCH("users/{userId}")
     suspend fun updateUser(
         @Path("userId") userId: String,
         @Body updateRequest: UpdateUserRequest
     ): UserResponse
 
-    @GET("user/search")
+    @GET("users/search")
     suspend fun searchUsers(
         @Query("username") username: String
     ): List<UserResponse>

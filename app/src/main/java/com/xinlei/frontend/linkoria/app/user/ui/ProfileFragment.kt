@@ -1,23 +1,41 @@
 package com.xinlei.frontend.linkoria.app.user.ui
 
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.xinlei.frontend.linkoria.app.core.ui.UiState
+import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.FragmentProfileBinding
 import com.xinlei.frontend.linkoria.app.root.SplashActivity
+import com.xinlei.frontend.linkoria.app.user.domain.model.User
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: ProfileViewModel by viewModels()
+
+    @Inject
+    lateinit var imageLoader: ImageLoader
+    private val realViews by lazy {
+        listOf(binding.ivAvatar, binding.tvUsername, binding.etDescription)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,13 +48,86 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.loadProfile()
+        observeUiState()
         setupClickListeners()
+        setUpEditTextScroll()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setUpEditTextScroll() {
+        binding.etDescription.setOnTouchListener { v, event ->
+            if (v.canScrollVertically(1) || v.canScrollVertically(-1)) {
+                v.parent.requestDisallowInterceptTouchEvent(true)
+            }
+
+            if (event.action == MotionEvent.ACTION_UP) {
+                v.parent.requestDisallowInterceptTouchEvent(false)
+                v.performClick()
+            }
+
+            false
+        }
     }
 
     private fun setupClickListeners() {
         binding.btnLogout.setOnClickListener {
-            viewModel.logout(onLogoutSuccess = ::navigateToSplash)
+            viewModel.logout()
         }
+        binding.btnEdit.setOnClickListener {
+
+        }
+    }
+
+    private fun observeUiState() {
+        observeLogoutState()
+        observeProfileState()
+    }
+
+    private fun observeLogoutState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.logoutEvent.collect { event ->
+                    when (event) {
+                        true -> navigateToSplash()
+                        else -> Unit
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeProfileState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.userState.collect { state ->
+                    when (state) {
+                        is UiState.Loading -> showSkeleton()
+                        is UiState.Success -> showUserData(state.data)
+                        is UiState.Error -> Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
+                        is UiState.Idle -> Unit
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showSkeleton() {
+        realViews.forEach { it.visibility = View.INVISIBLE }
+        binding.shimmerContainer.visibility = View.VISIBLE
+        binding.shimmerContainer.startShimmer()
+    }
+
+    private fun showUserData(user: User) {
+        binding.shimmerContainer.stopShimmer()
+        binding.shimmerContainer.visibility = View.GONE
+        realViews.forEach { it.visibility = View.VISIBLE }
+
+        if(!user.avatarUrl.isEmpty()) {
+            imageLoader.load(binding.ivAvatar, user.avatarUrl)
+        }
+
+        binding.tvUsername.text = user.username
     }
 
     private fun navigateToSplash() {

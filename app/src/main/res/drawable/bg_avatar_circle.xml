@@ -5,6 +5,6 @@
         android:width="70dp"
         android:height="70dp" />
 
-    <solid android:color="#2B2D31" /> <!-- 背景颜色，可改 -->
+    <solid android:color="@color/bg_userProfile" /> <!-- 背景颜色，可改 -->
 
 </shape>

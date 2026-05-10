@@ -10,6 +10,11 @@
     <color name="bg_bottom_nav">#1E1F22</color>
     <color name="bg_icon_container">#36393F</color>
 
+    <!-- Perfil de usuario -->
+    <color name="bg_userProfile">#232428</color>
+    <color name="bg_banner">#909099</color>
+    <color name="bg_profile_elements">#2F3136</color>
+
     <!-- Burbujas de mensaje -->
     <color name="bg_bubble_sent">#5865F2</color>
     <color name="bg_bubble_received">#383A40</color>
@@ -23,6 +28,7 @@
     <!-- Textos -->
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#B5BAC1</color>
+    <color name="text_hint">#6D6F78</color>
     <color name="text_muted">#6D6F78</color>
     <color name="text_link">#00AFF4</color>
 
@@ -48,4 +54,7 @@
     <!-- Separadores -->
     <color name="divider">#3F4147</color>
     <color name="background">#5865F2</color>
+
+    <!-- Skeleton -->
+    <color name="bg_skeleton">#797B81</color>
 </resources>

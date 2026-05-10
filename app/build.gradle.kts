@@ -89,4 +89,10 @@ dependencies {
     implementation(platform(libs.bom))
     implementation(libs.storage.kt)
     implementation(libs.ktor.client.core)
+
+    //glide
+    implementation(libs.glide)
+
+    //shimer
+    implementation(libs.shimmer)
 }
