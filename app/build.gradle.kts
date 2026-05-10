@@ -95,4 +95,7 @@ dependencies {
 
     //shimer
     implementation(libs.shimmer)
+
+    //Palette
+    implementation(libs.androidx.palette)
 }

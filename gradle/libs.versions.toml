@@ -23,6 +23,7 @@ appcompat = "1.7.1"
 material = "1.13.0"
 navigationFragmentKtx = "2.9.7"
 okhttp = "5.3.2"
+palette = "1.0.0"
 retrofit = "3.0.0"
 activity = "1.13.0"
 constraintlayout = "2.2.1"
@@ -41,6 +42,7 @@ androidx-datastore-preferences-v110 = { module = "androidx.datastore:datastore-p
 androidx-hilt-compiler-v130 = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltCompilerVersion" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
+androidx-palette = { module = "androidx.palette:palette", version.ref = "palette" }
 bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "bom" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }

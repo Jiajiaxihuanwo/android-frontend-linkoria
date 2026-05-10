@@ -38,4 +38,8 @@ class SessionManager @Inject constructor(
         val currentTimeMs = System.currentTimeMillis()
         return currentTimeMs >= expiresAt
     }
+
+    suspend fun isLoggedInOnce(): Boolean {
+        return !accessToken.firstOrNull().isNullOrEmpty()
+    }
 }

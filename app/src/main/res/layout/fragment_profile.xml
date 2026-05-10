@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/bg_userProfile">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,16 +11,28 @@
         android:layout_height="wrap_content"
         android:paddingBottom="16dp">
 
-        <!-- Banner -->
+        <!-- Banner base -->
         <ImageView
             android:id="@+id/iv_banner"
             android:layout_width="0dp"
             android:layout_height="150dp"
-            android:background="@drawable/bg_banner"
             android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/bg_banner"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Overlay encima -->
+        <ImageView
+            android:id="@+id/iv_overlay_banner"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_banner"
+            android:alpha="1"
+            app:layout_constraintTop_toTopOf="@id/iv_banner"
+            app:layout_constraintStart_toStartOf="@id/iv_banner"
+            app:layout_constraintEnd_toEndOf="@id/iv_banner" />
 
         <!-- Avatar -->
         <FrameLayout
@@ -37,8 +49,7 @@
                 android:id="@+id/iv_avatar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_user" />
+                android:scaleType="centerCrop" />
 
         </FrameLayout>
 
@@ -50,9 +61,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Maya Rodriguez"
+            tools:text="Maya Rodriguez"
             android:textColor="#FFF"
-            android:textSize="22sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/guideline_start"

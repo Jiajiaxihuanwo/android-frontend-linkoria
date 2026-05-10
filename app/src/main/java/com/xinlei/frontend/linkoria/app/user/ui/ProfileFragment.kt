@@ -123,9 +123,8 @@ class ProfileFragment : Fragment() {
         binding.shimmerContainer.visibility = View.GONE
         realViews.forEach { it.visibility = View.VISIBLE }
 
-        if(!user.avatarUrl.isEmpty()) {
-            imageLoader.load(binding.ivAvatar, user.avatarUrl)
-        }
+        imageLoader.loadIcon(binding.ivAvatar, user.avatarUrl)
+        imageLoader.extractDominantColor(user.avatarUrl){binding.ivBanner.setBackgroundColor(it)}
 
         binding.tvUsername.text = user.username
     }
