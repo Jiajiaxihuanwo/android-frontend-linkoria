@@ -49,7 +49,7 @@ class ProfileViewModel @Inject constructor(
             getUserProfileUseCase().collect { result ->
                 when(result) {
                     is NetworkResult.Success -> {
-                        val user = User(result.data.id,result.data.username,result.data.email,result.data.avatarUrl)
+                        val user = result.data
                         _userState.value = UiState.Success(user)
                     }
 

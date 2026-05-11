@@ -103,7 +103,7 @@ class ProfileFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.userState.collect { state ->
                     when (state) {
-                        is UiState.Loading -> showSkeleton()
+                        is UiState.Loading -> Unit
                         is UiState.Success -> showUserData(state.data)
                         is UiState.Error -> Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
                         is UiState.Idle -> Unit

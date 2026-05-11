@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_sidebar">
+    android:background="@color/bg_sidebar"
+    android:fitsSystemWindows="true">
 
     <!-- SIDEBAR -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +15,6 @@
         android:background="@color/bg_sidebar"
         android:paddingVertical="12dp"
         android:paddingHorizontal="8dp"
-        android:elevation="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -73,8 +73,7 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#36393F"
-        android:padding="8dp"
+        android:background="@color/bg_sidebar"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph_conversations"
         app:layout_constraintTop_toTopOf="parent"
