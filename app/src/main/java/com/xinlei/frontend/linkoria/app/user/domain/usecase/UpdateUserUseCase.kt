@@ -47,11 +47,10 @@ class UpdateUserUseCase @Inject constructor(
 
             when (val uploadResult = storageDataSource.uploadUserIcon(file, userId, extension)) {
                 is NetworkResult.Success -> uploadResult.data
-                is NetworkResult.Error -> {
-                    emit(uploadResult)
+                else -> {
+                    emit(NetworkResult.Error(null, "Unexpected state"))
                     return@flow
                 }
-                is NetworkResult.Loading -> null
             }
         } else null
 

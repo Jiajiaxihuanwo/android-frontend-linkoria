@@ -49,7 +49,7 @@ class ProfileViewModel @Inject constructor(
             getUserProfileUseCase().collect { result ->
                 when(result) {
                     is NetworkResult.Success -> {
-                        val user = User(result.data.id,result.data.username,result.data.email,"https://devsapihub.com/img-fast-food/cafe_03.jpg")
+                        val user = User(result.data.id,result.data.username,result.data.email,result.data.avatarUrl)
                         _userState.value = UiState.Success(user)
                     }
 
@@ -69,11 +69,15 @@ class ProfileViewModel @Inject constructor(
             updateUserUseCase(username = username, email = email, avatarUri = avatarUri).collect { result ->
                 when(result) {
                     is NetworkResult.Success -> {
-                        _userState.value = UiState.Success(result.data)
-                        _updateState.value = UiState.Success(result.data)
+                        val user = result.data.copy(
+                            avatarUrl = avatarUri?.toString() ?: result.data.avatarUrl
+                        )
+                        _userState.value = UiState.Success(user)
+                        _updateState.value = UiState.Success(user)
                     }
                     is NetworkResult.Error -> {
                         _updateState.value = UiState.Error(result.message ?: "Error desconocido")
+                        _updateState.value = UiState.Idle
                         _userState.value = if (oldData != null) UiState.Success(oldData) else UiState.Idle
                     }
                     else -> Unit

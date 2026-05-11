@@ -122,12 +122,22 @@ class ProfileFragment : Fragment() {
     private fun showUserData(user: User) {
         binding.shimmerContainer.stopShimmer()
         binding.shimmerContainer.visibility = View.GONE
-        realViews.forEach { it.visibility = View.VISIBLE }
-
-        imageLoader.loadIcon(binding.ivAvatar, user.avatarUrl)
-        imageLoader.extractDominantColor(user.avatarUrl){binding.ivBanner.setBackgroundColor(it)}
 
         binding.tvUsername.text = user.username
+
+        imageLoader.loadIconNoCache(
+            view = binding.ivAvatar,
+            url = user.avatarUrl,
+            onReady = {
+                binding.shimmerContainer.stopShimmer()
+                binding.shimmerContainer.visibility = View.GONE
+                realViews.forEach { it.visibility = View.VISIBLE }
+            }
+        )
+
+        imageLoader.extractDominantColor(user.avatarUrl) {
+            binding.ivBanner.setBackgroundColor(it)
+        }
     }
 
     private fun navigateToSplash() {
