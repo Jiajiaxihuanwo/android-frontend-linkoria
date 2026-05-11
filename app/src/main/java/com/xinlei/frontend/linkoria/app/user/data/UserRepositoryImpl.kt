@@ -1,5 +1,6 @@
 package com.xinlei.frontend.linkoria.app.user.data
 
+import android.util.Log
 import com.xinlei.frontend.linkoria.app.core.network.BaseRepository
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import com.xinlei.frontend.linkoria.app.core.session.SessionManager
@@ -8,6 +9,7 @@ import com.xinlei.frontend.linkoria.app.user.data.remote.UserApiService
 import com.xinlei.frontend.linkoria.app.user.data.remote.dto.UpdateUserRequest
 import com.xinlei.frontend.linkoria.app.user.domain.UserRepository
 import com.xinlei.frontend.linkoria.app.user.domain.model.User
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,6 +21,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getUserProfile(): Flow<NetworkResult<User>> = flow {
         emit(NetworkResult.Loading)
+        delay(1500)
         val result = safeApiCall {
             val targetId = sessionManager.getUserIdOnce() ?: throw Exception("Sesión no válida")
             apiService.getUserById(targetId).toDomain()
@@ -43,6 +46,7 @@ class UserRepositoryImpl @Inject constructor(
     ): Flow<NetworkResult<User>> = flow {
         val result = safeApiCall {
             val targetId = sessionManager.getUserIdOnce() ?: throw Exception("Sesión no válida")
+            Log.i("USERID",targetId )
             apiService.updateUser(targetId, request).toDomain()
         }
         emit(result)

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -29,7 +30,7 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileViewModel by activityViewModels()
 
     @Inject
     lateinit var imageLoader: ImageLoader
@@ -75,7 +76,7 @@ class ProfileFragment : Fragment() {
             viewModel.logout()
         }
         binding.btnEdit.setOnClickListener {
-
+            EditProfileBottomSheet().show(childFragmentManager, "edit_profile")
         }
     }
 
@@ -121,12 +122,22 @@ class ProfileFragment : Fragment() {
     private fun showUserData(user: User) {
         binding.shimmerContainer.stopShimmer()
         binding.shimmerContainer.visibility = View.GONE
-        realViews.forEach { it.visibility = View.VISIBLE }
-
-        imageLoader.loadIcon(binding.ivAvatar, user.avatarUrl)
-        imageLoader.extractDominantColor(user.avatarUrl){binding.ivBanner.setBackgroundColor(it)}
 
         binding.tvUsername.text = user.username
+
+        imageLoader.loadIconNoCache(
+            view = binding.ivAvatar,
+            url = user.avatarUrl,
+            onReady = {
+                binding.shimmerContainer.stopShimmer()
+                binding.shimmerContainer.visibility = View.GONE
+                realViews.forEach { it.visibility = View.VISIBLE }
+            }
+        )
+
+        imageLoader.extractDominantColor(user.avatarUrl) {
+            binding.ivBanner.setBackgroundColor(it)
+        }
     }
 
     private fun navigateToSplash() {
