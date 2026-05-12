@@ -1,223 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/bg_app_dialog"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="0dp"
-    app:strokeWidth="0dp">
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/bg_app_dialog"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
 
-        <!-- Banner -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/iv_banner"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:background="@color/bg_banner"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <!-- Botón Guardar -->
-            <LinearLayout
-                android:id="@+id/btn_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="@drawable/shape_pill_button"
-                android:backgroundTint="@color/btn_primary"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp"
-                android:clickable="true"
-                android:focusable="true"
+            <!-- Banner -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/iv_banner"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:background="@color/bg_banner"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-                android:elevation="6dp">
-
-                <ImageView
-                    android:id="@+id/ic_save"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_save"
-                    android:contentDescription="Guardar"
-                    app:tint="@color/ic_default" />
-
-                <TextView
-                    android:id="@+id/tv_save"
+                <!-- Botón Guardar -->
+                <LinearLayout
+                    android:id="@+id/btn_save"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:text="Guardar"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/ic_default" />
+                    android:layout_margin="16dp"
+                    android:background="@drawable/shape_pill_button"
+                    android:backgroundTint="@color/btn_primary"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
 
-            </LinearLayout>
+                    android:elevation="6dp">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/ic_save"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_save"
+                        android:contentDescription="Guardar"
+                        app:tint="@color/ic_default" />
 
-        <!-- Avatar container -->
-        <FrameLayout
-            android:id="@+id/fl_avatar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="-50dp"
-            android:background="@drawable/bg_avatar_circle"
-            android:padding="6dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_banner">
+                    <TextView
+                        android:id="@+id/tv_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="Guardar"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/ic_default" />
 
-            <ImageView
-                android:id="@+id/iv_avatar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                tools:src="@drawable/ic_user"/>
+                </LinearLayout>
 
-            <!-- Lápiz editar avatar -->
-            <ImageView
-                android:id="@+id/iv_edit_avatar"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="top|end"
-                android:background="@drawable/bg_edit_icon_circle"
-                android:padding="3dp"
-                android:src="@drawable/ic_edit"
-                app:tint="@color/ic_default"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </FrameLayout>
+            <!-- Avatar container -->
+            <FrameLayout
+                android:id="@+id/fl_avatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-50dp"
+                android:background="@drawable/bg_avatar_circle"
+                android:padding="6dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_banner">
 
-        <!-- Nombre actual -->
-        <TextView
-            android:id="@+id/tv_username"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="16dp"
-            android:textColor="#FFF"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            tools:text="Maya Rodriguez"
-            app:layout_constraintStart_toEndOf="@id/fl_avatar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_banner"
-            app:layout_constraintBottom_toBottomOf="@id/fl_avatar" />
+                <ImageView
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/ic_user"/>
 
-        <!-- Card campos edición -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_edit_fields"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/bg_edit_fields_card"
-            android:padding="16dp"
-            app:layout_constraintTop_toBottomOf="@id/fl_avatar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+                <!-- Lápiz editar avatar -->
+                <ImageView
+                    android:id="@+id/iv_edit_avatar"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="top|end"
+                    android:background="@drawable/bg_edit_icon_circle"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_edit"
+                    app:tint="@color/ic_default"/>
 
-            <!-- Label Nombre -->
+            </FrameLayout>
+
+            <!-- Nombre actual -->
             <TextView
-                android:id="@+id/tv_label_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nombre"
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <!-- EditText Nombre -->
-            <EditText
-                android:id="@+id/et_name"
+                android:id="@+id/tv_username"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/bg_edit_field"
-                android:inputType="textPersonName|textCapWords"
-                android:padding="12dp"
-                android:singleLine="true"
-                android:hint="Tu nombre"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_hint"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <!-- Label Bio -->
-            <TextView
-                android:id="@+id/tv_label_bio"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Bio"
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@id/et_name"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-            <EditText
-                android:id="@+id/et_bio"
-                android:layout_width="match_parent"
-                android:layout_height="192dp"
-                android:background="@drawable/bg_edit_field"
-                android:gravity="top|start"
-                android:hint="Cuéntanos algo sobre ti..."
-                android:inputType="textMultiLine|textCapSentences"
-                android:padding="12dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_hint"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_bio"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <!-- Label Email -->
-            <TextView
-                android:id="@+id/tv_label_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Email"
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@id/et_bio"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <!-- EditText Email -->
-            <EditText
-                android:id="@+id/et_email"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/bg_edit_field"
-                android:inputType="textEmailAddress"
-                android:padding="12dp"
-                android:singleLine="true"
-                android:hint="Tu email"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_hint"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_email"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="#FFF"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                tools:text="Maya Rodriguez"
+                app:layout_constraintStart_toEndOf="@id/fl_avatar"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/iv_banner"
+                app:layout_constraintBottom_toBottomOf="@id/fl_avatar" />
+
+            <!-- Card campos edición -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_edit_fields"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_edit_fields_card"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@id/fl_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <!-- Label Nombre -->
+                <TextView
+                    android:id="@+id/tv_label_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <!-- EditText Nombre -->
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_edit_field"
+                    android:inputType="textPersonName|textCapWords"
+                    android:padding="12dp"
+                    android:singleLine="true"
+                    android:hint="Tu nombre"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="15sp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Label Bio -->
+                <TextView
+                    android:id="@+id/tv_label_bio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Bio"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    app:layout_constraintTop_toBottomOf="@id/et_name"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <EditText
+                    android:id="@+id/et_bio"
+                    android:layout_width="match_parent"
+                    android:layout_height="192dp"
+                    android:background="@drawable/bg_edit_field"
+                    android:gravity="top|start"
+                    android:hint="Cuéntanos algo sobre ti..."
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:padding="12dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="15sp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_bio"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- Label Email -->
+                <TextView
+                    android:id="@+id/tv_label_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Email"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    app:layout_constraintTop_toBottomOf="@id/et_bio"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <!-- EditText Email -->
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_edit_field"
+                    android:inputType="textEmailAddress"
+                    android:padding="12dp"
+                    android:singleLine="true"
+                    android:hint="Tu email"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="15sp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_email"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
+</ScrollView>

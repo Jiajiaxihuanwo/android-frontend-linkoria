@@ -9,7 +9,9 @@ fun ConversationResponse.toDomain(): Conversation {
         id = this.id,
         // Convertimos el String del JSON al Enum de Dominio
         type = if (this.type == "CHANNEL") ConversationType.CHANNEL else ConversationType.DM,
-        targetUserId = this.targetUserId,
+        targetId = this.targetId,
+        targetUsername = this.targetUsername,
+        targetIconUrl = this.targetIconUrl,
         channelId = this.channelId
     )
 }

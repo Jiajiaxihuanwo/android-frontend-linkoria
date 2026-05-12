@@ -12,7 +12,7 @@
         <item name="android:textColor">#EDEDED</item>
 
         <item name="cornerRadius">20dp</item>
-        <item name="backgroundTint">@color/primary_blue</item>
+        <item name="backgroundTint">@color/primary_button_background_tint</item>
 
         <item name="rippleColor">#22000000</item>
 

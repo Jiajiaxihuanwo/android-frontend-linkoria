@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.xinlei.frontend.linkoria.app"
-        minSdk = 26
+        minSdk = 34
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"

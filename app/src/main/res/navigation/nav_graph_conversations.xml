@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/DMListFragment"
-        android:name="com.xinlei.frontend.linkoria.app.conversation.ui.DMListFragment"
+        android:name="com.xinlei.frontend.linkoria.app.conversation.ui.dm.DMListFragment"
         android:label="DMListFragment"
         tools:layout="@layout/fragment_dm_list">
         <action
