@@ -43,7 +43,7 @@ class EditProfileBottomSheet : BottomSheetDialogFragment() {
     ) { uri: Uri? ->
         uri?.let {
             selectedAvatarUri = it
-            imageLoader.loadIconNoCache(binding.ivAvatar, selectedAvatarUri.toString(), null)
+            imageLoader.loadIconNoCache(binding.ivAvatar, selectedAvatarUri.toString())
             imageLoader.extractDominantColor(selectedAvatarUri.toString(),{binding.ivBanner.setBackgroundColor(it)})
         }
     }
@@ -166,7 +166,7 @@ class EditProfileBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun showUserData(user: User) {
-        imageLoader.loadIconNoCache(binding.ivAvatar, user.avatarUrl, null)
+        imageLoader.loadIconNoCache(binding.ivAvatar, user.avatarUrl)
         imageLoader.extractDominantColor(user.avatarUrl){binding.ivBanner.setBackgroundColor(it)}
 
         binding.tvUsername.text = user.username

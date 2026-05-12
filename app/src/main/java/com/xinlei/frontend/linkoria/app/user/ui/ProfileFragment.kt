@@ -103,7 +103,7 @@ class ProfileFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.userState.collect { state ->
                     when (state) {
-                        is UiState.Loading -> Unit
+                        is UiState.Loading -> showSkeleton()
                         is UiState.Success -> showUserData(state.data)
                         is UiState.Error -> Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
                         is UiState.Idle -> Unit
@@ -122,17 +122,13 @@ class ProfileFragment : Fragment() {
     private fun showUserData(user: User) {
         binding.shimmerContainer.stopShimmer()
         binding.shimmerContainer.visibility = View.GONE
+        realViews.forEach { it.visibility = View.VISIBLE}
 
         binding.tvUsername.text = user.username
 
         imageLoader.loadIconNoCache(
             view = binding.ivAvatar,
-            url = user.avatarUrl,
-            onReady = {
-                binding.shimmerContainer.stopShimmer()
-                binding.shimmerContainer.visibility = View.GONE
-                realViews.forEach { it.visibility = View.VISIBLE }
-            }
+            url = user.avatarUrl
         )
 
         imageLoader.extractDominantColor(user.avatarUrl) {
