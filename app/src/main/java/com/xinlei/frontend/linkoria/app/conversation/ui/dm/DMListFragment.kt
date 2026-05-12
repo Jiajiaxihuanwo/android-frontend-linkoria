@@ -1,11 +1,10 @@
-package com.xinlei.frontend.linkoria.app.conversation.ui
+package com.xinlei.frontend.linkoria.app.conversation.ui.dm
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.xinlei.frontend.linkoria.app.databinding.FragmentDmListBinding
 
 class DMListFragment : Fragment() {

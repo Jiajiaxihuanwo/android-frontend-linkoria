@@ -5,6 +5,8 @@ import java.util.UUID
 data class Conversation(
     val id: Long,
     val type: ConversationType,
-    val targetUserId: String? = null, // Solo para DMs
+    val targetId: String? = null,           // Solo para Dm
+    val targetUsername: String? = null,     // Solo para Dm
+    val targetIconUrl: String? = null,      // Solo para Dm
     val channelId: Long? = null,    // Solo para canales
 )

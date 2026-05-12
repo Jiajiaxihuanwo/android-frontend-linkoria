@@ -50,7 +50,7 @@ class GlideImageLoader @Inject constructor(
             })
     }
 
-    override fun loadIconNoCache(view: ImageView, url: String) {
+    override fun loadIconNoCache(view: ImageView, url: String?) {
         Glide.with(context)
             .load(url)
             .circleCrop()

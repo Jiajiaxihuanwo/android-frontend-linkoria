@@ -1,62 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="64dp"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
     android:paddingHorizontal="12dp">
 
-    <!-- Avatar con punto de estado -->
-    <FrameLayout
+    <!-- Avatar -->
+    <ImageView
+        android:id="@+id/iv_avatar"
         android:layout_width="40dp"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:background="@drawable/shape_circle"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_circle"
-            android:scaleType="centerCrop" />
+    <!-- Punto de estado -->
+    <View
+        android:id="@+id/v_status_dot"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:background="@drawable/shape_status_dot"
+        app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
+        app:layout_constraintEnd_toEndOf="@id/iv_avatar" />
 
-        <View
-            android:id="@+id/v_status_dot"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_gravity="bottom|end"
-            android:background="@drawable/shape_status_dot" />
-    </FrameLayout>
-
-    <!-- Nombre + último mensaje -->
-    <LinearLayout
+    <!-- Nombre -->
+    <TextView
+        android:id="@+id/tv_username"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_marginEnd="8dp"
+        android:textColor="@color/text_secondary"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_last_message"
+        app:layout_constraintEnd_toStartOf="@id/tv_timestamp"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-        <TextView
-            android:id="@+id/tv_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_primary"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+    <!-- Último mensaje -->
+    <TextView
+        android:id="@+id/tv_last_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/text_secondary"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_timestamp"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
+        app:layout_constraintTop_toBottomOf="@id/tv_username" />
 
-        <TextView
-            android:id="@+id/tv_last_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp" />
-    </LinearLayout>
-
+    <!-- Timestamp -->
     <TextView
         android:id="@+id/tv_timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/text_muted"
-        android:textSize="11sp" />
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_username" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
