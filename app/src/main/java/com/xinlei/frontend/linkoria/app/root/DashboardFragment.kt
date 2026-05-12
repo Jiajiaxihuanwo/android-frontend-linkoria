@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,16 +16,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.xinlei.frontend.linkoria.app.R
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
+import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.FragmentDashboardBinding
 import com.xinlei.frontend.linkoria.app.server.domain.model.Server
 import com.xinlei.frontend.linkoria.app.server.ui.adapter.server.ServersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
+
+    @Inject
+    lateinit var imageLoader: ImageLoader
 
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
@@ -47,17 +57,32 @@ class DashboardFragment : Fragment() {
                 as NavHostFragment
         navController = navHostFragment.navController
 
+        configInsets()
+
         setupRecyclerView()
         setupClickListeners()
         observeUiState()
         viewModel.observerServerList()
     }
 
-    private fun setupRecyclerView() {
-        serversAdapter = ServersAdapter { server ->
-            // 点击服务器，可以导航到服务器详情
-            Toast.makeText(requireContext(), "Entrar: ${server.name}", Toast.LENGTH_SHORT).show()
+    private fun configInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                0
+            )
+            insets
         }
+    }
+
+    private fun setupRecyclerView() {
+        serversAdapter = ServersAdapter(imageLoader) { server ->
+            navController.navigate(R.id.action_DMListFragment_to_channelListFragment)
+        }
+        binding.rvServers.layoutManager = LinearLayoutManager(context)
         binding.rvServers.adapter = serversAdapter
     }
 
@@ -127,11 +152,11 @@ class DashboardFragment : Fragment() {
     }
 
     private fun showServerList(servers: List<Server>) {
-        binding.rvServers.visibility = View.VISIBLE
         serversAdapter.submitList(servers)
 
         if (servers.isEmpty()) {
-            Toast.makeText(requireContext(), "De momento no hay servidor", Toast.LENGTH_SHORT).show()
+            //TODO: cambiar feedback de que no hay servidor
+            Unit
         }
     }
 

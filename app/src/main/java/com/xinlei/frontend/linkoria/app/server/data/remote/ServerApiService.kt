@@ -18,43 +18,43 @@ interface ServerApiService {
 
     // --- Servidores (ServerController) ---
 
-    @POST("api/v1/servers")
+    @POST("servers")
     suspend fun createServer(@Body request: CreateServerRequest): ServerResponse
 
-    @GET("api/v1/servers/{serverId}")
+    @GET("servers/{serverId}")
     suspend fun getServer(@Path("serverId") serverId: Long): ServerResponse
 
-    @GET("api/v1/servers")
+    @GET("servers")
     suspend fun getServers(): List<ServerResponse>
 
-    @PATCH("api/v1/servers/{serverId}")
+    @PATCH("servers/{serverId}")
     suspend fun updateServer(
         @Path("serverId") serverId: Long,
         @Body request: UpdateServerRequest
     ): ServerResponse
 
-    @POST("api/v1/servers/join")
+    @POST("servers/join")
     suspend fun joinServer(@Body request: JoinServerRequest): ServerResponse
 
-    @DELETE("api/v1/servers/{serverId}/leave")
+    @DELETE("servers/{serverId}/leave")
     suspend fun leaveServer(@Path("serverId") serverId: Long)
 
-    @DELETE("api/v1/servers/{serverId}")
+    @DELETE("servers/{serverId}")
     suspend fun deleteServer(@Path("serverId") serverId: Long)
 
 
     // --- Miembros (ServerMemberController) ---
 
-    @GET("api/v1/servers/{serverId}/members")
+    @GET("servers/{serverId}/members")
     suspend fun getServerMembers(@Path("serverId") serverId: Long): List<ServerMemberResponse>
 
-    @DELETE("api/v1/servers/{serverId}/members/{userId}")
+    @DELETE("servers/{serverId}/members/{userId}")
     suspend fun kickMember(
         @Path("serverId") serverId: Long,
         @Path("userId") userId: String
     )
 
-    @PATCH("api/v1/servers/{serverId}/members/{userId}/role")
+    @PATCH("servers/{serverId}/members/{userId}/role")
     suspend fun updateMemberRole(
         @Path("serverId") serverId: Long,
         @Path("userId") userId: String,
