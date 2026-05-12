@@ -23,14 +23,14 @@ class GlideImageLoader @Inject constructor(
     @param:ApplicationContext private val context: Context
 ) : ImageLoader {
 
-    override fun load(view: ImageView, url: String) {
+    override fun load(view: ImageView, url: String?) {
         Glide.with(context)
             .load(url)
             .centerCrop()
             .into(view)
     }
 
-    override fun extractDominantColor(url: String, onColorReady: (Int) -> Unit) {
+    override fun extractDominantColor(url: String?, onColorReady: (Int) -> Unit) {
         val fallbackColor = ContextCompat.getColor(context, R.color.bg_banner)
 
         Glide.with(context)

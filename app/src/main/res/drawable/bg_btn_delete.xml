@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#DA373C" />
-    <corners android:radius="8dp" />
-</shape>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#40FFFFFF"> <!-- Color de la onda (blanco con transparencia) -->
+
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <solid android:color="#DA373C" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+</ripple>
