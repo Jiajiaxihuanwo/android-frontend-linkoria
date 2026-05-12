@@ -22,11 +22,11 @@
       android:pathData="M20,10C20,15.523 15.523,20 10,20C4.477,20 0,15.523 0,10C0,4.477 4.477,0 10,0C15.523,0 20,4.477 20,10Z"
       android:strokeAlpha="0.5"
       android:fillColor="#FFF"
-      android:fillAlpha="0.5"/>
+      android:fillAlpha=".35"/>
   <path
       android:pathData="M14.807,17.011C13.44,17.95 11.784,18.5 10,18.5C8.216,18.5 6.56,17.95 5.193,17.011C4.589,16.596 4.331,15.806 4.682,15.163C5.41,13.83 6.91,13 10,13C13.09,13 14.59,13.83 15.318,15.163C15.669,15.806 15.411,16.596 14.807,17.011Z"
-      android:fillColor="#1C274C"/>
+      android:fillColor="#34363C"/>
   <path
       android:pathData="M10,10C11.657,10 13,8.657 13,7C13,5.343 11.657,4 10,4C8.343,4 7,5.343 7,7C7,8.657 8.343,10 10,10Z"
-      android:fillColor="#1C274C"/>
+      android:fillColor="#34363C"/>
 </vector>
