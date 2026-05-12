@@ -26,24 +26,10 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageButton
-            android:id="@+id/btn_search"
+            android:id="@+id/btn_add_friend"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/ic_search"
-            android:scaleType="centerInside"
-            android:background="@drawable/shape_pill_button"
-            android:contentDescription="Search"
-            app:tint="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/tv_title"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageButton
-            android:id="@+id/btn_add_friend"
-            android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="6dp"
             android:src="@drawable/ic_friend_add"
             android:scaleType="centerInside"
             android:background="@drawable/shape_pill_button"
@@ -51,22 +37,45 @@
             android:contentDescription="Add friend"
             app:tint="@color/white"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
-            app:layout_constraintStart_toEndOf="@id/btn_search"
-            app:layout_constraintEnd_toStartOf="@id/btn_chat_grupal" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <ImageButton
-            android:id="@+id/btn_chat_grupal"
-            android:layout_width="44dp"
+        <LinearLayout
+            android:id="@+id/search_bar"
+            android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/ic_group_chat_foreground"
-            android:scaleType="centerInside"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="12dp"
             android:background="@drawable/shape_pill_button"
-            android:padding="10dp"
-            android:contentDescription="Group chat"
-            app:tint="@color/white"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_add_friend">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_search"
+                android:contentDescription="Search icon"
+                app:tint="@color/white" />
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:background="@null"
+                android:hint="Buscar..."
+                android:textColor="@color/white"
+                android:textColorHint="#80FFFFFF"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                android:singleLine="true" />
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dm_recycler_view"
@@ -76,7 +85,7 @@
             android:clipToPadding="false"
             android:paddingVertical="8dp"
             android:scrollbars="none"
-            app:layout_constraintTop_toBottomOf="@id/btn_search"
+            app:layout_constraintTop_toBottomOf="@id/search_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
