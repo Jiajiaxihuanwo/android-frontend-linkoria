@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:padding="24dp"
+    android:background="@color/bg_chat"
+    tools:context=".server.ui.JoinServerActivity">
+
+    <!-- Back -->
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@color/text_primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Únete a un servidor"
+        android:textColor="@color/text_primary"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Introduce un enlace de invitación para unirte a un servidor existente."
+        android:textColor="@color/text_secondary"
+        android:textAlignment="center"
+        android:textSize="13sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Label -->
+    <TextView
+        android:id="@+id/tv_invite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enlace de invitación"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp"
+        android:letterSpacing="0.08"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Input con icono lupa -->
+    <FrameLayout
+        android:id="@+id/fl_input_container"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_invite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/et_invite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_input"
+            android:hint="Ejemplo: 33F22884AF3C"
+            android:paddingStart="16dp"
+            android:paddingEnd="52dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:textSize="15sp"
+            android:inputType="textUri" />
+
+        <ImageView
+            android:id="@+id/ic_search"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_search"
+            app:tint="@color/text_secondary" />
+
+    </FrameLayout>
+
+    <!-- Preview: icono del servidor -->
+    <ImageView
+        android:id="@+id/img_server_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/bg_circle"
+        android:visibility="gone"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/fl_input_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Preview: nombre del servidor -->
+    <TextView
+        android:id="@+id/tv_server_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/img_server_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Join Button -->
+    <Button
+        android:id="@+id/btn_join_server"
+        style="@style/PrimaryButton"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:text="Unirse al servidor"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:enabled="false"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_server_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

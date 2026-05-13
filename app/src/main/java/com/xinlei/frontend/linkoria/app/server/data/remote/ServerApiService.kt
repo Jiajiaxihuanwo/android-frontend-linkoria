@@ -27,6 +27,11 @@ interface ServerApiService {
     @GET("servers")
     suspend fun getServers(): List<ServerResponse>
 
+    @GET("servers/find/{inviteCode}")
+    suspend fun findServer(
+        @Path("inviteCode") inviteCode: String
+    ): ServerResponse
+
     @PATCH("servers/{serverId}")
     suspend fun updateServer(
         @Path("serverId") serverId: Long,

@@ -17,15 +17,23 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityChatBinding.inflate(layoutInflater)
-        overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.slide_in_right, R.anim.static_on)
+        overrideActivityTransition()
+        setContentView(binding.root)
+
+        configInsets()
+    }
+
+    private fun overrideActivityTransition() {
+        overrideActivityTransition(
+            OVERRIDE_TRANSITION_OPEN,
+            R.anim.slide_in_right,
+            R.anim.static_on
+        )
         overrideActivityTransition(
             OVERRIDE_TRANSITION_CLOSE,
             R.anim.static_on,
             R.anim.slide_out_right
         )
-        setContentView(binding.root)
-
-        configInsets()
     }
 
     private fun configInsets() {

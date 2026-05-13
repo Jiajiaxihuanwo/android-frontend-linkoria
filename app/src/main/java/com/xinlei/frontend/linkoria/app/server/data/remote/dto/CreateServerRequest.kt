@@ -1,3 +1,3 @@
 package com.xinlei.frontend.linkoria.app.server.data.remote.dto
 
-data class CreateServerRequest(val name: String)
+data class CreateServerRequest(val name: String, val iconUrl: String?)

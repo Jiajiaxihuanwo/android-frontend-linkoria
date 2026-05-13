@@ -1,9 +1,11 @@
 package com.xinlei.frontend.linkoria.app.root
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
@@ -23,8 +25,11 @@ import com.xinlei.frontend.linkoria.app.R
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.FragmentDashboardBinding
+import com.xinlei.frontend.linkoria.app.databinding.LayoutPopupCreateServerBinding
 import com.xinlei.frontend.linkoria.app.server.domain.model.Server
-import com.xinlei.frontend.linkoria.app.server.ui.adapter.server.ServersAdapter
+import com.xinlei.frontend.linkoria.app.server.ui.CreateServerActivity
+import com.xinlei.frontend.linkoria.app.server.ui.JoinServerActivity
+import com.xinlei.frontend.linkoria.app.server.ui.adapter.server.list.ServersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -88,32 +93,13 @@ class DashboardFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnAddServer.setOnClickListener {
-            showCreateServerDialog()
+            showCreateServerPopup(it)
         }
 
         binding.btnDms.setOnClickListener {
             navController.navigate(R.id.DMListFragment)
         }
     }
-
-    private fun showCreateServerDialog() {
-        val input = android.widget.EditText(requireContext())
-        AlertDialog.Builder(requireContext())
-            .setTitle("Crear un servidor")
-            .setMessage("Introduce el nombre del servidor")
-            .setView(input)
-            .setPositiveButton("Crear") { _, _ ->
-                val serverName = input.text.toString()
-                if (serverName.isNotBlank()) {
-                    viewModel.createSever(serverName)//方法写成变量名
-                } else {
-                    Toast.makeText(requireContext(), "Introduce el nombre del servidor", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton("Cancelar", null)
-            .show()
-    }
-
     private fun observeUiState() {
         observeServerListState()
         observeCreateServerState()
@@ -158,6 +144,33 @@ class DashboardFragment : Fragment() {
             //TODO: cambiar feedback de que no hay servidor
             Unit
         }
+    }
+
+    private fun showCreateServerPopup(anchorView: View) {
+        val popupBinding = LayoutPopupCreateServerBinding.inflate(layoutInflater)
+
+        val popupWindow = PopupWindow(
+            popupBinding.root,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.elevation = 10f
+
+        popupBinding.btnCreate.setOnClickListener {
+            val intent = Intent(activity, CreateServerActivity::class.java)
+            popupWindow.dismiss()
+            requireActivity().startActivity(intent)
+        }
+
+        popupBinding.btnJoin.setOnClickListener {
+            val intent = Intent(activity, JoinServerActivity::class.java)
+            popupWindow.dismiss()
+            requireActivity().startActivity(intent)
+        }
+
+        popupWindow.showAsDropDown(anchorView, anchorView.width, -anchorView.height - 250)
     }
 
     override fun onDestroyView() {

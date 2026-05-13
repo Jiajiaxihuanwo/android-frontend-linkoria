@@ -15,6 +15,13 @@
         android:theme="@style/Theme.Androidfrontendlinkoria"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".server.ui.CreateServerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".server.ui.JoinServerActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
             android:name=".chat.ui.ChatActivity"
             android:exported="false" />
         <activity
@@ -31,7 +38,7 @@
             android:exported="false" />
         <activity
             android:name=".root.MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

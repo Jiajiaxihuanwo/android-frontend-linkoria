@@ -7,9 +7,10 @@ import com.xinlei.frontend.linkoria.app.server.domain.model.ServerRole
 import kotlinx.coroutines.flow.Flow
 
 interface ServerRepository {
-    fun createServer(name: String): Flow<NetworkResult<Server>>
+    fun createServer(name: String, serverIcon: String?): Flow<NetworkResult<Server>>
     fun getServer(serverId: Long): Flow<NetworkResult<Server>>
     fun getJoinedServers(): Flow<NetworkResult<List<Server>>>
+    fun findServer(inviteCode: String): Flow<NetworkResult<Server>>
     fun updateServer(serverId: Long, name: String?, iconUrl: String?): Flow<NetworkResult<Server>>
     fun joinServer(inviteCode: String): Flow<NetworkResult<Server>>
     suspend fun leaveServer(serverId: Long): NetworkResult<Unit>
