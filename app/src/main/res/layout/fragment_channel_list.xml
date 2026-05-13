@@ -1,68 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#36393F">
+    app:shapeAppearanceOverlay="@style/TopLeftRoundedCard"
+    app:cardBackgroundColor="#23272A"
+    app:cardElevation="4dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#202225"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:elevation="4dp">
+        android:layout_height="match_parent"
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/tv_server_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Servers"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="12dp"
-            android:letterSpacing="0.02" />
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/search_bar"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingHorizontal="12dp"
+            android:background="@drawable/shape_pill_button"
+            app:layout_constraintTop_toBottomOf="@id/tv_server_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_invite">
 
-            <ImageButton
-                android:id="@+id/btn_search"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginEnd="12dp"
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:src="@drawable/ic_search"
-                android:scaleType="centerInside"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
-                android:contentDescription="Search" />
+                android:contentDescription="Search icon"
+                app:tint="@color/bg_banner" />
 
-            <ImageButton
-                android:id="@+id/btn_invite"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_invite"
-                android:scaleType="centerInside"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
-                android:contentDescription="Invite members" />
+            <TextView
+                android:id="@+id/btn_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:background="@null"
+                android:text="Buscar canales..."
+                android:textColor="#80FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center_vertical" />
 
         </LinearLayout>
 
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/btn_invite"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_invite"
+            android:scaleType="centerInside"
+            android:background="@drawable/shape_pill_button"
+            android:padding="10dp"
+            android:contentDescription="Invite members"
+            app:layout_constraintTop_toBottomOf="@id/tv_server_name"
+            app:layout_constraintEnd_toStartOf="@id/btn_create_channel" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/channel_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingVertical="8dp"
-        android:scrollbars="none" />
+        <ImageButton
+            android:id="@+id/btn_create_channel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_add_foreground"
+            android:scaleType="centerInside"
+            android:background="@drawable/shape_pill_button"
+            android:contentDescription="Create channel"
+            app:layout_constraintTop_toBottomOf="@id/tv_server_name"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#3A3C40"
+            app:layout_constraintTop_toBottomOf="@id/search_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/channel_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:paddingVertical="8dp"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/item_channel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
