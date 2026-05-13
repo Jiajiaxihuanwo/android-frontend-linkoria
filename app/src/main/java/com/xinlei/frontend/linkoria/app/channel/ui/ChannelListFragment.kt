@@ -1,5 +1,6 @@
 package com.xinlei.frontend.linkoria.app.channel.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,39 +21,46 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ChannelListFragment : Fragment() {
 
-    private var _binding: FragmentChannelListBinding? = null
-    private val binding get() = _binding!!
-
+    private var _binding: FragmentChannelListBinding? = null//搞到xml
+    private val binding get() = _binding!!//搞到东西
     private lateinit var adapter: ChannelAdapter
     private val viewModel: ChannelListViewModel by activityViewModels()
-    private var currentServerId: Long = -1
+
+    private var currentServerId: Long = -1//变量
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentChannelListBinding.inflate(inflater, container, false)
+        _binding = FragmentChannelListBinding.inflate(inflater, container, false)//cargar xml
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecyclerView()
+        val serverId = arguments?.getLong("server_id") ?: -1
+        val serverName = arguments?.getString("server_name") ?: ""
+
+        if (serverId != -1L) {
+            binding.tvServerName.text = serverName
+            currentServerId = serverId
+            setupRecyclerView()
+            observeUiState()
+            viewModel.loadChannels(serverId)
+        } else {
+            binding.tvServerName.text = "Selecciona un servidor"
+        }
         setupClickListeners()
-        observeUiState()
-        observeServerSelection()
     }
 
-    private fun observeServerSelection() {
-        (activity as? ServerSelectionListener)?.getSelectedServer()?.observe(viewLifecycleOwner) { server ->
-            if (server != null && server.id != currentServerId) {
-                currentServerId = server.id
-                binding.tvServerName.text = server.name
-                viewModel.loadChannels(server.id)
-            }
+    private fun setupRecyclerView() {
+        adapter = ChannelAdapter { channel ->
+            Toast.makeText(context, "Abrir canal: ${channel.name}", Toast.LENGTH_SHORT).show()
         }
+        binding.channelRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.channelRecyclerView.adapter = adapter
     }
 
     private fun observeUiState() {
@@ -60,9 +68,12 @@ class ChannelListFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.channelsState.collect { state ->
                     when (state) {
-                        is UiState.Loading -> Unit
-                        is UiState.Success -> adapter.submitList(state.data)
-                        is UiState.Error -> Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+                        is UiState.Success -> {
+                            adapter.submitList(state.data)
+                        }
+                        is UiState.Error -> {
+                            Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+                        }
                         else -> Unit
                     }
                 }
@@ -70,36 +81,40 @@ class ChannelListFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerView() {
-        adapter = ChannelAdapter { channel ->
-            viewModel.selectChannel(channel.id)
-            // 直接在这里处理频道点击，或者通过接口通知 Activity
-            (activity as? OnChannelSelectedListener)?.onChannelSelected(channel)
+    private fun setupClickListeners() {
+//        binding.btnSearch.setOnClickListener {
+//
+//        }
+//
+//        binding.btnInvite.setOnClickListener {
+//
+//        }
+
+        binding.btnCreateChannel.setOnClickListener {
+            showCreateChannelDialog()
         }
-        binding.channelRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.channelRecyclerView.adapter = adapter
     }
 
-    private fun setupClickListeners() {
-        binding.btnSearch.setOnClickListener {
-            Toast.makeText(context, "Search channels", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.btnInvite.setOnClickListener {
-            Toast.makeText(context, "Invite members", Toast.LENGTH_SHORT).show()
-        }
+    private fun showCreateChannelDialog() {
+        val input = android.widget.EditText(requireContext())
+        AlertDialog.Builder(requireContext())
+            .setTitle("Crear canal")
+            .setMessage("Introduce el nombre del canal")
+            .setView(input)
+            .setPositiveButton("Crear") { _, _ ->
+                val channelName = input.text.toString()
+                if (channelName.isNotBlank()) {
+                    viewModel.createChannel(currentServerId, channelName)
+                } else {
+                    Toast.makeText(requireContext(), "Introduce el nombre del canal", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    interface ServerSelectionListener {
-        fun getSelectedServer(): androidx.lifecycle.LiveData<com.xinlei.frontend.linkoria.app.server.domain.model.Server>
-    }
-
-    interface OnChannelSelectedListener {
-        fun onChannelSelected(channel: com.xinlei.frontend.linkoria.app.channel.domain.model.Channel)
     }
 }

@@ -4,19 +4,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.xinlei.frontend.linkoria.app.R
 import com.xinlei.frontend.linkoria.app.channel.domain.model.Channel
 
 class ChannelAdapter(
     private val onChannelClick: (Channel) -> Unit
-) : RecyclerView.Adapter<ChannelAdapter.ChannelViewHolder>() {
+) : ListAdapter<Channel, ChannelAdapter.ChannelViewHolder>(DIFF_CALLBACK) {
 
-    private var channels: List<Channel> = emptyList()
-
-    fun submitList(list: List<Channel>) {
-        channels = list
-        notifyDataSetChanged()
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Channel>() {
+            override fun areItemsTheSame(old: Channel, new: Channel) = old.id == new.id
+            override fun areContentsTheSame(old: Channel, new: Channel) = old == new
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelViewHolder {
@@ -26,10 +28,8 @@ class ChannelAdapter(
     }
 
     override fun onBindViewHolder(holder: ChannelViewHolder, position: Int) {
-        holder.bind(channels[position])
+        holder.bind(getItem(position))
     }
-
-    override fun getItemCount(): Int = channels.size
 
     class ChannelViewHolder(
         itemView: View,
@@ -39,9 +39,7 @@ class ChannelAdapter(
 
         fun bind(channel: Channel) {
             tvChannelName.text = channel.name
-            itemView.setOnClickListener {
-                onChannelClick(channel)
-            }
+            itemView.setOnClickListener { onChannelClick(channel) }
         }
     }
 }
