@@ -22,13 +22,12 @@ class SupabaseStorageDataSource @Inject constructor(
         extension: String = "jpg"
     ): NetworkResult<String> {
         return try {
-            val fullPath = "$path.$extension"
+            val fullPath = "${path}_${System.currentTimeMillis()}.$extension"
 
-            supabaseClient.storage[bucket].upload(fullPath, file.readBytes()) {
-                upsert = true
-            }
+            supabaseClient.storage[bucket].upload(fullPath, file.readBytes())
 
             val publicUrl = supabaseClient.storage[bucket].publicUrl(fullPath)
+            deleteUserIcons(path, fullPath)
             NetworkResult.Success(publicUrl)
         } catch (e: Exception) {
             NetworkResult.Error(null, e.message)
@@ -66,4 +65,19 @@ class SupabaseStorageDataSource @Inject constructor(
         file = file,
         extension = extension
     )
+
+    private suspend fun deleteUserIcons(userId: String, currentFileName: String? = null) {
+        val bucket = supabaseClient.storage[USER_ICONS_BUCKET]
+
+        // Al estar en la raíz, el prefijo es directamente el ID del usuario
+        val files = bucket.list()
+
+        val pathsToDelete = files
+            .map { it.name }
+            .filter { it.startsWith("${userId}_") && it != currentFileName }
+
+        if (pathsToDelete.isNotEmpty()) {
+            bucket.delete(pathsToDelete)
+        }
+    }
 }

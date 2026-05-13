@@ -34,8 +34,9 @@ class ProfileFragment : Fragment() {
 
     @Inject
     lateinit var imageLoader: ImageLoader
-    private val realViews by lazy {
-        listOf(binding.ivAvatar, binding.tvUsername, binding.etDescription)
+
+    private fun getRealViews() = with(binding) {
+        listOf(ivAvatar, tvUsername, etDescription)
     }
 
     override fun onCreateView(
@@ -114,7 +115,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showSkeleton() {
-        realViews.forEach { it.visibility = View.INVISIBLE }
+        getRealViews().forEach { it.visibility = View.INVISIBLE }
         binding.shimmerContainer.visibility = View.VISIBLE
         binding.shimmerContainer.startShimmer()
     }
@@ -122,21 +123,17 @@ class ProfileFragment : Fragment() {
     private fun showUserData(user: User) {
         binding.shimmerContainer.stopShimmer()
         binding.shimmerContainer.visibility = View.GONE
+        getRealViews().forEach { it.visibility = View.VISIBLE}
 
         binding.tvUsername.text = user.username
 
         imageLoader.loadIconNoCache(
             view = binding.ivAvatar,
-            url = user.avatarUrl,
-            onReady = {
-                binding.shimmerContainer.stopShimmer()
-                binding.shimmerContainer.visibility = View.GONE
-                realViews.forEach { it.visibility = View.VISIBLE }
-            }
+            url = user.avatarUrl
         )
 
         imageLoader.extractDominantColor(user.avatarUrl) {
-            binding.ivBanner.setBackgroundColor(it)
+            _binding?.ivBanner?.setBackgroundColor(it)
         }
     }
 

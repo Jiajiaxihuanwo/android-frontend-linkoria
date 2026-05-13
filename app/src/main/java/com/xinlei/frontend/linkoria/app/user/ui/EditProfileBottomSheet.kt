@@ -10,14 +10,18 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.xinlei.frontend.linkoria.app.R
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
@@ -43,7 +47,7 @@ class EditProfileBottomSheet : BottomSheetDialogFragment() {
     ) { uri: Uri? ->
         uri?.let {
             selectedAvatarUri = it
-            imageLoader.loadIconNoCache(binding.ivAvatar, selectedAvatarUri.toString(), null)
+            imageLoader.loadIconNoCache(binding.ivAvatar, selectedAvatarUri.toString())
             imageLoader.extractDominantColor(selectedAvatarUri.toString(),{binding.ivBanner.setBackgroundColor(it)})
         }
     }
@@ -58,6 +62,12 @@ class EditProfileBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            v.setPadding(0, 0, 0, imeHeight)
+            insets
+        }
 
         observeUiState()
         setUpClickListeners()
@@ -166,7 +176,7 @@ class EditProfileBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun showUserData(user: User) {
-        imageLoader.loadIconNoCache(binding.ivAvatar, user.avatarUrl, null)
+        imageLoader.loadIconNoCache(binding.ivAvatar, user.avatarUrl)
         imageLoader.extractDominantColor(user.avatarUrl){binding.ivBanner.setBackgroundColor(it)}
 
         binding.tvUsername.text = user.username

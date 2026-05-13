@@ -21,7 +21,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getUserProfile(): Flow<NetworkResult<User>> = flow {
         emit(NetworkResult.Loading)
-        delay(1500)
+        delay(500)
         val result = safeApiCall {
             val targetId = sessionManager.getUserIdOnce() ?: throw Exception("Sesión no válida")
             apiService.getUserById(targetId).toDomain()
