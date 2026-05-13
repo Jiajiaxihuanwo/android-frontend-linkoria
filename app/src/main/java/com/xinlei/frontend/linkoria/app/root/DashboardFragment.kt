@@ -85,7 +85,11 @@ class DashboardFragment : Fragment() {
 
     private fun setupRecyclerView() {
         serversAdapter = ServersAdapter(imageLoader) { server ->
-            navController.navigate(R.id.action_DMListFragment_to_channelListFragment)
+            val bundle = Bundle().apply {
+                putLong("server_id", server.id)
+                putString("server_name", server.name)
+            }
+            navController.navigate(R.id.channelListFragment, bundle)
         }
         binding.rvServers.layoutManager = LinearLayoutManager(context)
         binding.rvServers.adapter = serversAdapter

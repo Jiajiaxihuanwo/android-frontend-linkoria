@@ -33,6 +33,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".channel.ui.ChannelActivity"
+            android:exported="false" />
         <activity
             android:name=".auth.ui.AuthActivity"
             android:exported="false" />

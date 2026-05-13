@@ -7,7 +7,7 @@ import com.xinlei.frontend.linkoria.app.conversation.domain.model.Conversation
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.ItemDmBinding
 
-class DmListAdapter(
+class   DmListAdapter(
     private val imageLoader: ImageLoader,
     private val onItemClick: (Conversation) -> Unit = {}
 ) : ListAdapter<Conversation, DmViewHolder>(DmDiffCallback()) {
