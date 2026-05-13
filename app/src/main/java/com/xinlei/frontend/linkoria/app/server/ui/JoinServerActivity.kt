@@ -129,7 +129,7 @@ class JoinServerActivity : AppCompatActivity() {
         binding.imgServerIcon.visibility = View.VISIBLE
         binding.tvServerName.visibility = View.VISIBLE
         binding.tvServerName.text = server.name
-        imageLoader.loadIconNoCache(binding.imgServerIcon, server.iconUrl)
+        imageLoader.loadIcon(binding.imgServerIcon, server.iconUrl)
         binding.btnJoinServer.isEnabled = true
     }
 

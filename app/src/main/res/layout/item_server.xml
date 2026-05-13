@@ -8,8 +8,8 @@
         android:id="@+id/iv_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="@drawable/shape_rounded_button"
-        android:contentDescription="Server icon"
+        android:background="@drawable/bg_sidebar_icon"
+        android:clipToOutline="true"
         android:scaleType="centerCrop" />
 
 </FrameLayout>

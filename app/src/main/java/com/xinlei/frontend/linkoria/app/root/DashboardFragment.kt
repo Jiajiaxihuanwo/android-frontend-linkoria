@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xinlei.frontend.linkoria.app.R
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
+import com.xinlei.frontend.linkoria.app.core.util.animateSidebarPress
 import com.xinlei.frontend.linkoria.app.databinding.FragmentDashboardBinding
 import com.xinlei.frontend.linkoria.app.databinding.LayoutPopupCreateServerBinding
 import com.xinlei.frontend.linkoria.app.server.domain.model.Server
@@ -70,6 +71,11 @@ class DashboardFragment : Fragment() {
         viewModel.observerServerList()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.observerServerList()
+    }
+
     private fun configInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -96,10 +102,12 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
+        binding.btnAddServer.animateSidebarPress()
         binding.btnAddServer.setOnClickListener {
             showCreateServerPopup(it)
         }
 
+        binding.btnDms.animateSidebarPress()
         binding.btnDms.setOnClickListener {
             navController.navigate(R.id.DMListFragment)
         }

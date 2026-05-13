@@ -42,7 +42,7 @@ class CreateServerActivity : AppCompatActivity() {
             binding.ivUpload.visibility = View.INVISIBLE
             binding.ivPlus.visibility = View.INVISIBLE
             binding.ivServerIcon.visibility = View.VISIBLE
-            imageLoader.loadIconNoCache(binding.ivServerIcon, selectedAvatarUri.toString())
+            imageLoader.loadIcon(binding.ivServerIcon, selectedAvatarUri.toString())
         }
     }
 

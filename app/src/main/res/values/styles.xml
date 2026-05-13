@@ -75,4 +75,13 @@
         <item name="background">@android:color/transparent</item>
     </style>
 
+    <!-- SidebarIcon -->
+    <style name="SidebarIcon">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/bg_sidebar_icon</item>
+        <item name="android:clickable">true</item>
+        <item name="android:clipToOutline">true</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
 </resources>

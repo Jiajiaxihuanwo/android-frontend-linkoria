@@ -9,7 +9,7 @@
     <!-- SIDEBAR -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sidebar_container"
-        android:layout_width="72dp"
+        android:layout_width="80dp"
         android:layout_height="0dp"
         android:background="@color/bg_sidebar"
         android:paddingVertical="12dp"

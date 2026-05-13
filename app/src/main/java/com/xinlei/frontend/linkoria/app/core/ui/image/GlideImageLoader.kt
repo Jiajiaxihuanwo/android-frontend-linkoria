@@ -2,32 +2,38 @@ package com.xinlei.frontend.linkoria.app.core.ui.image
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.xinlei.frontend.linkoria.app.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import androidx.core.graphics.createBitmap
 
 class GlideImageLoader @Inject constructor(
     @param:ApplicationContext private val context: Context
 ) : ImageLoader {
 
-    override fun load(view: ImageView, url: String?) {
-        Glide.with(context)
-            .load(url)
-            .centerCrop()
-            .into(view)
+    override fun load(view: ImageView, url: String?, fallbackName: String?) {
+        if (url != null) {
+            Glide.with(context)
+                .load(url)
+                .centerCrop()
+                .into(view)
+        } else if (fallbackName != null) {
+            Glide.with(context)
+                .load(createLetterBitmap(fallbackName))
+                .centerCrop()
+                .into(view)
+        }
     }
 
     override fun extractDominantColor(url: String?, onColorReady: (Int) -> Unit) {
@@ -50,7 +56,7 @@ class GlideImageLoader @Inject constructor(
             })
     }
 
-    override fun loadIconNoCache(view: ImageView, url: String?) {
+    override fun loadIcon(view: ImageView, url: String?) {
         Glide.with(context)
             .load(url)
             .circleCrop()
@@ -63,5 +69,25 @@ class GlideImageLoader @Inject constructor(
         val g = (Color.green(this) + (255 - Color.green(this)) * factor).toInt()
         val b = (Color.blue(this) + (255 - Color.blue(this)) * factor).toInt()
         return Color.rgb(r, g, b)
+    }
+
+    private fun createLetterBitmap(name: String): Bitmap {
+        val letter = name.firstOrNull()?.uppercaseChar()?.toString() ?: "?"
+        val size = context.resources.getDimensionPixelSize(R.dimen.server_icon_size)
+
+        val bitmap = createBitmap(size, size)
+        val canvas = Canvas(bitmap)
+
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = ContextCompat.getColor(context, R.color.text_secondary)
+            textSize = size * 0.35f
+            textAlign = Paint.Align.CENTER
+        }
+
+        val x = size / 2f
+        val y = size / 2f - (paint.descent() + paint.ascent()) / 2f
+        canvas.drawText(letter, x, y, paint)
+
+        return bitmap
     }
 }

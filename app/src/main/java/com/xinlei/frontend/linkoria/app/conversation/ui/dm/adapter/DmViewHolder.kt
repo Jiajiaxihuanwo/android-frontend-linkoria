@@ -12,6 +12,6 @@ class DmViewHolder (
         fun bind(conversation: Conversation, onItemClick: (Conversation) -> Unit) {
             binding.root.setOnClickListener { onItemClick(conversation) }
             binding.tvUsername.text = conversation.targetUsername
-            imageLoader.loadIconNoCache(binding.ivAvatar, conversation.targetIconUrl)
+            imageLoader.loadIcon(binding.ivAvatar, conversation.targetIconUrl)
         }
 }
