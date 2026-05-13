@@ -1,5 +1,6 @@
 package com.xinlei.frontend.linkoria.app.core.storage
 
+import android.util.Log
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.storage.storage
@@ -27,9 +28,10 @@ class SupabaseStorageDataSource @Inject constructor(
             supabaseClient.storage[bucket].upload(fullPath, file.readBytes())
 
             val publicUrl = supabaseClient.storage[bucket].publicUrl(fullPath)
-            deleteUserIcons(path, fullPath)
+            deletePreviousFiles(bucket, path, fullPath)
             NetworkResult.Success(publicUrl)
         } catch (e: Exception) {
+            Log.e("error", e.printStackTrace().toString())
             NetworkResult.Error(null, e.message)
         } finally {
             // Limpia el archivo temporal independientemente del resultado
@@ -48,17 +50,10 @@ class SupabaseStorageDataSource @Inject constructor(
         extension = extension
     )
 
-    /**
-     * Sube el icono de un servidor al bucket correspondiente.
-     *
-     * @param file      Archivo temporal generado por [UriToFileConverter].
-     * @param serverId  ID del servidor, usado como nombre de archivo.
-     * @param extension Extensión real del archivo (ej: "jpg", "png").
-     */
     suspend fun uploadServerIcon(
         file: File,
         serverId: String,
-        extension: String
+        extension: String = "jpg"
     ): NetworkResult<String> = uploadFile(
         bucket = SERVER_ICONS_BUCKET,
         path = serverId,
@@ -66,18 +61,14 @@ class SupabaseStorageDataSource @Inject constructor(
         extension = extension
     )
 
-    private suspend fun deleteUserIcons(userId: String, currentFileName: String? = null) {
-        val bucket = supabaseClient.storage[USER_ICONS_BUCKET]
-
-        // Al estar en la raíz, el prefijo es directamente el ID del usuario
-        val files = bucket.list()
-
-        val pathsToDelete = files
+    private suspend fun deletePreviousFiles(bucket: String, prefix: String, currentFileName: String) {
+        val storageBucket = supabaseClient.storage[bucket]
+        val pathsToDelete = storageBucket.list()
             .map { it.name }
-            .filter { it.startsWith("${userId}_") && it != currentFileName }
+            .filter { it.startsWith("${prefix}_") && it != currentFileName }
 
         if (pathsToDelete.isNotEmpty()) {
-            bucket.delete(pathsToDelete)
+            storageBucket.delete(pathsToDelete)
         }
     }
 }

@@ -70,8 +70,8 @@ class AuthRepositoryImpl @Inject constructor(
             accessToken = response.accessToken,
             refreshToken = response.refreshToken,
             refreshTokenExpiresAt = expiresAtMs,
-            userId = null,
-            username = null
+            userId = tokenDataStore.userId.firstOrNull(),
+            username = tokenDataStore.username.firstOrNull()
         )
     }
 

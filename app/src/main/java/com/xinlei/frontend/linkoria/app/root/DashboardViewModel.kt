@@ -23,26 +23,6 @@ class DashboardViewModel @Inject constructor(
     private val _createServerState = MutableStateFlow<UiState<Server>>(UiState.Idle)
     val createServerState = _createServerState.asStateFlow()
 
-
-    fun createSever(serverName : String){
-        viewModelScope.launch {
-            createServerUseCase(serverName).collect { result ->
-                when(result) {
-                    is NetworkResult.Success -> {
-                        result.data
-                        _createServerState.value = UiState.Success(result.data)
-                        observerServerList()
-                    }
-                    is NetworkResult.Error -> {
-                        _createServerState.value = UiState.Error(result.message?: "Error al crear un nuevo servidor")
-                    }
-
-                    else -> Unit
-                }
-            }
-        }
-    }
-
     fun observerServerList() {
         viewModelScope.launch {
             _serverListState.value = UiState.Loading

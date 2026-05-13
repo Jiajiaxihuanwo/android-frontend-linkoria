@@ -30,6 +30,11 @@ class ServerRepositoryImpl @Inject constructor(
         emit(safeApiCall { api.getServers().map { it.toDomain() } })
     }
 
+    override fun findServer(inviteCode: String): Flow<NetworkResult<Server>> = flow {
+        emit(NetworkResult.Loading)
+        emit(safeApiCall { api.findServer(inviteCode).toDomain() })
+    }
+
     override fun updateServer(
         serverId: Long,
         name: String?,
@@ -40,9 +45,9 @@ class ServerRepositoryImpl @Inject constructor(
         emit(safeApiCall { api.updateServer(serverId, request).toDomain() })
     }
 
-    override fun createServer(name: String): Flow<NetworkResult<Server>> = flow {
+    override fun createServer(name: String, serverIcon: String?): Flow<NetworkResult<Server>> = flow {
         emit(NetworkResult.Loading)
-        emit(safeApiCall { api.createServer(CreateServerRequest(name)).toDomain() })
+        emit(safeApiCall { api.createServer(CreateServerRequest(name, serverIcon)).toDomain() })
     }
 
     override fun joinServer(inviteCode: String): Flow<NetworkResult<Server>> = flow {

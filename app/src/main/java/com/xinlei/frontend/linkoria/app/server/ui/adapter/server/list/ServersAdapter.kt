@@ -1,12 +1,12 @@
-package com.xinlei.frontend.linkoria.app.server.ui.adapter.server
+package com.xinlei.frontend.linkoria.app.server.ui.adapter.server.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.xinlei.frontend.linkoria.app.R
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.ItemServerBinding
 import com.xinlei.frontend.linkoria.app.server.domain.model.Server
+import com.xinlei.frontend.linkoria.app.server.ui.adapter.server.list.ServerViewHolder
 
 class ServersAdapter(
     private val imageLoader: ImageLoader,
