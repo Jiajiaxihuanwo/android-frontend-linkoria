@@ -109,7 +109,8 @@ class EditProfileBottomSheet : BottomSheetDialogFragment() {
             viewModel.updateProfile(
                 username = binding.etName.text.toString(),
                 email = binding.etEmail.text.toString(),
-                avatarUri = selectedAvatarUri
+                avatarUri = selectedAvatarUri,
+                bio = binding.etBio.text.toString(),
             )
         }
     }

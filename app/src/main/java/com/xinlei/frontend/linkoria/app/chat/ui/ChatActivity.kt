@@ -1,28 +1,38 @@
 package com.xinlei.frontend.linkoria.app.chat.ui
 
-import android.content.Intent
+import android.app.Dialog
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.xinlei.frontend.linkoria.app.R
-import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
+import com.xinlei.frontend.linkoria.app.channel.domain.model.Channel
+import com.xinlei.frontend.linkoria.app.conversation.ui.dm.friendprofile.FriendProfile
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.databinding.ActivityChatBinding
+import com.xinlei.frontend.linkoria.app.user.domain.model.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
 
     private var _binding: ActivityChatBinding? = null
     private val binding get() = _binding!!
-    private var otherUserId: String? = null
+
     private val viewModel: ChatViewModel by viewModels()
+
+    private var chatType: String? = null
+    private var targetId: String? = null
     private var currentAvatarUrl: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,74 +43,98 @@ class ChatActivity : AppCompatActivity() {
 
         configInsets()
         setupClickListeners()
+        initChat()
+    }
 
-        otherUserId = intent.getStringExtra("extra_user_id")
+    private fun initChat() {
+        chatType = intent.getStringExtra(EXTRA_CHAT_TYPE)
 
-        otherUserId?.let {
-            viewModel.loadUserProfile(it)
-            observeUserData()
+        when (chatType) {
+            TYPE_DM -> {
+                val conversationId = intent.getLongExtra(EXTRA_CONVERSATION_ID, -1L)
+                targetId = intent.getStringExtra(EXTRA_TARGET_ID)
+                if (conversationId != -1L && !targetId.isNullOrEmpty()) {
+                    viewModel.initDmChat(conversationId, targetId!!)
+                    observeDmState()
+                }
+            }
+            TYPE_CHANNEL -> {
+                val serverId = intent.getLongExtra(EXTRA_SERVER_ID, -1L)
+                val channelId = intent.getLongExtra(EXTRA_CHANNEL_ID, -1L)
+                if (serverId != -1L && channelId != -1L) {
+                    viewModel.initChannelChat(serverId, channelId)
+                    observeChannelState()
+                }
+                binding.ivAvatar.visibility = View.GONE
+                binding.icChannel.visibility = View.VISIBLE
+            }
         }
     }
 
-    private fun observeUserData() {
+    private fun observeDmState() {
         lifecycleScope.launch {
-            viewModel.friendProfileState.collect { state ->
-                when (state) {
-                    is UiState.Loading -> {
-                        binding.tvUsername.text = "Cargando..."
-                        binding.ivAvatar.setImageResource(R.drawable.ic_user)
-                    }
-                    is UiState.Success -> {
-                        val user = state.data
-                        if (user != null) {
-
-                            binding.tvUsername.text = user.username
-
-                            if (user.avatarUrl.isNotEmpty()) {
-                                loadAvatarWithGlide(user.avatarUrl)
-
-                                currentAvatarUrl = user.avatarUrl
-                            }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.dmState.collect { state ->
+                    when (state) {
+                        is UiState.Loading -> {
+                            binding.tvUsername.text = "Cargando..."
+                            binding.ivAvatar.setImageResource(R.drawable.ic_user)
                         }
-                    }
-                    is UiState.Error -> {
-                        binding.tvUsername.text = "Error"
-                        binding.ivAvatar.setImageResource(R.drawable.ic_user)
-                        Toast.makeText(this@ChatActivity, state.message ?: "加载用户信息失败", Toast.LENGTH_SHORT).show()
-                    }
-                    UiState.Idle -> {
-
+                        is UiState.Success -> state.data?.let { renderDmToolbar(it) }
+                        is UiState.Error -> {
+                            binding.tvUsername.text = "Error"
+                            binding.ivAvatar.setImageResource(R.drawable.ic_user)
+                            Toast.makeText(this@ChatActivity, state.message, Toast.LENGTH_SHORT).show()
+                        }
+                        else -> Unit
                     }
                 }
             }
         }
     }
 
-    private fun loadAvatarWithGlide(avatarUrl: String) {
-        Glide.with(this)
-            .load(avatarUrl)
-            .placeholder(R.drawable.ic_user)
-            .error(R.drawable.ic_user)
-            .circleCrop()
-            .into(binding.ivAvatar)
+    private fun observeChannelState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.channelState.collect { state ->
+                    when (state) {
+                        is UiState.Loading -> binding.tvUsername.text = "Cargando..."
+                        is UiState.Success -> renderChannelToolbar(state.data)
+                        is UiState.Error -> {
+                            binding.tvUsername.text = "Error"
+                            Toast.makeText(this@ChatActivity, state.message, Toast.LENGTH_SHORT).show()
+                        }
+                        else -> Unit
+                    }
+                }
+            }
+        }
+    }
+
+    private fun renderDmToolbar(user: User) {
+        binding.tvUsername.text = user.username
+        if (!user.avatarUrl.isNullOrEmpty()) {
+            currentAvatarUrl = user.avatarUrl
+            Glide.with(this)
+                .load(user.avatarUrl)
+                .placeholder(R.drawable.ic_user)
+                .error(R.drawable.ic_user)
+                .circleCrop()
+                .into(binding.ivAvatar)
+        }
+    }
+
+    private fun renderChannelToolbar(channel: Channel) {
+        binding.tvUsername.text = channel.name
     }
 
     private fun setupClickListeners() {
-        binding.ivArrowBack.setOnClickListener {
-            navigateToMain()
-        }
+        binding.ivArrowBack.setOnClickListener { finish() }
 
-        binding.ivAvatar.setOnClickListener {
-            showZoomedImage()
-        }
+        binding.ivAvatar.setOnClickListener { showZoomedImage() }
 
-        binding.tvUsername.setOnClickListener {
-            openFriendProfile()
-        }
-
-        binding.ivMore.setOnClickListener {
-            openFriendProfile()
-        }
+        binding.tvUsername.setOnClickListener { openFriendProfile() }
+        binding.ivMore.setOnClickListener { openFriendProfile() }
 
         binding.btnSend.setOnClickListener {
             val messageText = binding.etMessage.text.toString().trim()
@@ -109,52 +143,52 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnCamera.setOnClickListener {
-        }
-    }
-
-    private fun navigateToMain() {
-        finish()
+        binding.btnCamera.setOnClickListener { }
     }
 
     private fun openFriendProfile() {
-        if (otherUserId.isNullOrEmpty()) {
+        if (chatType != TYPE_DM || targetId.isNullOrEmpty()) return
+        val intent = android.content.Intent(this, FriendProfile::class.java).apply {
+            putExtra("extra_user_id", targetId)
+        }
+        startActivity(intent)
+    }
+
+    private fun showZoomedImage() {
+        if (currentAvatarUrl.isNullOrEmpty()) {
+            Toast.makeText(this, "No hay foto de perfil", Toast.LENGTH_SHORT).show()
             return
         }
 
-        try {
-            val intent = Intent(this, Class.forName("com.xinlei.frontend.linkoria.app.conversation.ui.dm.friendprofile.FriendProfile")).apply {
-                putExtra("extra_user_id", otherUserId)
-            }
-            startActivity(intent)
-        } catch (e: ClassNotFoundException) {
-            android.util.Log.e("ChatActivity", "FriendProfile not found", e)
-            Toast.makeText(this, "No ha podido abrir", Toast.LENGTH_SHORT).show()
+        val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        val imageView = AppCompatImageView(this).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
         }
+
+        Glide.with(this)
+            .load(currentAvatarUrl)
+            .placeholder(R.drawable.ic_user)
+            .error(R.drawable.ic_user)
+            .into(imageView)
+
+        dialog.setContentView(imageView)
+        dialog.show()
+        imageView.setOnClickListener { dialog.dismiss() }
     }
 
     private fun overrideActivityTransition() {
-        overrideActivityTransition(
-            OVERRIDE_TRANSITION_OPEN,
-            R.anim.slide_in_right,
-            R.anim.static_on
-        )
-        overrideActivityTransition(
-            OVERRIDE_TRANSITION_CLOSE,
-            R.anim.static_on,
-            R.anim.slide_out_right
-        )
+        overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.slide_in_right, R.anim.static_on)
+        overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.static_on, R.anim.slide_out_right)
     }
 
     private fun configInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
-            )
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
     }
@@ -164,34 +198,14 @@ class ChatActivity : AppCompatActivity() {
         _binding = null
     }
 
-    // Dialog foto
-    private fun showZoomedImage() {
-        val imageUrl = currentAvatarUrl
+    companion object {
+        const val EXTRA_CHAT_TYPE = "extra_chat_type"
+        const val EXTRA_CONVERSATION_ID = "extra_conversation_id"
+        const val EXTRA_TARGET_ID = "extra_target_id"
+        const val EXTRA_SERVER_ID = "extra_server_id"
+        const val EXTRA_CHANNEL_ID = "extra_channel_id"
 
-        if (imageUrl.isNullOrEmpty()) {
-            Toast.makeText(this, "No hay foto perfil", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val dialog = android.app.Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-        val imageView = androidx.appcompat.widget.AppCompatImageView(this)
-        imageView.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        imageView.scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
-
-        Glide.with(this)
-            .load(imageUrl)
-            .placeholder(R.drawable.ic_user)
-            .error(R.drawable.ic_user)
-            .into(imageView)
-
-        dialog.setContentView(imageView)
-        dialog.show()
-
-        imageView.setOnClickListener {
-            dialog.dismiss()
-        }
+        const val TYPE_DM = "type_dm"
+        const val TYPE_CHANNEL = "type_channel"
     }
 }

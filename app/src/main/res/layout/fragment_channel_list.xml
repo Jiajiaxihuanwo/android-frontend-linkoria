@@ -18,11 +18,26 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Servers"
+            android:paddingHorizontal="10dp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_invite" />
+
+        <ImageButton
+            android:id="@+id/btn_invite"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_invite"
+            android:scaleType="centerInside"
+            android:background="@drawable/shape_pill_button"
+            android:padding="10dp"
+            android:contentDescription="Invite members"
+            app:layout_constraintTop_toTopOf="@id/search_bar"
+            app:layout_constraintBottom_toBottomOf="@id/search_bar"
+            android:layout_marginHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <LinearLayout
@@ -30,10 +45,10 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingHorizontal="12dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/shape_pill_button"
             app:layout_constraintTop_toBottomOf="@id/tv_server_name"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,46 +61,24 @@
                 android:contentDescription="Search icon"
                 app:tint="@color/bg_banner" />
 
-            <TextView
+            <EditText
                 android:id="@+id/btn_search"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:background="@null"
-                android:text="Buscar canales..."
-                android:textColor="#80FFFFFF"
+                android:hint="Buscar canales..."
+                android:textColorHint="#80FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                android:maxLines="1" />
 
         </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/btn_invite"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_invite"
-            android:scaleType="centerInside"
-            android:background="@drawable/shape_pill_button"
-            android:padding="10dp"
-            android:contentDescription="Invite members"
-            app:layout_constraintTop_toBottomOf="@id/tv_server_name"
-            app:layout_constraintEnd_toStartOf="@id/btn_create_channel" />
-
-        <ImageButton
-            android:id="@+id/btn_create_channel"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_add_foreground"
-            android:scaleType="centerInside"
-            android:background="@drawable/shape_pill_button"
-            android:contentDescription="Create channel"
-            app:layout_constraintTop_toBottomOf="@id/tv_server_name"
-            app:layout_constraintEnd_toEndOf="parent" />
 
         <View
             android:id="@+id/divider"
@@ -104,12 +97,26 @@
             android:layout_marginTop="8dp"
             android:clipToPadding="false"
             android:paddingVertical="8dp"
+            android:paddingBottom="72dp"
             android:scrollbars="none"
             app:layout_constraintTop_toBottomOf="@id/divider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:listitem="@layout/item_channel" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_create_channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_channel_add"
+            app:backgroundTint="@color/btn_secondary"
+            app:tint="@color/text_secondary"
+            app:fabSize="normal"
+            app:maxImageSize="36dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

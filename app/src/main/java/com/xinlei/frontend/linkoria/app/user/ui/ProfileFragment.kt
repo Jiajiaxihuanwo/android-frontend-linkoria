@@ -3,6 +3,7 @@ package com.xinlei.frontend.linkoria.app.user.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -37,7 +38,7 @@ class ProfileFragment : Fragment() {
     lateinit var profileNavigator: ProfileNavigator
 
     private fun getRealViews() = with(binding) {
-        listOf(ivAvatar, tvUsername, etDescription)
+        listOf(ivAvatar, tvUsername, tvDescription)
     }
 
     override fun onCreateView(
@@ -54,19 +55,23 @@ class ProfileFragment : Fragment() {
         viewModel.loadProfile()
         observeUiState()
         setupClickListeners()
-        setUpEditTextScroll()
+        setUpBioTextScroll()
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setUpEditTextScroll() {
-        binding.etDescription.setOnTouchListener { v, event ->
-            if (v.canScrollVertically(1) || v.canScrollVertically(-1)) {
-                v.parent.requestDisallowInterceptTouchEvent(true)
-            }
+    private fun setUpBioTextScroll() {
+        binding.tvDescription.movementMethod = ScrollingMovementMethod()
+        binding.tvDescription.setOnTouchListener { v, event ->
+            val canScroll = v.canScrollVertically(1) || v.canScrollVertically(-1)
 
-            if (event.action == MotionEvent.ACTION_UP) {
-                v.parent.requestDisallowInterceptTouchEvent(false)
-                v.performClick()
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    v.parent.requestDisallowInterceptTouchEvent(canScroll)
+                }
+                MotionEvent.ACTION_UP -> {
+                    v.parent.requestDisallowInterceptTouchEvent(false)
+                    v.performClick()
+                }
             }
 
             false
@@ -130,6 +135,8 @@ class ProfileFragment : Fragment() {
         getRealViews().forEach { it.visibility = View.VISIBLE}
 
         binding.tvUsername.text = user.username
+
+        binding.tvDescription.text = user.bio
 
         imageLoader.loadIcon(
             view = binding.ivAvatar,

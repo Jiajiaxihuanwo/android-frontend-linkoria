@@ -72,14 +72,13 @@
 
         <!-- Descripción -->
 
-        <EditText
-            android:id="@+id/et_description"
+        <TextView
+            android:id="@+id/tv_description"
             android:layout_width="0dp"
             android:layout_height="220dp"
             android:background="@drawable/bg_profile_elements"
             android:gravity="top|start"
-            android:hint="Aquí va la descripción del usuario..."
-            android:inputType="textMultiLine|textCapSentences"
+            android:hint="Empieza a escribir tu biografía..."
             android:lineSpacingExtra="4dp"
             android:layout_marginTop="12dp"
             android:padding="16dp"
@@ -88,6 +87,7 @@
             android:textSize="15sp"
             android:scrollbars="vertical"
             android:overScrollMode="always"
+            android:nestedScrollingEnabled="true"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/tv_username"/>
@@ -102,7 +102,7 @@
             android:background="#2B2D31"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_description" />
+            app:layout_constraintTop_toBottomOf="@id/tv_description" />
 
         <LinearLayout
             android:id="@+id/btn_friends"

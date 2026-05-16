@@ -42,6 +42,12 @@
     <color name="btn_success">#57F287</color>
     <color name="btn_disabled">#66A8A8A8</color>
 
+    <color name="btn_secondary_border">#1E40AF</color>
+    <color name="btn_secondary_fill">#F0F4FF</color>
+
+    <color name="btn_accent_border">#A21CAF</color>
+    <color name="btn_accent_fill">#FDF4FF</color>
+
     <!-- Textos -->
     <color name="text_primary">#EDEDED</color>
     <color name="text_secondary">#B5BAC1</color>
@@ -51,6 +57,8 @@
 
     <!-- Custom colors needed by styles/themes -->
     <color name="primary_blue">#5865F2</color>
+    <color name="secondary_blue">#93C5FD</color>
+    <color name="accent_magenta">#F472B6</color>
     <color name="dark_gray">#313338</color>
     <color name="purple_700">#3700B3</color>
     <color name="white">#FFFFFF</color>

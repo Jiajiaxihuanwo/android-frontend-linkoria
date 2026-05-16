@@ -63,10 +63,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun updateProfile(username: String? = null, email: String? = null, avatarUri: Uri? = null) {
+    fun updateProfile(username: String? = null, email: String? = null, avatarUri: Uri? = null, bio: String? = null) {
         viewModelScope.launch {
             val oldData = (_userState.value as? UiState.Success)?.data
-            updateUserUseCase(username = username, email = email, avatarUri = avatarUri).collect { result ->
+            updateUserUseCase(username = username, email = email, avatarUri = avatarUri, bio = bio).collect { result ->
                 when(result) {
                     is NetworkResult.Success -> {
                         val user = result.data.copy(

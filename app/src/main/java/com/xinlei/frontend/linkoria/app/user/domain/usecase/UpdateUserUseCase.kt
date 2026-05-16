@@ -26,7 +26,8 @@ class UpdateUserUseCase @Inject constructor(
     operator fun invoke(
         username: String? = null,
         email: String? = null,
-        avatarUri: Uri? = null
+        avatarUri: Uri? = null,
+        bio: String? = null,
     ): Flow<NetworkResult<User>> = flow {
         emit(NetworkResult.Loading)
 
@@ -59,7 +60,8 @@ class UpdateUserUseCase @Inject constructor(
                 UpdateUserRequest(
                     username = username,
                     email = email,
-                    avatarUrl = resolvedAvatarUrl
+                    avatarUrl = resolvedAvatarUrl,
+                    bio = bio,
                 )
             )
         )
