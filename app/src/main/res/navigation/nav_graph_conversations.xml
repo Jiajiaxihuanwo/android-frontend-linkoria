@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_conversations"
-    app:startDestination="@id/channelListFragment">
+    app:startDestination="@id/DMListFragment">
 
     <fragment
         android:id="@+id/channelListFragment"
@@ -11,7 +11,6 @@
         android:label="ChannelListFragment"
         tools:layout="@layout/fragment_channel_list">
 
-        <!-- 添加 argument 接收服务器信息 -->
         <argument
             android:name="server_id"
             android:defaultValue="-1L"

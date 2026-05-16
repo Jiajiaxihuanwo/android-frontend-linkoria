@@ -15,12 +15,15 @@
         android:theme="@style/Theme.Androidfrontendlinkoria"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".conversation.ui.dm.friendprofile.FriendProfile"
+            android:exported="false" />
+        <activity
             android:name=".server.ui.CreateServerActivity"
             android:exported="false" />
         <activity
             android:name=".server.ui.JoinServerActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".chat.ui.ChatActivity"
             android:exported="false" />
@@ -33,7 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".channel.ui.ChannelActivity"
             android:exported="false" />
