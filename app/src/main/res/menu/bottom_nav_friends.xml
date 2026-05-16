@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/friendReceivedFragment"
+        android:icon="@drawable/ic_friend_received_pending"
+        android:title="Received"
+        android:orderInCategory="1" />
+
+    <item
+        android:id="@+id/friendListFragment"
+        android:icon="@drawable/ic_friend"
+        android:title="Friends"
+        android:orderInCategory="2" />
+
+    <item
+        android:id="@+id/friendPendingFragment"
+        android:icon="@drawable/ic_friend_sent_pending"
+        android:title="Pending"
+        android:orderInCategory="3" />
+
+</menu>

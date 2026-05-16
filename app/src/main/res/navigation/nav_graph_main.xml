@@ -10,13 +10,6 @@
         android:name="com.xinlei.frontend.linkoria.app.root.DashboardFragment"
         android:label="DashboardFragment"
         tools:layout="@layout/fragment_dashboard">
-        <action
-            android:id="@+id/action_dashboardFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:enterAnim="@null"
-            app:exitAnim="@null"
-            app:popUpTo="@id/dashboardFragment"
-            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -24,13 +17,6 @@
         android:name="com.xinlei.frontend.linkoria.app.user.ui.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile">
-        <action
-            android:id="@+id/action_profileFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment"
-            app:enterAnim="@null"
-            app:exitAnim="@null"
-            app:popUpTo="@id/dashboardFragment"
-            app:popUpToInclusive="false" />
     </fragment>
 
 </navigation>
