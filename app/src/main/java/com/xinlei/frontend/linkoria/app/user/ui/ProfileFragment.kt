@@ -17,6 +17,7 @@ import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.FragmentProfileBinding
 import com.xinlei.frontend.linkoria.app.root.SplashActivity
+import com.xinlei.frontend.linkoria.app.root.navigator.ProfileNavigator
 import com.xinlei.frontend.linkoria.app.user.domain.model.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,6 +32,9 @@ class ProfileFragment : Fragment() {
 
     @Inject
     lateinit var imageLoader: ImageLoader
+
+    @Inject
+    lateinit var profileNavigator: ProfileNavigator
 
     private fun getRealViews() = with(binding) {
         listOf(ivAvatar, tvUsername, etDescription)
@@ -76,6 +80,9 @@ class ProfileFragment : Fragment() {
         binding.btnEdit.setOnClickListener {
             EditProfileBottomSheet().show(childFragmentManager, "edit_profile")
         }
+        binding.btnFriends.setOnClickListener {
+            profileNavigator.openFriendShips(requireActivity())
+        }
     }
 
     private fun observeUiState() {
@@ -88,7 +95,7 @@ class ProfileFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.logoutEvent.collect { event ->
                     when (event) {
-                        true -> navigateToSplash()
+                        true -> profileNavigator.navigateToSplash(requireActivity())
                         else -> Unit
                     }
                 }
@@ -132,12 +139,6 @@ class ProfileFragment : Fragment() {
         imageLoader.extractDominantColor(user.avatarUrl) {
             _binding?.ivBanner?.setBackgroundColor(it)
         }
-    }
-
-    private fun navigateToSplash() {
-        val intent = Intent(requireActivity(), SplashActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
     }
 
     override fun onDestroyView() {

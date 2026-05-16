@@ -1,5 +1,6 @@
 package com.xinlei.frontend.linkoria.app.conversation.ui.dm
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.xinlei.frontend.linkoria.app.conversation.ui.dm.adapter.DmListAdapter
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.FragmentDmListBinding
+import com.xinlei.frontend.linkoria.app.friendship.ui.FriendsActivity
 import com.xinlei.frontend.linkoria.app.root.navigator.AppNavigator
 import com.xinlei.frontend.linkoria.app.user.ui.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,8 +53,17 @@ class DMListFragment : Fragment() {
 
         observeUiState()
         setupRecyclerView()
+        setupListeners()
 
         viewModel.loadDms()
+    }
+
+    private fun setupListeners() {
+        binding.btnAddFriend.setOnClickListener {
+            //TODO: delegar a un navigator
+            val intent = Intent(requireActivity(), FriendsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun observeUiState() {

@@ -6,6 +6,8 @@ import com.xinlei.frontend.linkoria.app.channel.data.ChannelRepositoryImpl
 import com.xinlei.frontend.linkoria.app.channel.domain.ChannelRepository
 import com.xinlei.frontend.linkoria.app.conversation.data.ConversationRepositoryImpl
 import com.xinlei.frontend.linkoria.app.conversation.domain.ConversationRepository
+import com.xinlei.frontend.linkoria.app.friendship.data.FriendshipRepositoryImpl
+import com.xinlei.frontend.linkoria.app.friendship.domain.FriendshipRepository
 import com.xinlei.frontend.linkoria.app.server.data.ServerRepositoryImpl
 import com.xinlei.frontend.linkoria.app.server.domain.ServerRepository
 import com.xinlei.frontend.linkoria.app.user.data.UserRepositoryImpl
@@ -49,4 +51,10 @@ abstract class RepositoryModule {
     abstract fun bindConversationRepository(
         conversationRepositoryImpl: ConversationRepositoryImpl
     ): ConversationRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindFriendshipRepository(
+        friendshipRepositoryImpl: FriendshipRepositoryImpl
+    ): FriendshipRepository
 }

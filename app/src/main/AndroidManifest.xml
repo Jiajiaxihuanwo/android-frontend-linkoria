@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Androidfrontendlinkoria"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".friendship.ui.FriendsActivity"
+            android:exported="false" />
+        <activity
             android:name=".conversation.ui.dm.friendprofile.FriendProfile"
             android:exported="false" />
         <activity
