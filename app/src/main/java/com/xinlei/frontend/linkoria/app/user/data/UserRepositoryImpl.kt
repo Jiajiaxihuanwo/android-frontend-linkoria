@@ -29,6 +29,14 @@ class UserRepositoryImpl @Inject constructor(
         emit(result)
     }
 
+    override fun getUserById(userId: String): Flow<NetworkResult<User>> =flow{
+        emit(NetworkResult.Loading)
+        val result = safeApiCall {
+            apiService.getUserById(userId).toDomain()
+        }
+        emit(result)
+    }
+
     override fun searchUsers(query: String): Flow<NetworkResult<List<User>>> = flow {
         if (query.isBlank()) {
             emit(NetworkResult.Success(emptyList()))
