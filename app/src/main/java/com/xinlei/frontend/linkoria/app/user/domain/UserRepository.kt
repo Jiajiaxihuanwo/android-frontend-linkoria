@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
     fun getUserProfile(): Flow<NetworkResult<User>>
 
+    fun getUserById(userId : String): Flow<NetworkResult<User>>
+
     fun searchUsers(query: String): Flow<NetworkResult<List<User>>>
 
     fun updateUser(request: UpdateUserRequest): Flow<NetworkResult<User>>

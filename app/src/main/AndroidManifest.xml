@@ -18,6 +18,9 @@
             android:name=".friendship.ui.FriendsActivity"
             android:exported="false" />
         <activity
+            android:name=".conversation.ui.dm.friendprofile.FriendProfile"
+            android:exported="false" />
+        <activity
             android:name=".server.ui.CreateServerActivity"
             android:exported="false" />
         <activity

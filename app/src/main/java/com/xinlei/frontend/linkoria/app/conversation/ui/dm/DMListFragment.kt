@@ -82,7 +82,7 @@ class DMListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = DmListAdapter(imageLoader) {conversation -> navigator.openDm(requireActivity(), conversation.id, conversation.targetUsername!!, conversation.targetIconUrl)}
+        adapter = DmListAdapter(imageLoader) {conversation -> navigator.openDm(requireActivity(), conversation.id, conversation.targetId!!)}
         binding.dmRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.dmRecyclerView.adapter = adapter
     }
