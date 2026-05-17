@@ -8,6 +8,8 @@ fun UserResponse.toDomain(): User {
         id = this.id,
         username = this.username,
         email = this.email,
-        avatarUrl = this.avatarUrl ?: ""
+        avatarUrl = this.avatarUrl ?: "",
+        bio = this.bio ?: "",
+        createdAt = this.createdAt
     )
 }

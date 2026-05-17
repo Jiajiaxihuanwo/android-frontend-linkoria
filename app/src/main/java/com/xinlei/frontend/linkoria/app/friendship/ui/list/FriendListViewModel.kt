@@ -65,6 +65,9 @@ class FriendListViewModel @Inject constructor(
     private val _createDmState = MutableStateFlow<UiState<Conversation>>(UiState.Idle)
     val createDmState = _createDmState.asStateFlow()
 
+    var pendingTargetId: String? = null
+        private set
+
 
     init {
         observeFilterQuery()
@@ -178,6 +181,7 @@ class FriendListViewModel @Inject constructor(
     }
 
     fun createDm(targetId: String) {
+        pendingTargetId = targetId
         viewModelScope.launch {
             _createDmState.value = UiState.Loading
             createDmUseCase(targetId).collect { result ->

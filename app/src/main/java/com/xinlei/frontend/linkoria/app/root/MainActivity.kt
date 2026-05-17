@@ -27,5 +27,18 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         NavigationUI.setupWithNavController(binding.bottomNav, navController)
+
+        if (intent.getBooleanExtra(EXTRA_OPEN_DM_LIST, false)) {
+            // navega a DashboardFragment con DmListFragment anidado
+            openDashboardWithDmList()
+        }
+    }
+
+    private fun openDashboardWithDmList() {
+        navController.navigate(R.id.dashboardFragment)
+        binding.bottomNav.selectedItemId = R.id.dashboardFragment
+    }
+    companion object {
+        const val EXTRA_OPEN_DM_LIST = "extra_open_dm_list"
     }
 }

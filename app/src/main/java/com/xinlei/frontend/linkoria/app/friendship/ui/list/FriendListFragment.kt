@@ -26,6 +26,7 @@ import com.xinlei.frontend.linkoria.app.friendship.ui.list.adapter.FriendshipAdd
 import com.xinlei.frontend.linkoria.app.friendship.ui.list.adapter.FriendshipListAdapter
 import com.xinlei.frontend.linkoria.app.friendship.ui.list.model.UserSearchItemUiModel
 import com.xinlei.frontend.linkoria.app.root.MainActivity
+import com.xinlei.frontend.linkoria.app.root.navigator.ChatNavigator
 import com.xinlei.frontend.linkoria.app.user.domain.model.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,6 +42,9 @@ class FriendListFragment : Fragment() {
 
     @Inject
     lateinit var imageLoader: ImageLoader
+
+    @Inject
+    lateinit var chatNavigator: ChatNavigator
 
     private lateinit var friendshipListAdapter: FriendshipListAdapter
     private lateinit var friendshipAddListAdapter: FriendshipAddListAdapter
@@ -119,6 +123,7 @@ class FriendListFragment : Fragment() {
                 launch { observeSearchState() }
                 launch { observeSendRequestState() }
                 launch { observeDeleteFriendState() }
+                launch { observeCreateDmState() }
             }
         }
     }
@@ -188,7 +193,9 @@ class FriendListFragment : Fragment() {
         viewModel.createDmState.collect { state ->
             when (state) {
                 is UiState.Success -> {
-                    //TODO redirigir la navegación
+                    val targetId = viewModel.pendingTargetId
+                        ?: return@collect
+                    chatNavigator.openDmChat(requireActivity(), state.data.id, targetId)
                 }
                 is UiState.Error -> {
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
@@ -197,13 +204,6 @@ class FriendListFragment : Fragment() {
                 else -> Unit
             }
         }
-    }
-
-    fun openChatFromDM(context: Context, chatIntent: Intent) {
-        TaskStackBuilder.create(context).apply {
-            addNextIntent(Intent(context, MainActivity::class.java))
-            addNextIntent(chatIntent)
-        }.startActivities()
     }
 
     private suspend fun observeDeleteFriendState() {
@@ -242,13 +242,6 @@ class FriendListFragment : Fragment() {
             }
         }
     }
-
-    /**
-     * Cruza la lista de usuarios buscados con la lista de amigos del ViewModel
-     * para determinar el estado del botón Add/Added en cada item.
-     * PENDING o ACCEPTED → "Added" + deshabilitado
-     * DECLINED, REMOVED o sin relación → "Add" + habilitado
-     */
     private fun enrichUsersWithFriendshipStatus(users: List<User>): List<UserSearchItemUiModel> {
 
         val allFriendships = viewModel.allFriendships.value

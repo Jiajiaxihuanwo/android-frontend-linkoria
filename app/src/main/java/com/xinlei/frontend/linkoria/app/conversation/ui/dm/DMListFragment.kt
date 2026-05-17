@@ -1,11 +1,13 @@
 package com.xinlei.frontend.linkoria.app.conversation.ui.dm
 
+import com.xinlei.frontend.linkoria.app.root.navigator.ChatNavigator
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -17,8 +19,6 @@ import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.FragmentDmListBinding
 import com.xinlei.frontend.linkoria.app.friendship.ui.FriendsActivity
-import com.xinlei.frontend.linkoria.app.root.navigator.AppNavigator
-import com.xinlei.frontend.linkoria.app.user.ui.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,7 +30,7 @@ class DMListFragment : Fragment() {
     @Inject
     lateinit var imageLoader: ImageLoader
     @Inject
-    lateinit var navigator: AppNavigator
+    lateinit var navigator: ChatNavigator
 
     private var _binding: FragmentDmListBinding? = null
     private val binding get() = _binding!!
@@ -64,6 +64,10 @@ class DMListFragment : Fragment() {
             val intent = Intent(requireActivity(), FriendsActivity::class.java)
             startActivity(intent)
         }
+
+        binding.etSearch.doOnTextChanged { text, _, _, _ ->
+            viewModel.onFilterQueryChanged(text?.toString() ?: "")
+        }
     }
 
     private fun observeUiState() {
@@ -82,7 +86,7 @@ class DMListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = DmListAdapter(imageLoader) {conversation -> navigator.openDm(requireActivity(), conversation.id, conversation.targetId!!)}
+        adapter = DmListAdapter(imageLoader) {conversation -> navigator.openDmChat(requireActivity(), conversation.id, conversation.targetId!!)}
         binding.dmRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.dmRecyclerView.adapter = adapter
     }
