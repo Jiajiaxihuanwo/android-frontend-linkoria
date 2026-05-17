@@ -18,8 +18,8 @@ class StompReconnectionManager (
     private val multiplier: Double = 2.0,
     private val maxRetries: Int = 10
 ) {
-    private var currentRetryCount = 0
-    private var currentDelayMs = initialDelayMs
+    @Volatile private var currentRetryCount = 0
+    @Volatile private var currentDelayMs = initialDelayMs
 
     /**
      * Ejecuta una acción con reintentos automáticos
