@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="64dp"
+    android:background="@drawable/bg_conversation_item"
     android:paddingHorizontal="16dp">
 
     <ImageView
@@ -12,9 +13,9 @@
         android:layout_height="40dp"
         android:background="@drawable/shape_circle"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_username"
@@ -25,24 +26,22 @@
         android:textColor="@color/text_primary"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/iv_avatar"
-        app:layout_constraintEnd_toStartOf="@id/btn_add"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_more"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Xinlei Chen" />
 
-    <Button
-        android:id="@+id/btn_add"
-        android:padding="0dp"
-        style="@style/PrimaryButton"
-        android:layout_width="70dp"
-        android:layout_height="30dp"
-        android:textSize="12sp"
-        android:text="Added"
-        android:enabled="false"
-        android:textAllCaps="false"
+    <ImageButton
+        android:id="@+id/btn_more"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/shape_circle"
+        android:padding="2dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_more"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

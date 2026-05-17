@@ -20,11 +20,16 @@ import com.xinlei.frontend.linkoria.app.channel.ui.adapter.ChannelAdapter
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.databinding.BottomSheetCreateChannelBinding
 import com.xinlei.frontend.linkoria.app.databinding.FragmentChannelListBinding
+import com.xinlei.frontend.linkoria.app.root.navigator.ChatNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChannelListFragment : Fragment() {
+
+    @Inject
+    lateinit var chatNavigator: ChatNavigator
 
     private var _binding: FragmentChannelListBinding? = null
     private val binding get() = _binding!!
@@ -52,7 +57,7 @@ class ChannelListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         adapter = ChannelAdapter { channel ->
-
+            viewModel.onChannelClick(channel)
         }
         binding.channelRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.channelRecyclerView.adapter = adapter
@@ -61,11 +66,21 @@ class ChannelListFragment : Fragment() {
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.channelsState.collect { state ->
-                    when (state) {
-                        is UiState.Success -> adapter.submitList(state.data)
-                        is UiState.Error -> Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
-                        else -> Unit
+                launch {
+                    viewModel.channelsState.collect { state ->
+                        when (state) {
+                            is UiState.Success -> adapter.submitList(state.data)
+                            is UiState.Error -> Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+                            else -> Unit
+                        }
+                    }
+                }
+                launch {
+                    viewModel.selectedChannel.collect { channel ->
+                        channel?.let {
+                            chatNavigator.openChannelChat(requireActivity(), it.serverId, it.id)
+                            viewModel.clearSelectedChannel()
+                        }
                     }
                 }
             }

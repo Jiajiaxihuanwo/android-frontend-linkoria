@@ -36,6 +36,17 @@ class ChannelListViewModel @Inject constructor(
 
     private var currentServerId: Long = -1
 
+    private val _selectedChannel = MutableStateFlow<Channel?>(null)
+    val selectedChannel = _selectedChannel.asStateFlow()
+
+    fun onChannelClick(channel: Channel) {
+        _selectedChannel.value = channel
+    }
+
+    fun clearSelectedChannel() {
+        _selectedChannel.value = null
+    }
+
     init {
         observeFilterQuery()
     }

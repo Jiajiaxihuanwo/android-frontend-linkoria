@@ -19,12 +19,17 @@ import com.xinlei.frontend.linkoria.app.channel.domain.model.Channel
 import com.xinlei.frontend.linkoria.app.conversation.ui.dm.friendprofile.FriendProfile
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.databinding.ActivityChatBinding
+import com.xinlei.frontend.linkoria.app.root.navigator.ServerMemberNavigator
 import com.xinlei.frontend.linkoria.app.user.domain.model.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var serverMemberNavigator: ServerMemberNavigator
 
     private var _binding: ActivityChatBinding? = null
     private val binding get() = _binding!!
@@ -34,6 +39,8 @@ class ChatActivity : AppCompatActivity() {
     private var chatType: String? = null
     private var targetId: String? = null
     private var currentAvatarUrl: String? = null
+
+    private var serverId: Long = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +66,7 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
             TYPE_CHANNEL -> {
-                val serverId = intent.getLongExtra(EXTRA_SERVER_ID, -1L)
+                serverId = intent.getLongExtra(EXTRA_SERVER_ID, -1L)
                 val channelId = intent.getLongExtra(EXTRA_CHANNEL_ID, -1L)
                 if (serverId != -1L && channelId != -1L) {
                     viewModel.initChannelChat(serverId, channelId)
@@ -77,12 +84,12 @@ class ChatActivity : AppCompatActivity() {
                 viewModel.dmState.collect { state ->
                     when (state) {
                         is UiState.Loading -> {
-                            binding.tvUsername.text = "Cargando..."
+                            binding.tvTitle.text = "Cargando..."
                             binding.ivAvatar.setImageResource(R.drawable.ic_user)
                         }
                         is UiState.Success -> state.data?.let { renderDmToolbar(it) }
                         is UiState.Error -> {
-                            binding.tvUsername.text = "Error"
+                            binding.tvTitle.text = "Error"
                             binding.ivAvatar.setImageResource(R.drawable.ic_user)
                             Toast.makeText(this@ChatActivity, state.message, Toast.LENGTH_SHORT).show()
                         }
@@ -98,10 +105,10 @@ class ChatActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.channelState.collect { state ->
                     when (state) {
-                        is UiState.Loading -> binding.tvUsername.text = "Cargando..."
+                        is UiState.Loading -> binding.tvTitle.text = "Cargando..."
                         is UiState.Success -> renderChannelToolbar(state.data)
                         is UiState.Error -> {
-                            binding.tvUsername.text = "Error"
+                            binding.tvTitle.text = "Error"
                             Toast.makeText(this@ChatActivity, state.message, Toast.LENGTH_SHORT).show()
                         }
                         else -> Unit
@@ -112,8 +119,8 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun renderDmToolbar(user: User) {
-        binding.tvUsername.text = user.username
-        if (!user.avatarUrl.isNullOrEmpty()) {
+        binding.tvTitle.text = user.username
+        if (user.avatarUrl.isNotEmpty()) {
             currentAvatarUrl = user.avatarUrl
             Glide.with(this)
                 .load(user.avatarUrl)
@@ -125,7 +132,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun renderChannelToolbar(channel: Channel) {
-        binding.tvUsername.text = channel.name
+        binding.tvTitle.text = channel.name
     }
 
     private fun setupClickListeners() {
@@ -133,8 +140,8 @@ class ChatActivity : AppCompatActivity() {
 
         binding.ivAvatar.setOnClickListener { showZoomedImage() }
 
-        binding.tvUsername.setOnClickListener { openFriendProfile() }
-        binding.ivMore.setOnClickListener { openFriendProfile() }
+        binding.tvTitle.setOnClickListener { openProfile() }
+        binding.toolbarContainer.setOnClickListener { openProfile() }
 
         binding.btnSend.setOnClickListener {
             val messageText = binding.etMessage.text.toString().trim()
@@ -146,12 +153,20 @@ class ChatActivity : AppCompatActivity() {
         binding.btnCamera.setOnClickListener { }
     }
 
-    private fun openFriendProfile() {
-        if (chatType != TYPE_DM || targetId.isNullOrEmpty()) return
-        val intent = android.content.Intent(this, FriendProfile::class.java).apply {
-            putExtra("extra_user_id", targetId)
+    private fun openProfile() {
+        when (chatType) {
+            TYPE_DM -> {
+                if (targetId.isNullOrEmpty()) return
+                val intent = android.content.Intent(this, FriendProfile::class.java).apply {
+                    putExtra("extra_user_id", targetId)
+                }
+                startActivity(intent)
+            }
+            TYPE_CHANNEL -> {
+                if (serverId == -1L) return
+                serverMemberNavigator.openServerMembers(this, serverId)
+            }
         }
-        startActivity(intent)
     }
 
     private fun showZoomedImage() {
