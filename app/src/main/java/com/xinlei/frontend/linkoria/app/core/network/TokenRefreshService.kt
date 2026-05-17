@@ -1,10 +1,13 @@
 package com.xinlei.frontend.linkoria.app.core.network
 
+import android.util.Log
 import com.xinlei.frontend.linkoria.app.auth.data.remote.TokenRefreshApi
 import com.xinlei.frontend.linkoria.app.auth.data.remote.dto.RefreshRequest
 import com.xinlei.frontend.linkoria.app.core.session.SessionManager
 import com.yourcompany.discordclone.app.core.token.TokenManager
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,30 +22,30 @@ class TokenRefreshService @Inject constructor(
     private val sessionManager: SessionManager,
     private val tokenManager: TokenManager
 ) {
+    private val mutex = Mutex()
 
-    /**
-     * Intenta refrescar el accessToken.
-     * Retorna el nuevo accessToken si tuvo éxito, null si falló.
-     */
-    suspend fun refreshAccessToken(): String? {
-        // Si el refresh token también expiró, limpiar sesión
+    suspend fun refreshAccessToken(): String? = mutex.withLock {
+        // Doble check: si otro thread ya refrescó mientras esperábamos el lock
+        if (!tokenManager.isAccessTokenExpired()) {
+            return@withLock sessionManager.getAccessTokenOnce()
+        }
+
         if (tokenManager.isRefreshTokenExpired()) {
             sessionManager.clearSession()
-            return null
+            return@withLock null
         }
 
         val refreshToken = sessionManager.refreshToken.firstOrNull()
             ?: run {
                 sessionManager.clearSession()
-                return null
+                return@withLock null
             }
 
-        return try {
+        return@withLock try {
             val response = refreshApi.refresh(RefreshRequest(refreshToken))
 
             if (response.isSuccessful) {
                 val newTokens = response.body()
-
                 if (newTokens != null) {
                     sessionManager.saveSession(
                         accessToken = newTokens.accessToken,
@@ -65,11 +68,6 @@ class TokenRefreshService @Inject constructor(
         }
     }
 
-    /**
-     * Obtiene un accessToken válido.
-     * Si el actual expiró, hace refresh automáticamente.
-     * Retorna null si no hay sesión válida.
-     */
     suspend fun getValidToken(): String? {
         val currentToken = sessionManager.getAccessTokenOnce()
             ?: return null
