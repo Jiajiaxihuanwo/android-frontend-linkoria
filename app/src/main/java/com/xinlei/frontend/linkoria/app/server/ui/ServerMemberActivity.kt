@@ -1,14 +1,8 @@
 package com.xinlei.frontend.linkoria.app.server.ui
 
-import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.PopupWindow
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -19,19 +13,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.xinlei.frontend.linkoria.app.R
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.ActivityServerMemberBinding
-import com.xinlei.frontend.linkoria.app.databinding.BottomSheetUserProfileBinding
-import com.xinlei.frontend.linkoria.app.server.domain.model.ServerMember
 import com.xinlei.frontend.linkoria.app.server.ui.adapter.server_member.ServerMemberAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import androidx.core.graphics.drawable.toDrawable
-import com.xinlei.frontend.linkoria.app.databinding.FragmentProfileBinding
 import com.xinlei.frontend.linkoria.app.databinding.LayoutPopupServerSettingBinding
 import com.xinlei.frontend.linkoria.app.root.navigator.AppNavigator
 

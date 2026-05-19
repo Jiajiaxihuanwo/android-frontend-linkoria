@@ -1,7 +1,6 @@
 package com.xinlei.frontend.linkoria.app.server.ui.adapter.server.list
 
 import androidx.recyclerview.widget.DiffUtil
-import com.xinlei.frontend.linkoria.app.conversation.domain.model.Conversation
 import com.xinlei.frontend.linkoria.app.server.domain.model.Server
 
 class ServerDiffCallBack : DiffUtil.ItemCallback<Server>() {

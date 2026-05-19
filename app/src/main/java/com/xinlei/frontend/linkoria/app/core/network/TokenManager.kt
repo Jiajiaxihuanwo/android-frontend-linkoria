@@ -1,7 +1,6 @@
-package com.yourcompany.discordclone.app.core.token
+package com.xinlei.frontend.linkoria.app.core.network
 
 import android.util.Base64
-import android.util.Log
 import com.google.gson.Gson
 import com.xinlei.frontend.linkoria.app.auth.data.local.TokenDataStore
 import kotlinx.coroutines.flow.firstOrNull

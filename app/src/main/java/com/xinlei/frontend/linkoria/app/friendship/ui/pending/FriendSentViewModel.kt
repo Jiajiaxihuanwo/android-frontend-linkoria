@@ -1,4 +1,4 @@
-package com.xinlei.frontend.linkoria.app.friendship.ui.sent
+package com.xinlei.frontend.linkoria.app.friendship.ui.pending
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

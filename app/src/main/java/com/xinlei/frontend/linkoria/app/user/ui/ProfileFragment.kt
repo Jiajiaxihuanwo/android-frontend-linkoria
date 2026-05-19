@@ -1,7 +1,6 @@
 package com.xinlei.frontend.linkoria.app.user.ui
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -17,7 +16,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.FragmentProfileBinding
-import com.xinlei.frontend.linkoria.app.root.SplashActivity
 import com.xinlei.frontend.linkoria.app.root.navigator.ProfileNavigator
 import com.xinlei.frontend.linkoria.app.user.domain.model.User
 import dagger.hilt.android.AndroidEntryPoint
@@ -100,7 +98,7 @@ class ProfileFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.logoutEvent.collect { event ->
                     when (event) {
-                        true -> profileNavigator.navigateToSplash(requireActivity())
+                        true -> profileNavigator.navigateToAuth(requireActivity())
                         else -> Unit
                     }
                 }

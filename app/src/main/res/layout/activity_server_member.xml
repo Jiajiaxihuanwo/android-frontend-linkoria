@@ -105,7 +105,7 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="Buscar miembro..."
+            android:hint="Find member..."
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:singleLine="true"
@@ -146,7 +146,6 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginStart="8dp"
-            android:contentDescription="Copiar código"
             android:src="@drawable/ic_copy"
             app:tint="@color/text_secondary" />
 

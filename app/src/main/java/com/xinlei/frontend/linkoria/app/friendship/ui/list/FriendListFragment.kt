@@ -1,14 +1,10 @@
 package com.xinlei.frontend.linkoria.app.friendship.ui.list
 
-import android.app.TaskStackBuilder
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.xinlei.frontend.linkoria.app.R
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.FragmentFriendListBinding
@@ -25,7 +20,6 @@ import com.xinlei.frontend.linkoria.app.friendship.domain.model.Friendship
 import com.xinlei.frontend.linkoria.app.friendship.ui.list.adapter.FriendshipAddListAdapter
 import com.xinlei.frontend.linkoria.app.friendship.ui.list.adapter.FriendshipListAdapter
 import com.xinlei.frontend.linkoria.app.friendship.ui.list.model.UserSearchItemUiModel
-import com.xinlei.frontend.linkoria.app.root.MainActivity
 import com.xinlei.frontend.linkoria.app.root.navigator.ChatNavigator
 import com.xinlei.frontend.linkoria.app.user.domain.model.User
 import dagger.hilt.android.AndroidEntryPoint

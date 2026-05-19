@@ -52,7 +52,6 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_save"
-                        android:contentDescription="Guardar"
                         app:tint="@color/ic_default" />
 
                     <TextView
@@ -60,7 +59,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:text="Guardar"
+                        android:text="Save"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="@color/ic_default" />
@@ -136,7 +135,7 @@
                     android:id="@+id/tv_label_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nombre"
+                    android:text="Name"
                     android:textColor="@color/text_secondary"
                     android:textSize="13sp"
                     app:layout_constraintTop_toTopOf="parent"
@@ -152,7 +151,7 @@
                     android:inputType="textPersonName|textCapWords"
                     android:padding="12dp"
                     android:singleLine="true"
-                    android:hint="Tu nombre"
+                    android:hint="Your Name"
                     android:textColor="@color/text_primary"
                     android:textColorHint="@color/text_hint"
                     android:textSize="15sp"
@@ -179,7 +178,7 @@
                     android:layout_height="192dp"
                     android:background="@drawable/bg_edit_field"
                     android:gravity="top|start"
-                    android:hint="Cuéntanos algo sobre ti..."
+                    android:hint="Tell us something about you..."
                     android:inputType="textMultiLine|textCapSentences"
                     android:padding="12dp"
                     android:textColor="@color/text_primary"
@@ -211,7 +210,7 @@
                     android:inputType="textEmailAddress"
                     android:padding="12dp"
                     android:singleLine="true"
-                    android:hint="Tu email"
+                    android:hint="Your Email"
                     android:textColor="@color/text_primary"
                     android:textColorHint="@color/text_hint"
                     android:textSize="15sp"

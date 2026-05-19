@@ -1,5 +1,6 @@
 package com.xinlei.frontend.linkoria.app.message.data.datadource.websocket
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
@@ -11,12 +12,11 @@ import com.xinlei.frontend.linkoria.app.message.data.dto.response.MessageEditedR
 import com.xinlei.frontend.linkoria.app.message.data.dto.response.MessageResponse
 import com.xinlei.frontend.linkoria.app.message.data.dto.response.WebSocketEventWrapper
 import com.xinlei.frontend.linkoria.app.message.data.mapper.fromMessageResponse
-import com.xinlei.frontend.linkoria.app.message.domain.model.Message
-import com.xinlei.frontend.linkoria.app.message.domain.model.MessageType
 import com.xinlei.frontend.linkoria.app.message.domain.model.MessageUpdate
 import com.xinlei.frontend.linkoria.app.websocket.domain.model.WebSocketEvent
 import com.xinlei.frontend.linkoria.app.websocket.domain.port.StompClient
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
@@ -24,12 +24,22 @@ class MessageWebSocketDataSource @Inject constructor(
     private val stompClient: StompClient,
     private val gson: Gson
 ){
+    suspend fun connect() {
+        Log.d("STOMP", "connect() llamado")
+        stompClient.connect()
+        Log.d("STOMP", "connect() completado")
+    }
+
+    suspend fun disconnect() {
+        stompClient.disconnect()
+    }
     fun subscribeToConversationUpdates(conversationId: Long): Flow<NetworkResult<MessageUpdate>> {
         return stompClient
             .subscribe("/topic/conversation/$conversationId")
             .mapNotNull {  webSocketEvent ->
                 when (webSocketEvent) {
                     is WebSocketEvent.Message -> {
+                        Log.d("STOMP_MSG", "Raw payload: ${webSocketEvent.payload}")
                         try {
                             parseWebSocketMessage(webSocketEvent.payload)
                         } catch (e: Exception) {
@@ -70,6 +80,8 @@ class MessageWebSocketDataSource @Inject constructor(
         replyToMessageId: Long? = null
     ): NetworkResult<Unit> {
         return try {
+            Log.d("STOMP", "Estado conexión: ${stompClient.getConnectionState().first()}")
+            Log.d("STOMP", "Enviando a /app/message/send/$conversationId")
             val request = SendMessageWebSocketRequest(
                 content = content,
                 messageType = messageType,

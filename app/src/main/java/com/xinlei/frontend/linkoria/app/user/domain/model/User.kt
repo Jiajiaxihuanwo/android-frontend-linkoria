@@ -1,7 +1,5 @@
 package com.xinlei.frontend.linkoria.app.user.domain.model
 
-import java.time.Instant
-
 data class User (
     val id: String,
     val username: String,

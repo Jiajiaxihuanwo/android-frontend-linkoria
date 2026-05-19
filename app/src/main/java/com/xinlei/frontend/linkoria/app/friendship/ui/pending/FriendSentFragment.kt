@@ -14,10 +14,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
-import com.xinlei.frontend.linkoria.app.databinding.FragmentFriendReceivedBinding
 import com.xinlei.frontend.linkoria.app.databinding.FragmentFriendSentBinding
 import com.xinlei.frontend.linkoria.app.friendship.ui.pending.adapter.FriendshipSentListAdapter
-import com.xinlei.frontend.linkoria.app.friendship.ui.sent.FriendSentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.ListAdapter
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.ItemFriendSentBinding
 import com.xinlei.frontend.linkoria.app.friendship.domain.model.Friendship
-import com.xinlei.frontend.linkoria.app.friendship.ui.pending.adapter.FriendshipSentListDiffCallback
-import com.xinlei.frontend.linkoria.app.friendship.ui.pending.adapter.FriendshipSentListViewHolder
 
 class FriendshipSentListAdapter(
     private val imageLoader: ImageLoader

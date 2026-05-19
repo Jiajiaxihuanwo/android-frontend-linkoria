@@ -3,7 +3,6 @@ package com.xinlei.frontend.linkoria.app.friendship.ui.list.adapter
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.ItemFriendAddBinding
 import com.xinlei.frontend.linkoria.app.friendship.ui.list.model.UserSearchItemUiModel
-import com.xinlei.frontend.linkoria.app.user.domain.model.User
 
 class FriendshipAddListViewHolder(
     private val binding: ItemFriendAddBinding,

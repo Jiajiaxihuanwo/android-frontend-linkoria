@@ -1,6 +1,5 @@
 package com.xinlei.frontend.linkoria.app.auth.data
 
-import com.google.gson.Gson
 import com.xinlei.frontend.linkoria.app.auth.data.local.TokenDataStore
 import com.xinlei.frontend.linkoria.app.auth.data.remote.AuthApiService
 import com.xinlei.frontend.linkoria.app.auth.data.remote.dto.LoginRequest
@@ -8,12 +7,9 @@ import com.xinlei.frontend.linkoria.app.auth.data.remote.dto.RefreshRequest
 import com.xinlei.frontend.linkoria.app.auth.data.remote.dto.RegisterRequest
 import com.xinlei.frontend.linkoria.app.auth.domain.AuthRepository
 import com.xinlei.frontend.linkoria.app.auth.domain.AuthUser
-import com.xinlei.frontend.linkoria.app.core.network.ApiErrorResponse
 import com.xinlei.frontend.linkoria.app.core.network.BaseRepository
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import kotlinx.coroutines.flow.firstOrNull
-import retrofit2.HttpException
-import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 

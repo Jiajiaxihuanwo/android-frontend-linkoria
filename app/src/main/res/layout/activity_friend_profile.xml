@@ -116,7 +116,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Miembro desde"
+                android:text="Member Since"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -159,7 +159,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_profile_elements"
             android:gravity="top|start"
-            android:hint="Sin descripción..."
+            android:hint="No bio yet..."
             android:lineSpacingExtra="4dp"
             android:overScrollMode="always"
             android:padding="16dp"

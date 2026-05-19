@@ -32,8 +32,8 @@
     <color name="bg_friendships_2">#232628</color>
 
     <!-- Burbujas de mensaje -->
-    <color name="bg_bubble_sent">#5865F2</color>
-    <color name="bg_bubble_received">#383A40</color>
+    <color name="bg_bubble_sent">#7968C5</color>
+    <color name="bg_bubble_received">#9760BF</color>
 
     <!-- Botones -->
     <color name="btn_primary">#5865F2</color>

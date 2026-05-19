@@ -3,6 +3,7 @@ package com.xinlei.frontend.linkoria.app.message.data.mapper
 import com.xinlei.frontend.linkoria.app.message.data.dto.response.MessageResponse
 import com.xinlei.frontend.linkoria.app.message.domain.model.Message
 import com.xinlei.frontend.linkoria.app.message.domain.model.MessageType
+import com.xinlei.frontend.linkoria.app.message.domain.model.PagedMessages
 
 /**
  * Convierte MessageResponse (DTO) a Message (domain model)
@@ -29,6 +30,8 @@ fun fromMessageResponse(response: MessageResponse): Message {
  * @param responses Lista de DTOs del servidor
  * @return Lista de Messages de dominio
  */
-fun fromMessageResponses(responses: List<MessageResponse>): List<Message> {
-    return responses.map { fromMessageResponse(it) }
+
+fun fromPagedMessagesResponses(responses: List<MessageResponse>, hasMore: Boolean, nextCursor: Long?): PagedMessages {
+    val messages = responses.map { fromMessageResponse(it) }
+    return PagedMessages(messages = messages, hasMore = hasMore, nextCursor = nextCursor)
 }

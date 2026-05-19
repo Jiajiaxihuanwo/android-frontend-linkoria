@@ -1,6 +1,5 @@
 package com.xinlei.frontend.linkoria.app.websocket.infrastructure.adapter
 
-import com.google.gson.Gson
 import com.xinlei.frontend.linkoria.app.core.util.Constants
 import com.xinlei.frontend.linkoria.app.websocket.domain.model.StompConnectionState
 import com.xinlei.frontend.linkoria.app.websocket.domain.model.WebSocketEvent
@@ -171,12 +170,11 @@ class StompClientImpl @Inject constructor(
             }
     }
 
-    override suspend fun send(destination: String, body: Any) {
+    override suspend fun send(destination: String, body: String) {
         val currentClient = naikClient ?: throw IllegalStateException("STOMP client no conectado")
-        val json = Gson().toJson(body)
 
         // Creamos un Observer anónimo para tener control total
-        currentClient.send(destination, json).subscribe(object : CompletableObserver {
+        currentClient.send(destination, body).subscribe(object : CompletableObserver {
             private var d: Disposable? = null
 
             override fun onSubscribe(disposable: Disposable) {

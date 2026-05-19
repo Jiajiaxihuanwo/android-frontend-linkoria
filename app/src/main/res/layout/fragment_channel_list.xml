@@ -68,7 +68,7 @@
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:background="@null"
-                android:hint="Buscar canales..."
+                android:hint="Find channels..."
                 android:textColorHint="#80FFFFFF"
                 android:textColor="@color/white"
                 android:textSize="14sp"

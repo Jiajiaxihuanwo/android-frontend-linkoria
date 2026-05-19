@@ -78,7 +78,7 @@
             android:layout_height="220dp"
             android:background="@drawable/bg_profile_elements"
             android:gravity="top|start"
-            android:hint="Empieza a escribir tu biografía..."
+            android:hint="Tell people o little about yourself..."
             android:lineSpacingExtra="4dp"
             android:layout_marginTop="12dp"
             android:padding="16dp"
@@ -124,7 +124,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Amigos"
+                android:text="Friends"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -190,7 +190,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Editar"
+                android:text="Edit"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 

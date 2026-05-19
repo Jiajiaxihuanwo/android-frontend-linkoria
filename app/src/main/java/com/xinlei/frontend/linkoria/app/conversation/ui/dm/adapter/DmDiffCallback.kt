@@ -2,7 +2,6 @@ package com.xinlei.frontend.linkoria.app.conversation.ui.dm.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.xinlei.frontend.linkoria.app.conversation.domain.model.Conversation
-import com.xinlei.frontend.linkoria.app.friendship.domain.model.Friendship
 
 class DmDiffCallback : DiffUtil.ItemCallback<Conversation>() {
 

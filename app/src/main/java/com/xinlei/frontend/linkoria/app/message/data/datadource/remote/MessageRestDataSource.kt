@@ -2,6 +2,7 @@ package com.xinlei.frontend.linkoria.app.message.data.datadource.remote
 
 import com.xinlei.frontend.linkoria.app.core.network.BaseDataSource
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
+import com.xinlei.frontend.linkoria.app.message.data.dto.request.PaginationDirection
 import com.xinlei.frontend.linkoria.app.message.data.dto.response.MessagePageResponse
 import com.xinlei.frontend.linkoria.app.message.data.dto.response.MessageResponse
 import kotlinx.coroutines.flow.Flow
@@ -14,14 +15,15 @@ class MessageRestDataSource @Inject constructor(
     fun getMessages(
         conversationId: Long,
         cursor: Long? = null,
-        limit: Int = 50
+        limit: Int = 50,
+        paginationDirection: PaginationDirection
     ): Flow<NetworkResult<MessagePageResponse>> = flow {
         emit(NetworkResult.Loading)
         emit(safeApiCall { apiService.getMessages(
             conversationId = conversationId,
             cursor = cursor,
             limit = limit,
-            direction = "BACKWARDS"
+            direction = paginationDirection.name
         ) })
     }
 

@@ -1,7 +1,6 @@
 package com.xinlei.frontend.linkoria.app.conversation.ui.dm.friendprofile
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.MotionEvent

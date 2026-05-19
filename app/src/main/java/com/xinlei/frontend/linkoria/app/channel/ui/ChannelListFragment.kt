@@ -1,6 +1,5 @@
 package com.xinlei.frontend.linkoria.app.channel.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -80,6 +79,15 @@ class ChannelListFragment : Fragment() {
                         channel?.let {
                             chatNavigator.openChannelChat(requireActivity(), it.serverId, it.id)
                             viewModel.clearSelectedChannel()
+                        }
+                    }
+                }
+                launch {
+                    viewModel.createChannelState.collect { state ->
+                        when (state) {
+                            is UiState.Success -> Unit
+                            is UiState.Error -> Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+                            else -> Unit
                         }
                     }
                 }

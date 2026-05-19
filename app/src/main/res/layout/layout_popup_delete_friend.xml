@@ -19,7 +19,7 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:text="Eliminar"
+        android:text="Delete"
         android:textColor="@color/btn_danger"
         android:textSize="14sp"
         android:textStyle="bold"

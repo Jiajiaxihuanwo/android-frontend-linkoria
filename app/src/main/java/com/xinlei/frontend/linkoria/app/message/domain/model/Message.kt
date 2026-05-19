@@ -11,7 +11,7 @@ data class Message(
     val replyToMessageId: Long? = null,
     val createdAt: Instant,
     val updatedAt: Instant
-)
+) {}
 
 enum class MessageType {
     TEXT,

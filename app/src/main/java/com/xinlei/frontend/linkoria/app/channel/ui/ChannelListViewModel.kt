@@ -1,6 +1,5 @@
 package com.xinlei.frontend.linkoria.app.channel.ui
 
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xinlei.frontend.linkoria.app.channel.domain.model.Channel
