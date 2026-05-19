@@ -13,7 +13,7 @@ class GetMessagesUseCase @Inject constructor(
     operator fun invoke(
         conversationId: Long,
         cursor: Long? = null,
-        limit: Int = 50,
+        limit: Int = 150,
         paginationDirection: PaginationDirection = PaginationDirection.BACKWARDS
     ): Flow<NetworkResult<PagedMessages>> {
         return repository.getMessages(conversationId, cursor, limit, paginationDirection)

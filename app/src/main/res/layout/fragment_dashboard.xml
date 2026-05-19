@@ -81,7 +81,7 @@
             android:insetBottom="0dp"
             android:padding="12dp"
             app:icon="@drawable/ic_dm"
-            app:iconTint="@color/secondary_blue"
+            app:iconTint="@color/primary_blue"
             app:iconSize="24dp"
             app:cornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="parent"

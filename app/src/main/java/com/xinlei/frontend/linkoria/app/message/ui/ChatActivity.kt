@@ -167,6 +167,7 @@ class ChatActivity : AppCompatActivity() {
                     when (state) {
                         is UiState.Loading -> Unit // TODO: skeleton/shimmer
                         is UiState.Success -> {
+                            hideShimmer()
                             chatAdapter.submitList(state.data) {
                                 // scroll al final solo si estamos cerca del último mensaje
                                 if (isNearBottom()) {
@@ -228,6 +229,10 @@ class ChatActivity : AppCompatActivity() {
         val lastVisible = lm.findLastVisibleItemPosition()
         val total = chatAdapter.itemCount
         return total - lastVisible <= 3
+    }
+
+    private fun hideShimmer() {
+        binding.shimmerChat.root.visibility = View.GONE
     }
 
     // region Window

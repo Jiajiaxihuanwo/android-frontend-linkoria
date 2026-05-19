@@ -57,7 +57,7 @@
 
     <!-- Custom colors needed by styles/themes -->
     <color name="primary_blue">#5865F2</color>
-    <color name="secondary_blue">#93C5FD</color>
+    <color name="secondary_blue">#7761C5</color>
     <color name="accent_magenta">#F472B6</color>
     <color name="dark_gray">#313338</color>
     <color name="purple_700">#3700B3</color>

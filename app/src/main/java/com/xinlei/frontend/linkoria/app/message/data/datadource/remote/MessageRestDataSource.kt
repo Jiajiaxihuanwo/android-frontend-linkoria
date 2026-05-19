@@ -5,6 +5,7 @@ import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import com.xinlei.frontend.linkoria.app.message.data.dto.request.PaginationDirection
 import com.xinlei.frontend.linkoria.app.message.data.dto.response.MessagePageResponse
 import com.xinlei.frontend.linkoria.app.message.data.dto.response.MessageResponse
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

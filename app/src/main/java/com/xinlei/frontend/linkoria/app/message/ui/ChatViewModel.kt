@@ -90,7 +90,6 @@ class ChatViewModel @Inject constructor(
     fun initDmChat(conversationId: Long, targetId: String) {
         _conversationId.value = conversationId
         loadUserProfile(targetId)
-        loadMessages(conversationId)
         viewModelScope.launch {
             subscribeToConversation(conversationId)
         }
@@ -111,6 +110,7 @@ class ChatViewModel @Inject constructor(
             is NetworkResult.Success -> {
                 loadMessages(conversationId)
                 observeMessageUpdates(conversationId)
+                hideShimmers()
             }
             is NetworkResult.Error -> _messagesState.value = UiState.Error(result.message ?: "Error al suscribirse")
             else -> Unit
@@ -126,6 +126,10 @@ class ChatViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun hideShimmers() {
+
     }
 
     private suspend fun handleMessageUpdate(update: MessageUpdate) {
