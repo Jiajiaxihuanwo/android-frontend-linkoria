@@ -1,5 +1,7 @@
 package com.xinlei.frontend.linkoria.app.message.ui
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +12,8 @@ import com.xinlei.frontend.linkoria.app.message.ui.navigation.ChatArgs.Companion
 import com.xinlei.frontend.linkoria.app.conversation.domain.usecase.GetChannelConversationUseCase
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import com.xinlei.frontend.linkoria.app.core.session.SessionManager
+import com.xinlei.frontend.linkoria.app.core.storage.SupabaseStorageDataSource
+import com.xinlei.frontend.linkoria.app.core.storage.UriToFileConverter
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.message.domain.model.Message
 import com.xinlei.frontend.linkoria.app.message.domain.model.MessageUpdate
@@ -20,9 +24,15 @@ import com.xinlei.frontend.linkoria.app.message.domain.usecase.SubscribeToConver
 import com.xinlei.frontend.linkoria.app.message.domain.usecase.UnsubscribeFromConversationUseCase
 import com.xinlei.frontend.linkoria.app.message.ui.adapter.ChatListItem
 import com.xinlei.frontend.linkoria.app.message.ui.navigation.ChatArgs
+import com.xinlei.frontend.linkoria.app.typing.domain.model.TypingAction
+import com.xinlei.frontend.linkoria.app.typing.domain.model.TypingEvent
+import com.xinlei.frontend.linkoria.app.typing.domain.usecase.ObserveTypingEventsUseCase
+import com.xinlei.frontend.linkoria.app.typing.domain.usecase.SendTypingStartUseCase
+import com.xinlei.frontend.linkoria.app.typing.domain.usecase.SendTypingStopUseCase
 import com.xinlei.frontend.linkoria.app.user.domain.model.User
 import com.xinlei.frontend.linkoria.app.user.domain.usecase.GetUserByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,6 +52,9 @@ class ChatViewModel @Inject constructor(
     private val unsubscribeFromConversationUseCase: UnsubscribeFromConversationUseCase,
     private val subscribeToConversationUseCase: SubscribeToConversationUseCase,
     private val sessionManager: SessionManager,
+    private val subscribeToTypingUseCase: ObserveTypingEventsUseCase,
+    private val sendTypingStartUseCase: SendTypingStartUseCase,
+    private val sendTypingStopUseCase: SendTypingStopUseCase
 ) : ViewModel() {
 
     private val _dmState = MutableStateFlow<UiState<User?>>(UiState.Idle)
@@ -68,6 +81,8 @@ class ChatViewModel @Inject constructor(
     private val _isLoadingMore = MutableStateFlow(false)
     val isLoadingMore: StateFlow<Boolean> = _isLoadingMore.asStateFlow()
 
+    private val _typingUsers = MutableStateFlow<Set<User>>(emptySet())
+    val typingUsers: StateFlow<Set<User>> = _typingUsers.asStateFlow()
 
     fun init(args: ChatArgs) {
         viewModelScope.launch {
@@ -110,6 +125,7 @@ class ChatViewModel @Inject constructor(
             is NetworkResult.Success -> {
                 loadMessages(conversationId)
                 observeMessageUpdates(conversationId)
+                observeTypingEvents(conversationId)
                 hideShimmers()
             }
             is NetworkResult.Error -> _messagesState.value = UiState.Error(result.message ?: "Error al suscribirse")
@@ -123,6 +139,56 @@ class ChatViewModel @Inject constructor(
                     is NetworkResult.Success -> handleMessageUpdate(result.data)
                     is NetworkResult.Error   -> Unit
                     else -> Unit
+                }
+            }
+        }
+    }
+
+    fun onTypingStart() {
+        val conversationId = _conversationId.value ?: return
+        viewModelScope.launch {
+            sendTypingStartUseCase(conversationId)
+        }
+    }
+
+    fun onTypingStop() {
+        val conversationId = _conversationId.value ?: return
+        viewModelScope.launch {
+            sendTypingStopUseCase(conversationId)
+        }
+    }
+
+    private fun observeTypingEvents(conversationId: Long) {
+        viewModelScope.launch {
+            subscribeToTypingUseCase(conversationId).collect { result ->
+                when (result) {
+                    is NetworkResult.Success -> handleTypingEvent(result.data)
+                    is NetworkResult.Error -> Unit
+                    else -> Unit
+                }
+            }
+        }
+    }
+
+    private fun handleTypingEvent(event: TypingEvent) {
+        if (event.userId.toString() == currentUserId) return
+        viewModelScope.launch {
+            when (event.action) {
+                TypingAction.START -> {
+                    val user = userCache[event.userId.toString()]
+                        ?: run {
+                            getUserByIdUseCase(event.userId.toString()).collect { result ->
+                                if (result is NetworkResult.Success) {
+                                    userCache[event.userId.toString()] = result.data
+                                }
+                            }
+                            userCache[event.userId.toString()] ?: return@launch
+                        }
+                    _typingUsers.value += user
+                }
+                TypingAction.STOP -> {
+                    val user = userCache[event.userId.toString()] ?: return@launch
+                    _typingUsers.value -= user
                 }
             }
         }
@@ -211,6 +277,18 @@ class ChatViewModel @Inject constructor(
                     val current = (_messagesState.value as? UiState.Success)?.data ?: emptyList()
                     _messagesState.value = UiState.Success(listOf(newItem) + current)
                 }
+                is NetworkResult.Error -> _sendState.value = UiState.Error(result.message ?: "Error al enviar")
+                else -> Unit
+            }
+        }
+    }
+
+    fun sendImageMessage(uri: Uri) {
+        val conversationId = _conversationId.value ?: return
+        viewModelScope.launch {
+            _sendState.value = UiState.Loading
+            when (val result = sendMessageUseCase(conversationId, "", imageUri = uri)) {
+                is NetworkResult.Success -> _sendState.value = UiState.Success(Unit)
                 is NetworkResult.Error -> _sendState.value = UiState.Error(result.message ?: "Error al enviar")
                 else -> Unit
             }

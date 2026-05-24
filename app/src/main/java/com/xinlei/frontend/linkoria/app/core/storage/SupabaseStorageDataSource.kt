@@ -15,6 +15,8 @@ class SupabaseStorageDataSource @Inject constructor(
     companion object {
         private const val USER_ICONS_BUCKET = "user_icons"
         private const val SERVER_ICONS_BUCKET = "server_icons"
+
+        private const val CHAT_IMAGES_BUCKET = "chat_images"
     }
     private suspend fun uploadFile(
         bucket: String,
@@ -57,6 +59,17 @@ class SupabaseStorageDataSource @Inject constructor(
     ): NetworkResult<String> = uploadFile(
         bucket = SERVER_ICONS_BUCKET,
         path = serverId,
+        file = file,
+        extension = extension
+    )
+
+    suspend fun uploadChatImage(
+        file: File,
+        userId: String,
+        extension: String = "jpg"
+    ): NetworkResult<String> = uploadFile(
+        bucket = CHAT_IMAGES_BUCKET,
+        path = userId,
         file = file,
         extension = extension
     )

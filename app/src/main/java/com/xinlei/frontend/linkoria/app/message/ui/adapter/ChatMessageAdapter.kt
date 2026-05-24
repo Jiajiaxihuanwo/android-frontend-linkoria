@@ -7,9 +7,12 @@ import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.ItemChatDateHeaderBinding
 import com.xinlei.frontend.linkoria.app.databinding.ItemMessageReceivedBinding
 import com.xinlei.frontend.linkoria.app.databinding.ItemMessageSentBinding
+import com.xinlei.frontend.linkoria.app.friendship.ui.list.model.UserSearchItemUiModel
+import com.xinlei.frontend.linkoria.app.message.domain.model.Message
 
 class ChatMessageAdapter(
-    private val imageLoader: ImageLoader
+    private val imageLoader: ImageLoader,
+    private var onImageClicked: (Message) -> Unit = {}
 ) : ListAdapter<ChatListItem, ChatMessageViewHolder>(ChatMessageDiffCallback()) {
 
     companion object {
@@ -32,11 +35,13 @@ class ChatMessageAdapter(
             )
             VIEW_TYPE_MSG_RECEIVED -> ChatMessageViewHolder.MessageReceivedViewHolder(
                 ItemMessageReceivedBinding.inflate(inflater, parent, false),
-                imageLoader
+                imageLoader,
+                onImageClicked
             )
             else                   -> ChatMessageViewHolder.MessageSentViewHolder(
                 ItemMessageSentBinding.inflate(inflater, parent, false),
-                imageLoader
+                imageLoader,
+                onImageClicked
             )
         }
     }

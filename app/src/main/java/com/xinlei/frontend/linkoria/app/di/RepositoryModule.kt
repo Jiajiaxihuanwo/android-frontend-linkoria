@@ -12,6 +12,8 @@ import com.xinlei.frontend.linkoria.app.message.data.repository.MessageRepositor
 import com.xinlei.frontend.linkoria.app.message.domain.repository.MessageRepository
 import com.xinlei.frontend.linkoria.app.server.data.ServerRepositoryImpl
 import com.xinlei.frontend.linkoria.app.server.domain.ServerRepository
+import com.xinlei.frontend.linkoria.app.typing.data.repository.TypingRepositoryImpl
+import com.xinlei.frontend.linkoria.app.typing.domain.repository.TypingRepository
 import com.xinlei.frontend.linkoria.app.user.data.UserRepositoryImpl
 import com.xinlei.frontend.linkoria.app.user.domain.UserRepository
 import dagger.Binds
@@ -65,4 +67,10 @@ abstract class RepositoryModule {
     abstract fun bindFriendshipRepository(
         friendshipRepositoryImpl: FriendshipRepositoryImpl
     ): FriendshipRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindTypingRepository(
+        typingRepositoryImpl: TypingRepositoryImpl
+    ): TypingRepository
 }

@@ -1,8 +1,13 @@
 package com.xinlei.frontend.linkoria.app.message.ui
 
+import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,6 +27,7 @@ import com.xinlei.frontend.linkoria.app.databinding.ActivityChatBinding
 import com.xinlei.frontend.linkoria.app.message.ui.adapter.ChatMessageAdapter
 import com.xinlei.frontend.linkoria.app.message.ui.navigation.ChatArgs
 import com.xinlei.frontend.linkoria.app.message.ui.navigation.ChatNavigator
+import com.xinlei.frontend.linkoria.app.typing.ui.adapter.TypingAdapter
 import com.xinlei.frontend.linkoria.app.user.domain.model.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -39,8 +45,15 @@ class ChatActivity : AppCompatActivity() {
     private val viewModel: ChatViewModel by viewModels()
 
     private lateinit var chatAdapter: ChatMessageAdapter
+    private lateinit var typingAdapter: TypingAdapter
 
     private var isLoadingMore = false
+
+    private val pickImageLauncher = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        uri?.let { viewModel.sendImageMessage(it) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +88,9 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        chatAdapter = ChatMessageAdapter(imageLoader)
+        chatAdapter = ChatMessageAdapter(imageLoader) {
+            message -> ZoomedImageDialogFragment.newInstance(message.content).show(supportFragmentManager, "zoomed_image")
+        }
         binding.rvMessages.apply {
             adapter = chatAdapter
             layoutManager = LinearLayoutManager(this@ChatActivity).also {
@@ -91,6 +106,12 @@ class ChatActivity : AppCompatActivity() {
                     }
                 }
             })
+        }
+
+        typingAdapter = TypingAdapter(imageLoader)
+        binding.rvTyping.apply {
+            adapter = typingAdapter
+            layoutManager = LinearLayoutManager(this@ChatActivity)
         }
     }
 
@@ -110,8 +131,22 @@ class ChatActivity : AppCompatActivity() {
         binding.btnSend.setOnClickListener {
             val content = binding.etMessage.text?.toString()?.trim() ?: return@setOnClickListener
             if (content.isEmpty()) return@setOnClickListener
+            viewModel.onTypingStop()
             viewModel.sendMessage(content)
             binding.etMessage.setText("")
+        }
+        binding.etMessage.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun afterTextChanged(s: Editable?) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.isNullOrEmpty()) viewModel.onTypingStop()
+                else viewModel.onTypingStart()
+            }
+        })
+        binding.btnGallery.setOnClickListener {
+            pickImageLauncher.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
         }
     }
 
@@ -124,6 +159,7 @@ class ChatActivity : AppCompatActivity() {
         }
         observeMessagesState()
         observeSendState()
+        observeTypingState()
     }
 
     private fun observeDmState() {
@@ -196,14 +232,32 @@ class ChatActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.sendState.collect { state ->
                     when (state) {
-                        is UiState.Loading -> binding.btnSend.isEnabled = false
-                        is UiState.Success -> binding.btnSend.isEnabled = true
+                        is UiState.Loading -> {
+                            binding.btnSend.isEnabled = false
+                            binding.btnGallery.isEnabled = false
+                        }
+                        is UiState.Success -> {
+                            binding.btnSend.isEnabled = true
+                            binding.btnGallery.isEnabled = true
+                        }
                         is UiState.Error -> {
                             binding.btnSend.isEnabled = true
+                            binding.btnGallery.isEnabled = true
                             Toast.makeText(this@ChatActivity, state.message, Toast.LENGTH_SHORT).show()
                         }
                         else -> Unit
                     }
+                }
+            }
+        }
+    }
+
+    private fun observeTypingState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.typingUsers.collect { users ->
+                    typingAdapter.submitList(users.toList())
+                    binding.rvTyping.visibility = if (users.isEmpty()) View.GONE else View.VISIBLE
                 }
             }
         }

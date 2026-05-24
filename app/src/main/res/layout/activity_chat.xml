@@ -82,7 +82,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@android:color/white" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- LISTADO DE MENSAJES -->
@@ -104,11 +103,31 @@
         android:clipToPadding="false"
         android:paddingHorizontal="8dp"
         android:paddingVertical="12dp"
-        app:layout_constraintBottom_toTopOf="@id/layout_input"
+        app:layout_constraintBottom_toTopOf="@id/rv_typing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_container"
         tools:listitem="@layout/item_message_received"/>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#2B2D31"
+        app:layout_constraintTop_toBottomOf="@id/rv_messages" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_typing"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingHorizontal="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/layout_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_typing"
+        tools:visibility="visible" />
 
     <!-- INPUT DE MENSAJE -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -123,13 +142,13 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
-            android:id="@+id/btn_camera"
+            android:id="@+id/btn_gallery"
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:padding="6dp"
             android:background="@drawable/shape_basic_circle_button"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_camera"
+            android:src="@drawable/ic_gallery"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -150,7 +169,7 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_send"
-            app:layout_constraintStart_toEndOf="@id/btn_camera"
+            app:layout_constraintStart_toEndOf="@id/btn_gallery"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton

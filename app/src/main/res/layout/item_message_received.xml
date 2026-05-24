@@ -42,20 +42,22 @@
         android:background="@drawable/shape_bubble_received"
         android:backgroundTint="@color/bg_bubble_received"
         android:maxWidth="280dp"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="6dp"
+        android:padding="3dp"
         app:layout_constrainedWidth="true"
         app:layout_constraintStart_toEndOf="@id/iv_avatar"
         app:layout_constraintTop_toBottomOf="@id/tv_username">
 
-        <!-- Imagen adjunta (oculta por defecto) -->
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_attachment"
-            android:layout_width="200dp"
-            android:layout_height="150dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="270dp"
+            android:maxHeight="200dp"
+            android:adjustViewBounds="true"
             android:importantForAccessibility="no"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:visibility="gone"
+            app:shapeAppearanceOverlay="@style/RoundedImageStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -65,6 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="258dp"
+            android:paddingHorizontal="8dp"
             android:textColor="@color/text_primary"
             android:textSize="15sp"
             android:textIsSelectable="true"
@@ -73,13 +76,14 @@
             app:layout_constraintTop_toBottomOf="@id/iv_attachment"
             app:layout_constraintVertical_bias="1.0" />
 
-        <!-- Footer: check + timestamp, siempre abajo a la derecha -->
         <LinearLayout
             android:id="@+id/layout_footer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_message_text">

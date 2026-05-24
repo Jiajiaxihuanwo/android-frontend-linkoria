@@ -33,64 +33,70 @@
 
     <!-- Burbuja del mensaje -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bubble_container"
+    android:id="@+id/bubble_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="6dp"
+    android:background="@drawable/shape_bubble_sent"
+    android:backgroundTint="@color/bg_bubble_sent"
+    android:maxWidth="280dp"
+    android:padding="3dp"
+    app:layout_constrainedWidth="true"
+    app:layout_constraintEnd_toStartOf="@id/iv_avatar"
+    app:layout_constraintTop_toBottomOf="@id/tv_username">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_attachment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:background="@drawable/shape_bubble_sent"
-        android:backgroundTint="@color/bg_bubble_sent"
-        android:maxWidth="280dp"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="4dp"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toStartOf="@id/iv_avatar"
-        app:layout_constraintTop_toBottomOf="@id/tv_username">
+        android:maxWidth="270dp"
+        android:maxHeight="200dp"
+        android:adjustViewBounds="true"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:shapeAppearanceOverlay="@style/RoundedImageStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_attachment"
-            android:layout_width="200dp"
-            android:layout_height="150dp"
-            android:importantForAccessibility="no"
-            android:scaleType="centerCrop"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tv_message_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="258dp"
+        android:paddingHorizontal="8dp"
+        android:textColor="@color/text_primary"
+        android:textSize="15sp"
+        android:textIsSelectable="true"
+        tools:text="Hola tío qué tal!"
+        app:layout_constraintBottom_toTopOf="@id/layout_footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_attachment"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <LinearLayout
+        android:id="@+id/layout_footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_message_text">
 
         <TextView
-            android:id="@+id/tv_message_text"
+            android:id="@+id/tv_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="258dp"
-            android:textColor="@color/text_primary"
-            android:textSize="15sp"
-            tools:text="Hola tío qué tal!"
-            android:textIsSelectable="true"
-            app:layout_constraintBottom_toTopOf="@id/layout_footer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_attachment"
-            app:layout_constraintVertical_bias="1.0" />
+            android:textColor="@color/text_secondary"
+            android:textSize="11sp"
+            tools:text="11:23" />
 
-        <LinearLayout
-            android:id="@+id/layout_footer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_message_text">
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_timestamp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_secondary"
-                android:textSize="11sp"
-                tools:text="11:23" />
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
