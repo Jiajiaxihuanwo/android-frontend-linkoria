@@ -1,7 +1,6 @@
 package com.xinlei.frontend.linkoria.app.websocket.infrastructure.adapter
 
 import com.xinlei.frontend.linkoria.app.core.network.TokenRefreshService
-import com.xinlei.frontend.linkoria.app.core.session.SessionManager
 import com.xinlei.frontend.linkoria.app.websocket.domain.port.TokenProvider
 import javax.inject.Inject
 

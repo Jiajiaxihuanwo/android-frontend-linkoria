@@ -30,7 +30,7 @@ interface StompClient {
      * @param destination Destino (ej: /app/message/send/1)
      * @param body Payload a serializar
      */
-    suspend fun send(destination: String, body: Any)
+    suspend fun send(destination: String, body: String)
 
     /**
      * Obtiene el estado actual de la conexión

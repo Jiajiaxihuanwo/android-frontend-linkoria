@@ -3,7 +3,6 @@ package com.xinlei.frontend.linkoria.app.conversation.domain
 import com.xinlei.frontend.linkoria.app.conversation.domain.model.Conversation
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import kotlinx.coroutines.flow.Flow
-import java.util.UUID
 
 interface ConversationRepository {
 

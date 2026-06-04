@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,4 +40,17 @@ class FriendProfileViewModel @Inject constructor(
             }
         }
     }
+
+    fun getMemberSinceDate(user: User): String {
+        return try {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+            val date = LocalDateTime.parse(user.createdAt, formatter)
+            val output = DateTimeFormatter.ofPattern("d MMM yyyy", Locale("es"))
+            date.format(output)
+        } catch (e: Exception) {
+            "Fecha desconocida"
+        }
+    }
+
+
 }

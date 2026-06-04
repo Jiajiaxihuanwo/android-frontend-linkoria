@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="5dp"
+    android:paddingVertical="6dp">
+
+    <!-- 1. SENT — 2 líneas -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/avatar_1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/shape_circle_avatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/name_1"
+                android:layout_width="60dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/shape_shimmer_rect"
+                app:layout_constraintEnd_toStartOf="@id/avatar_1"
+                app:layout_constraintTop_toTopOf="@id/avatar_1" />
+
+            <View
+                android:id="@+id/bubble_1"
+                android:layout_width="240dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/shape_bubble_sent"
+                app:layout_constraintEnd_toStartOf="@id/avatar_1"
+                app:layout_constraintTop_toBottomOf="@id/name_1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- 2. SENT — 1 línea -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/avatar_2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/shape_circle_avatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/name_2"
+                android:layout_width="60dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/shape_shimmer_rect"
+                app:layout_constraintEnd_toStartOf="@id/avatar_2"
+                app:layout_constraintTop_toTopOf="@id/avatar_2" />
+
+            <View
+                android:id="@+id/bubble_2"
+                android:layout_width="160dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/shape_bubble_sent"
+                app:layout_constraintEnd_toStartOf="@id/avatar_2"
+                app:layout_constraintTop_toBottomOf="@id/name_2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- 3. RECEIVED — 2 líneas -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/avatar_3"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/shape_circle_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/name_3"
+                android:layout_width="60dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/shape_shimmer_rect"
+                app:layout_constraintStart_toEndOf="@id/avatar_3"
+                app:layout_constraintTop_toTopOf="@id/avatar_3" />
+
+            <View
+                android:id="@+id/bubble_3"
+                android:layout_width="180dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shape_bubble_received"
+                app:layout_constraintStart_toEndOf="@id/avatar_3"
+                app:layout_constraintTop_toBottomOf="@id/name_3" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- 4. SENT — 10 líneas -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/avatar_4"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/shape_circle_avatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/name_4"
+                android:layout_width="60dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/shape_shimmer_rect"
+                app:layout_constraintEnd_toStartOf="@id/avatar_4"
+                app:layout_constraintTop_toTopOf="@id/avatar_4" />
+
+            <View
+                android:id="@+id/bubble_4"
+                android:layout_width="280dp"
+                android:layout_height="188dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/shape_bubble_sent"
+                app:layout_constraintEnd_toStartOf="@id/avatar_4"
+                app:layout_constraintTop_toBottomOf="@id/name_4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- 5. RECEIVED — 1 línea -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/avatar_5"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/shape_circle_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/name_5"
+                android:layout_width="60dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/shape_shimmer_rect"
+                app:layout_constraintStart_toEndOf="@id/avatar_5"
+                app:layout_constraintTop_toTopOf="@id/avatar_5" />
+
+            <View
+                android:id="@+id/bubble_5"
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shape_bubble_received"
+                app:layout_constraintStart_toEndOf="@id/avatar_5"
+                app:layout_constraintTop_toBottomOf="@id/name_5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- 6. RECEIVED — 2 líneas -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/avatar_6"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/shape_circle_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/name_6"
+                android:layout_width="60dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/shape_shimmer_rect"
+                app:layout_constraintStart_toEndOf="@id/avatar_6"
+                app:layout_constraintTop_toTopOf="@id/avatar_6" />
+
+            <View
+                android:id="@+id/bubble_6"
+                android:layout_width="210dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shape_bubble_received"
+                app:layout_constraintStart_toEndOf="@id/avatar_6"
+                app:layout_constraintTop_toBottomOf="@id/name_6" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- 7. SENT — 2 líneas -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/avatar_7"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/shape_circle_avatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/name_7"
+                android:layout_width="60dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/shape_shimmer_rect"
+                app:layout_constraintEnd_toStartOf="@id/avatar_7"
+                app:layout_constraintTop_toTopOf="@id/avatar_7" />
+
+            <View
+                android:id="@+id/bubble_7"
+                android:layout_width="200dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/shape_bubble_sent"
+                app:layout_constraintEnd_toStartOf="@id/avatar_7"
+                app:layout_constraintTop_toBottomOf="@id/name_7" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</LinearLayout>

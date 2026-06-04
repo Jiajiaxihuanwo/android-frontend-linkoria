@@ -9,8 +9,9 @@ import com.xinlei.frontend.linkoria.app.conversation.data.remote.ConversationApi
 import com.xinlei.frontend.linkoria.app.core.network.AuthInterceptor
 import com.xinlei.frontend.linkoria.app.core.network.InstantDeserializer
 import com.xinlei.frontend.linkoria.app.core.network.TokenAuthenticator
-import com.xinlei.frontend.linkoria.app.core.util.Constants
 import com.xinlei.frontend.linkoria.app.core.util.Constants.BASE_URL
+import com.xinlei.frontend.linkoria.app.friendship.data.remote.FriendshipApiService
+import com.xinlei.frontend.linkoria.app.message.data.datadource.remote.MessageApiService
 import com.xinlei.frontend.linkoria.app.server.data.remote.ServerApiService
 import com.xinlei.frontend.linkoria.app.user.data.remote.UserApiService
 import dagger.Module
@@ -20,7 +21,6 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import java.time.Instant
 import javax.inject.Singleton
 
@@ -101,4 +101,13 @@ object NetworkModule {
     fun provideConversationApiService(retrofit: Retrofit): ConversationApiService =
         retrofit.create(ConversationApiService::class.java)
 
+    @Provides
+    @Singleton
+    fun provideFriendshipApiService(retrofit: Retrofit): FriendshipApiService =
+        retrofit.create(FriendshipApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMessageApiService(retrofit: Retrofit): MessageApiService =
+        retrofit.create(MessageApiService::class.java)
 }

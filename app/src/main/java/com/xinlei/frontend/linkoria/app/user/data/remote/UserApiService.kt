@@ -2,7 +2,6 @@ package com.xinlei.frontend.linkoria.app.user.data.remote
 
 import com.xinlei.frontend.linkoria.app.user.data.remote.dto.UpdateUserRequest
 import com.xinlei.frontend.linkoria.app.user.data.remote.dto.UserResponse
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH

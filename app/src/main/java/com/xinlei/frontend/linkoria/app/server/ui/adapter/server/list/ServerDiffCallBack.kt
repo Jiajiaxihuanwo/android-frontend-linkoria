@@ -17,4 +17,12 @@ class ServerDiffCallBack : DiffUtil.ItemCallback<Server>() {
     ): Boolean {
         return p0 == p1
     }
+
+    override fun getChangePayload(oldItem: Server, newItem: Server): Any? {
+        return if (oldItem != newItem) {
+            true
+        } else {
+            super.getChangePayload(oldItem, newItem)
+        }
+    }
 }

@@ -1,8 +1,8 @@
 package com.xinlei.frontend.linkoria.app.user.ui
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -16,7 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.databinding.FragmentProfileBinding
-import com.xinlei.frontend.linkoria.app.root.SplashActivity
+import com.xinlei.frontend.linkoria.app.root.navigator.ProfileNavigator
 import com.xinlei.frontend.linkoria.app.user.domain.model.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -32,8 +32,11 @@ class ProfileFragment : Fragment() {
     @Inject
     lateinit var imageLoader: ImageLoader
 
+    @Inject
+    lateinit var profileNavigator: ProfileNavigator
+
     private fun getRealViews() = with(binding) {
-        listOf(ivAvatar, tvUsername, etDescription)
+        listOf(ivAvatar, tvUsername, tvDescription)
     }
 
     override fun onCreateView(
@@ -50,19 +53,23 @@ class ProfileFragment : Fragment() {
         viewModel.loadProfile()
         observeUiState()
         setupClickListeners()
-        setUpEditTextScroll()
+        setUpBioTextScroll()
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setUpEditTextScroll() {
-        binding.etDescription.setOnTouchListener { v, event ->
-            if (v.canScrollVertically(1) || v.canScrollVertically(-1)) {
-                v.parent.requestDisallowInterceptTouchEvent(true)
-            }
+    private fun setUpBioTextScroll() {
+        binding.tvDescription.movementMethod = ScrollingMovementMethod()
+        binding.tvDescription.setOnTouchListener { v, event ->
+            val canScroll = v.canScrollVertically(1) || v.canScrollVertically(-1)
 
-            if (event.action == MotionEvent.ACTION_UP) {
-                v.parent.requestDisallowInterceptTouchEvent(false)
-                v.performClick()
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    v.parent.requestDisallowInterceptTouchEvent(canScroll)
+                }
+                MotionEvent.ACTION_UP -> {
+                    v.parent.requestDisallowInterceptTouchEvent(false)
+                    v.performClick()
+                }
             }
 
             false
@@ -76,6 +83,9 @@ class ProfileFragment : Fragment() {
         binding.btnEdit.setOnClickListener {
             EditProfileBottomSheet().show(childFragmentManager, "edit_profile")
         }
+        binding.btnFriends.setOnClickListener {
+            profileNavigator.openFriendShips(requireActivity())
+        }
     }
 
     private fun observeUiState() {
@@ -88,7 +98,7 @@ class ProfileFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.logoutEvent.collect { event ->
                     when (event) {
-                        true -> navigateToSplash()
+                        true -> profileNavigator.navigateToAuth(requireActivity())
                         else -> Unit
                     }
                 }
@@ -124,6 +134,8 @@ class ProfileFragment : Fragment() {
 
         binding.tvUsername.text = user.username
 
+        binding.tvDescription.text = user.bio
+
         imageLoader.loadIcon(
             view = binding.ivAvatar,
             url = user.avatarUrl
@@ -132,12 +144,6 @@ class ProfileFragment : Fragment() {
         imageLoader.extractDominantColor(user.avatarUrl) {
             _binding?.ivBanner?.setBackgroundColor(it)
         }
-    }
-
-    private fun navigateToSplash() {
-        val intent = Intent(requireActivity(), SplashActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
     }
 
     override fun onDestroyView() {

@@ -5,6 +5,7 @@ data class UserResponse(
     val username: String,
     val email: String,
     val avatarUrl: String?,
+    val bio: String?,
     val isActive: Boolean,
     val createdAt: String,
     val updatedAt: String

@@ -3,18 +3,14 @@ package com.xinlei.frontend.linkoria.app.user.ui
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.xinlei.frontend.linkoria.app.auth.domain.AuthUser
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import com.xinlei.frontend.linkoria.app.core.session.SessionManager
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
-import com.xinlei.frontend.linkoria.app.user.data.remote.dto.UserResponse
 import com.xinlei.frontend.linkoria.app.user.domain.model.User
 import com.xinlei.frontend.linkoria.app.user.domain.usecase.GetUserProfileUseCase
 import com.xinlei.frontend.linkoria.app.user.domain.usecase.UpdateUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -63,10 +59,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun updateProfile(username: String? = null, email: String? = null, avatarUri: Uri? = null) {
+    fun updateProfile(username: String? = null, email: String? = null, avatarUri: Uri? = null, bio: String? = null) {
         viewModelScope.launch {
             val oldData = (_userState.value as? UiState.Success)?.data
-            updateUserUseCase(username = username, email = email, avatarUri = avatarUri).collect { result ->
+            updateUserUseCase(username = username, email = email, avatarUri = avatarUri, bio = bio).collect { result ->
                 when(result) {
                     is NetworkResult.Success -> {
                         val user = result.data.copy(

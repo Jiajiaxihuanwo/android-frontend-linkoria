@@ -5,5 +5,7 @@ data class User (
     val username: String,
     val email: String,
     val avatarUrl: String,
-    val initialLetter: String = username.firstOrNull()?.uppercase() ?: "?"
+    val bio: String,
+    val initialLetter: String = username.firstOrNull()?.uppercase() ?: "?",
+    val createdAt: String
 )

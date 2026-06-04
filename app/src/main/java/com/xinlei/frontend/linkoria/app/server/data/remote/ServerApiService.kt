@@ -6,7 +6,6 @@ import com.xinlei.frontend.linkoria.app.server.data.remote.dto.ServerMemberRespo
 import com.xinlei.frontend.linkoria.app.server.data.remote.dto.ServerResponse
 import com.xinlei.frontend.linkoria.app.server.data.remote.dto.UpdateMemberRoleRequest
 import com.xinlei.frontend.linkoria.app.server.data.remote.dto.UpdateServerRequest
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

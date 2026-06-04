@@ -1,8 +1,10 @@
 package com.xinlei.frontend.linkoria.app.message.domain.repository
 
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
+import com.xinlei.frontend.linkoria.app.message.data.dto.request.PaginationDirection
 import com.xinlei.frontend.linkoria.app.message.domain.model.Message
 import com.xinlei.frontend.linkoria.app.message.domain.model.MessageUpdate
+import com.xinlei.frontend.linkoria.app.message.domain.model.PagedMessages
 import kotlinx.coroutines.flow.Flow
 
 interface MessageRepository {
@@ -10,8 +12,9 @@ interface MessageRepository {
     fun getMessages(
         conversationId: Long,
         cursor: Long? = null,
-        limit: Int = 50
-    ): Flow<NetworkResult<List<Message>>>
+        limit: Int = 50,
+        paginationDirection: PaginationDirection,
+    ): Flow<NetworkResult<PagedMessages>>
 
     fun getLastMessage(conversationId: Long): Flow<NetworkResult<Message?>>
 

@@ -10,5 +10,7 @@ data class UpdateUserRequest(
     @SerialName("email")
     val email: String? = null,
     @SerialName("avatarUrl")
-    val avatarUrl: String? = null
+    val avatarUrl: String? = null,
+    @SerialName("bio")
+    val bio: String? = null
 )

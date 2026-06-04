@@ -1,8 +1,10 @@
 package com.xinlei.frontend.linkoria.app.channel.data.remote.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class ChannelResponse(
     val id: Long,
     val name: String,
-    val serverId: Long,
-    val channelCategoryId: Long?
+    @SerializedName("ServerId") val serverId: Long,
+    @SerializedName("ChannelCategoryId") val channelCategoryId: Long?
 )

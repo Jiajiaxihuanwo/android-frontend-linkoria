@@ -1,6 +1,5 @@
 package com.xinlei.frontend.linkoria.app.websocket.infrastructure.adapter
 
-import com.google.gson.Gson
 import com.xinlei.frontend.linkoria.app.core.util.Constants
 import com.xinlei.frontend.linkoria.app.websocket.domain.model.StompConnectionState
 import com.xinlei.frontend.linkoria.app.websocket.domain.model.WebSocketEvent
@@ -19,6 +18,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
@@ -28,6 +28,7 @@ import kotlinx.coroutines.reactive.asFlow
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.dto.LifecycleEvent
 import ua.naiksoftware.stomp.dto.StompHeader
+import ua.naiksoftware.stomp.dto.StompMessage
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -80,7 +81,10 @@ class StompClientImpl @Inject constructor(
                 val headers = tokenProvider.getHeaders()
                 val stompHeaders = headers.map { StompHeader(it.key, it.value) }
 
-                naikClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, STOMP_URL)
+                naikClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, STOMP_URL).apply {
+                    withClientHeartbeat(10000)
+                    withServerHeartbeat(10000)
+                }
 
                 val lifecycleDisposable = naikClient!!.lifecycle()
                     .subscribe(
@@ -155,21 +159,22 @@ class StompClientImpl @Inject constructor(
             .flatMapLatest {
                 // Cada vez que el estado pase a CONNECTED, creamos una nueva suscripción
                 // sobre el naikClient actual.
-                naikClient?.topic(topic)?.asFlow()?.map { stompMessage ->
+                naikClient?.topic(topic)?.asFlow()?.map<StompMessage, WebSocketEvent> { stompMessage ->
                     WebSocketEvent.Message(
                         payload = stompMessage.payload.toString(),
                         timestamp = java.time.Instant.now()
                     )
+                }?.catch { e ->
+                    emit(WebSocketEvent.Error(e))
                 } ?: emptyFlow()
             }
     }
 
-    override suspend fun send(destination: String, body: Any) {
+    override suspend fun send(destination: String, body: String) {
         val currentClient = naikClient ?: throw IllegalStateException("STOMP client no conectado")
-        val json = Gson().toJson(body)
 
         // Creamos un Observer anónimo para tener control total
-        currentClient.send(destination, json).subscribe(object : CompletableObserver {
+        currentClient.send(destination, body).subscribe(object : CompletableObserver {
             private var d: Disposable? = null
 
             override fun onSubscribe(disposable: Disposable) {

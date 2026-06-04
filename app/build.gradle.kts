@@ -99,4 +99,10 @@ dependencies {
 
     //Palette
     implementation(libs.androidx.palette)
+
+    //SpeedDialView
+    implementation(libs.speed.dial)
+
+    //Lottie
+    implementation(libs.lottie)
 }

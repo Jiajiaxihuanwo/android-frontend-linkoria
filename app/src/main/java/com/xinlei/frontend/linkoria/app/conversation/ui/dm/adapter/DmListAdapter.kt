@@ -10,7 +10,7 @@ import com.xinlei.frontend.linkoria.app.databinding.ItemDmBinding
 class   DmListAdapter(
     private val imageLoader: ImageLoader,
     private val onItemClick: (Conversation) -> Unit = {}
-) : ListAdapter<Conversation, DmViewHolder>(DmDiffCallback()) {
+) : ListAdapter<DmItem, DmViewHolder>(DmDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DmViewHolder {
         val binding = ItemDmBinding.inflate(

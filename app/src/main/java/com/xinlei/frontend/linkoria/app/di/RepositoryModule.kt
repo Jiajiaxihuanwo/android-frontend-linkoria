@@ -6,8 +6,14 @@ import com.xinlei.frontend.linkoria.app.channel.data.ChannelRepositoryImpl
 import com.xinlei.frontend.linkoria.app.channel.domain.ChannelRepository
 import com.xinlei.frontend.linkoria.app.conversation.data.ConversationRepositoryImpl
 import com.xinlei.frontend.linkoria.app.conversation.domain.ConversationRepository
+import com.xinlei.frontend.linkoria.app.friendship.data.FriendshipRepositoryImpl
+import com.xinlei.frontend.linkoria.app.friendship.domain.FriendshipRepository
+import com.xinlei.frontend.linkoria.app.message.data.repository.MessageRepositoryImpl
+import com.xinlei.frontend.linkoria.app.message.domain.repository.MessageRepository
 import com.xinlei.frontend.linkoria.app.server.data.ServerRepositoryImpl
 import com.xinlei.frontend.linkoria.app.server.domain.ServerRepository
+import com.xinlei.frontend.linkoria.app.typing.data.repository.TypingRepositoryImpl
+import com.xinlei.frontend.linkoria.app.typing.domain.repository.TypingRepository
 import com.xinlei.frontend.linkoria.app.user.data.UserRepositoryImpl
 import com.xinlei.frontend.linkoria.app.user.domain.UserRepository
 import dagger.Binds
@@ -49,4 +55,22 @@ abstract class RepositoryModule {
     abstract fun bindConversationRepository(
         conversationRepositoryImpl: ConversationRepositoryImpl
     ): ConversationRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindMessageRepository(
+        messageRepositoryImpl: MessageRepositoryImpl
+    ): MessageRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindFriendshipRepository(
+        friendshipRepositoryImpl: FriendshipRepositoryImpl
+    ): FriendshipRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindTypingRepository(
+        typingRepositoryImpl: TypingRepositoryImpl
+    ): TypingRepository
 }

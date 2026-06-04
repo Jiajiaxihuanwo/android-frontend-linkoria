@@ -9,7 +9,7 @@
     <!-- Fondos principales -->
     <color name="bg_sidebar">#1E1F22</color>
     <color name="bg_dm_list">#2B2D31</color>
-    <color name="bg_chat">#34353A</color>
+    <color name="bg_chat">#2E2E35</color>
     <color name="bg_chat_nav">#25282A</color>
     <color name="bg_bottom_nav">#1E1F22</color>
     <color name="bg_icon_container">#36393F</color>
@@ -18,14 +18,22 @@
     <color name="bg_edit_field">#1E1F23</color>
 
 
+    <color name="bg_popup">#2B2D31</color>
+
+
+
     <!-- Perfil de usuario -->
     <color name="bg_userProfile">#232428</color>
     <color name="bg_banner">#909099</color>
     <color name="bg_profile_elements">#2F3136</color>
 
+    <!-- Amistades -->
+    <color name="bg_friendships">#232428</color>
+    <color name="bg_friendships_2">#232628</color>
+
     <!-- Burbujas de mensaje -->
-    <color name="bg_bubble_sent">#5865F2</color>
-    <color name="bg_bubble_received">#383A40</color>
+    <color name="bg_bubble_sent">#7968C5</color>
+    <color name="bg_bubble_received">#9760BF</color>
 
     <!-- Botones -->
     <color name="btn_primary">#5865F2</color>
@@ -33,6 +41,12 @@
     <color name="btn_danger">#ED4245</color>
     <color name="btn_success">#57F287</color>
     <color name="btn_disabled">#66A8A8A8</color>
+
+    <color name="btn_secondary_border">#1E40AF</color>
+    <color name="btn_secondary_fill">#F0F4FF</color>
+
+    <color name="btn_accent_border">#A21CAF</color>
+    <color name="btn_accent_fill">#FDF4FF</color>
 
     <!-- Textos -->
     <color name="text_primary">#EDEDED</color>
@@ -43,6 +57,8 @@
 
     <!-- Custom colors needed by styles/themes -->
     <color name="primary_blue">#5865F2</color>
+    <color name="secondary_blue">#7761C5</color>
+    <color name="accent_magenta">#F472B6</color>
     <color name="dark_gray">#313338</color>
     <color name="purple_700">#3700B3</color>
     <color name="white">#FFFFFF</color>

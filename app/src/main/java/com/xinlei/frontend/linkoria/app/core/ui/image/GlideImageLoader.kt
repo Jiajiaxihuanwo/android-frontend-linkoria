@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
@@ -34,6 +33,14 @@ class GlideImageLoader @Inject constructor(
                 .centerCrop()
                 .into(view)
         }
+    }
+
+    override fun loadFit(view: ImageView, url: String?) {
+        if (url == null) return
+        Glide.with(context)
+            .load(url)
+            .fitCenter()
+            .into(view)
     }
 
     override fun extractDominantColor(url: String?, onColorReady: (Int) -> Unit) {

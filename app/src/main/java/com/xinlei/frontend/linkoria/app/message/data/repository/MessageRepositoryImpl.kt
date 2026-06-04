@@ -3,11 +3,13 @@ package com.xinlei.frontend.linkoria.app.message.data.repository
 import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import com.xinlei.frontend.linkoria.app.message.data.datadource.remote.MessageRestDataSource
 import com.xinlei.frontend.linkoria.app.message.data.datadource.websocket.MessageWebSocketDataSource
+import com.xinlei.frontend.linkoria.app.message.data.dto.request.PaginationDirection
 import com.xinlei.frontend.linkoria.app.message.data.mapper.fromMessageResponse
-import com.xinlei.frontend.linkoria.app.message.data.mapper.fromMessageResponses
+import com.xinlei.frontend.linkoria.app.message.data.mapper.fromPagedMessagesResponses
 import com.xinlei.frontend.linkoria.app.message.domain.model.Message
 import com.xinlei.frontend.linkoria.app.message.domain.model.MessageType
 import com.xinlei.frontend.linkoria.app.message.domain.model.MessageUpdate
+import com.xinlei.frontend.linkoria.app.message.domain.model.PagedMessages
 import com.xinlei.frontend.linkoria.app.message.domain.repository.MessageRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -26,13 +28,14 @@ class MessageRepositoryImpl @Inject constructor(
     override fun getMessages(
         conversationId: Long,
         cursor: Long?,
-        limit: Int
-    ): Flow<NetworkResult<List<Message>>> {
-        return restDataSource.getMessages(conversationId, cursor, limit)
+        limit: Int,
+        paginationDirection: PaginationDirection,
+    ): Flow<NetworkResult<PagedMessages>> {
+        return restDataSource.getMessages(conversationId, cursor, limit, paginationDirection)
             .map { result ->
                 when (result) {
                     is NetworkResult.Success -> {
-                        NetworkResult.Success(fromMessageResponses(result.data.messages))
+                        NetworkResult.Success(fromPagedMessagesResponses(result.data.messages, result.data.hasMore, result.data.nextCursor))
                     }
                     is NetworkResult.Error -> result
                     is NetworkResult.Loading -> result
@@ -106,12 +109,20 @@ class MessageRepositoryImpl @Inject constructor(
     }
 
     override suspend fun subscribeToConversation(conversationId: Long): NetworkResult<Unit> {
-        activeSubscriptions[conversationId] = true
-        return NetworkResult.Success(Unit)
+        return try {
+            webSocketDataSource.connect()
+            activeSubscriptions[conversationId] = true
+            NetworkResult.Success(Unit)
+        } catch (e: Exception) {
+            NetworkResult.Error(null, "Error al conectar: ${e.message}")
+        }
     }
 
     override suspend fun unsubscribeFromConversation(conversationId: Long) {
         activeSubscriptions.remove(conversationId)
+        if (activeSubscriptions.isEmpty()) {
+            webSocketDataSource.disconnect()
+        }
     }
 
     override suspend fun clearCache() {

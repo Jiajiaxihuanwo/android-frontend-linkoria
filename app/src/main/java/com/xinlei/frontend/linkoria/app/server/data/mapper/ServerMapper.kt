@@ -5,7 +5,6 @@ import com.xinlei.frontend.linkoria.app.server.data.remote.dto.ServerResponse
 import com.xinlei.frontend.linkoria.app.server.domain.model.Server
 import com.xinlei.frontend.linkoria.app.server.domain.model.ServerMember
 import com.xinlei.frontend.linkoria.app.server.domain.model.ServerRole
-import java.util.UUID
 
 fun ServerResponse.toDomain(): Server {
     return Server(
