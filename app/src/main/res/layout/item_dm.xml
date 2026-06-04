@@ -20,15 +20,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_user"/>
 
-    <!-- Punto de estado -->
-    <View
-        android:id="@+id/v_status_dot"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:background="@drawable/shape_status_dot"
-        app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
-        app:layout_constraintEnd_toEndOf="@id/iv_avatar" />
-
     <!-- Nombre -->
     <TextView
         android:id="@+id/tv_username"

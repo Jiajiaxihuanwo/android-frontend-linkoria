@@ -48,18 +48,11 @@
             android:background="@drawable/shape_circle"
             android:padding="2dp"
             android:scaleType="centerCrop"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_arrow_back"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_user" />
-
-        <View
-            android:id="@+id/v_status_dot"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:background="@drawable/shape_status_dot"
-            app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
-            app:layout_constraintEnd_toEndOf="@id/iv_avatar" />
 
         <!-- Nombre centrado en vertical -->
         <TextView

@@ -2,6 +2,7 @@ package com.xinlei.frontend.linkoria.app.chat.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -11,13 +12,19 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.xinlei.frontend.linkoria.app.R
-import com.xinlei.frontend.linkoria.app.core.network.NetworkResult
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.databinding.ActivityChatBinding
+import com.xinlei.frontend.linkoria.app.server.ui.ServerMembersActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.jvm.java
+
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
+    private var chatType: String = "dm"  // 记录是 "dm" 还是 "channel"
+    private var channelId: String? = null
+    private var channelName: String? = null
+    private var serverId: Long = -1  // 服务器ID，用于获取成员列表
 
     private var _binding: ActivityChatBinding? = null
     private val binding get() = _binding!!
@@ -32,6 +39,14 @@ class ChatActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         configInsets()
+        val type = intent.getStringExtra("type") ?: "dm"
+
+        if (type == "channel") {
+            setupChannelMode()
+        } else {
+            setupDmMode()
+        }
+
         setupClickListeners()
 
         otherUserId = intent.getStringExtra("extra_user_id")
@@ -50,6 +65,7 @@ class ChatActivity : AppCompatActivity() {
                         binding.tvUsername.text = "Cargando..."
                         binding.ivAvatar.setImageResource(R.drawable.ic_user)
                     }
+
                     is UiState.Success -> {
                         val user = state.data
                         if (user != null) {
@@ -63,11 +79,17 @@ class ChatActivity : AppCompatActivity() {
                             }
                         }
                     }
+
                     is UiState.Error -> {
                         binding.tvUsername.text = "Error"
                         binding.ivAvatar.setImageResource(R.drawable.ic_user)
-                        Toast.makeText(this@ChatActivity, state.message ?: "加载用户信息失败", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@ChatActivity,
+                            state.message ?: "加载用户信息失败",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+
                     UiState.Idle -> {
 
                     }
@@ -86,6 +108,16 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
+
+        binding.ivMore.setOnClickListener {
+            android.util.Log.d("ChatActivity", "ivMore clicked, chatType: $chatType")
+            if (chatType == "dm") {
+                openFriendProfile()
+            } else {
+                openServerMembers()
+            }
+        }
+
         binding.ivArrowBack.setOnClickListener {
             navigateToMain()
         }
@@ -95,10 +127,6 @@ class ChatActivity : AppCompatActivity() {
         }
 
         binding.tvUsername.setOnClickListener {
-            openFriendProfile()
-        }
-
-        binding.ivMore.setOnClickListener {
             openFriendProfile()
         }
 
@@ -113,6 +141,20 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    private fun openServerMembers() {
+        android.util.Log.d("ChatActivity", "openServerMembers - serverId: $serverId")
+
+        if (serverId == -1L) {
+            Toast.makeText(this, "serverId 为空，无法打开成员列表", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val intent = Intent(this, ServerMembersActivity::class.java).apply {
+            putExtra("extra_server_id", serverId)
+        }
+        startActivity(intent)
+    }
+
     private fun navigateToMain() {
         finish()
     }
@@ -123,7 +165,10 @@ class ChatActivity : AppCompatActivity() {
         }
 
         try {
-            val intent = Intent(this, Class.forName("com.xinlei.frontend.linkoria.app.conversation.ui.dm.friendprofile.FriendProfile")).apply {
+            val intent = Intent(
+                this,
+                Class.forName("com.xinlei.frontend.linkoria.app.conversation.ui.dm.friendprofile.FriendProfile")
+            ).apply {
                 putExtra("extra_user_id", otherUserId)
             }
             startActivity(intent)
@@ -194,4 +239,48 @@ class ChatActivity : AppCompatActivity() {
             dialog.dismiss()
         }
     }
+
+    companion object {
+            fun startChannel(
+                context: android.content.Context,
+                channelId: String,
+                channelName: String,
+                serverId: Long  // ← 应该是 Long，不是 String
+            ) {
+                val intent = Intent(context, ChatActivity::class.java).apply {
+                    putExtra("extra_channel_id", channelId)
+                    putExtra("extra_channel_name", channelName)
+                    putExtra("extra_server_id", serverId)  // ← 加上这行
+                    putExtra("type", "channel")  // ← 删掉重复的
+                }
+                context.startActivity(intent)
+            }
+    }
+
+    private fun setupChannelMode() {
+        chatType = "channel"
+        channelName = intent.getStringExtra("extra_channel_name") ?: ""
+        serverId = intent.getLongExtra("extra_server_id", -1)
+
+        // 添加日志
+        android.util.Log.d("ChatActivity", "setupChannelMode - serverId: $serverId, channelName: $channelName")
+
+        binding.ivAvatar.visibility = View.GONE
+        binding.icChannel.visibility = View.VISIBLE
+        binding.tvUsername.text = channelName
+    }
+
+    private fun setupDmMode() {
+        otherUserId = intent.getStringExtra("extra_user_id")
+
+        binding.ivAvatar.visibility = View.VISIBLE
+        binding.icChannel.visibility = View.GONE
+        binding.ivMore.visibility = View.VISIBLE
+
+        otherUserId?.let {
+            viewModel.loadUserProfile(it)
+            observeUserData()
+        }
+    }
+
 }

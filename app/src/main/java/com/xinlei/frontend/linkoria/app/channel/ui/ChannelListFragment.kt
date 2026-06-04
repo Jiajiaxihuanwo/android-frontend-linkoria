@@ -12,7 +12,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.xinlei.frontend.linkoria.app.channel.domain.model.Channel
 import com.xinlei.frontend.linkoria.app.channel.ui.adapter.ChannelAdapter
+import com.xinlei.frontend.linkoria.app.chat.ui.ChatActivity
 import com.xinlei.frontend.linkoria.app.core.ui.UiState
 import com.xinlei.frontend.linkoria.app.databinding.FragmentChannelListBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,11 +59,23 @@ class ChannelListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         adapter = ChannelAdapter { channel ->
-            Toast.makeText(context, "Abrir canal: ${channel.name}", Toast.LENGTH_SHORT).show()
+            openChannelChat(channel)
         }
         binding.channelRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.channelRecyclerView.adapter = adapter
     }
+
+    private fun openChannelChat(channel: Channel) {
+        if (context != null) {
+            ChatActivity.startChannel(
+                context = requireContext(),
+                channelId = channel.id.toString(),
+                channelName = channel.name,
+                serverId = currentServerId
+            )
+        }
+    }
+
 
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -80,6 +94,8 @@ class ChannelListFragment : Fragment() {
             }
         }
     }
+
+
 
     private fun setupClickListeners() {
 //        binding.btnSearch.setOnClickListener {
