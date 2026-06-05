@@ -33,7 +33,7 @@
 
     <!-- Burbujas de mensaje -->
     <color name="bg_bubble_sent">#7968C5</color>
-    <color name="bg_bubble_received">#9760BF</color>
+    <color name="bg_bubble_received">#524B57</color>
 
     <!-- Botones -->
     <color name="btn_primary">#5865F2</color>

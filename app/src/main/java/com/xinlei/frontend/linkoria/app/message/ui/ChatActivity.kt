@@ -65,7 +65,7 @@ class ChatActivity : AppCompatActivity() {
         args = ChatArgs.from(intent)
         viewModel.init(args)
 
-        setupToolbarForChatType(args.chatType)
+        setupToolbarAndBackgroundForChatType(args.chatType)
         setupRecyclerView()
         setupClickListeners()
         observeState()
@@ -78,11 +78,12 @@ class ChatActivity : AppCompatActivity() {
 
     // region Setup
 
-    private fun setupToolbarForChatType(chatType: String) {
+    private fun setupToolbarAndBackgroundForChatType(chatType: String) {
         when (chatType) {
             TYPE_CHANNEL -> {
                 binding.ivAvatar.visibility = View.GONE
                 binding.icChannel.visibility = View.VISIBLE
+                binding.chatBg.setImageResource(R.drawable.bg_chat_image)
             }
         }
     }
@@ -98,6 +99,8 @@ class ChatActivity : AppCompatActivity() {
             }
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    chatAdapter.refreshBubbleColors(recyclerView)
+
                     if (dy >= 0) return // solo scroll hacia arriba (dy negativo)
                     val lm = layoutManager as LinearLayoutManager
                     if (lm.findFirstVisibleItemPosition() <= 2 && !isLoadingMore) {

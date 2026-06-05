@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     app:shapeAppearanceOverlay="@style/TopLeftRoundedCard"
-    app:cardBackgroundColor="#23272A"
+    app:cardBackgroundColor="#22262c"
     app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout

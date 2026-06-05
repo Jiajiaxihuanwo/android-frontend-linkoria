@@ -90,7 +90,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg_chat_image"
+        android:src="@drawable/bg_chat_image_v3"
         app:layout_constraintBottom_toTopOf="@id/layout_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

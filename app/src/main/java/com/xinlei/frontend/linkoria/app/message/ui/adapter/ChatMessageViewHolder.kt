@@ -1,6 +1,7 @@
 package com.xinlei.frontend.linkoria.app.message.ui.adapter
 
 import android.view.View
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.xinlei.frontend.linkoria.app.core.ui.image.ImageLoader
 import com.xinlei.frontend.linkoria.app.core.util.smartDate
@@ -74,6 +75,11 @@ sealed class ChatMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             }
 
             imageLoader.loadIcon(binding.ivAvatar, sender.avatarUrl)
+        }
+
+        fun setBubbleColor(color: Int) {
+            val drawable = DrawableCompat.wrap(binding.bubbleContainer.background).mutate()
+            DrawableCompat.setTint(drawable, color)
         }
     }
 }
