@@ -22,7 +22,8 @@ class SupabaseStorageDataSource @Inject constructor(
         bucket: String,
         path: String,
         file: File,
-        extension: String = "jpg"
+        extension: String = "jpg",
+        deleteOld: Boolean = true
     ): NetworkResult<String> {
         return try {
             val fullPath = "${path}_${System.currentTimeMillis()}.$extension"
@@ -30,13 +31,16 @@ class SupabaseStorageDataSource @Inject constructor(
             supabaseClient.storage[bucket].upload(fullPath, file.readBytes())
 
             val publicUrl = supabaseClient.storage[bucket].publicUrl(fullPath)
-            deletePreviousFiles(bucket, path, fullPath)
+
+            if (deleteOld) {
+                deletePreviousFiles(bucket, path, fullPath)
+            }
+
             NetworkResult.Success(publicUrl)
         } catch (e: Exception) {
             Log.e("error", e.printStackTrace().toString())
             NetworkResult.Error(null, e.message)
         } finally {
-            // Limpia el archivo temporal independientemente del resultado
             file.delete()
         }
     }
@@ -49,7 +53,8 @@ class SupabaseStorageDataSource @Inject constructor(
         bucket = USER_ICONS_BUCKET,
         path = userId,
         file = file,
-        extension = extension
+        extension = extension,
+        deleteOld = true
     )
 
     suspend fun uploadServerIcon(
@@ -60,7 +65,8 @@ class SupabaseStorageDataSource @Inject constructor(
         bucket = SERVER_ICONS_BUCKET,
         path = serverId,
         file = file,
-        extension = extension
+        extension = extension,
+        deleteOld = false
     )
 
     suspend fun uploadChatImage(
@@ -71,7 +77,8 @@ class SupabaseStorageDataSource @Inject constructor(
         bucket = CHAT_IMAGES_BUCKET,
         path = userId,
         file = file,
-        extension = extension
+        extension = extension,
+        deleteOld = false  // conserva todas
     )
 
     private suspend fun deletePreviousFiles(bucket: String, prefix: String, currentFileName: String) {
